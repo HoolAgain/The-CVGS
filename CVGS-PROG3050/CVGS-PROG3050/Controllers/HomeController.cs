@@ -2,6 +2,8 @@ using CVGS_PROG3050.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
+
+// Yall are great!
 namespace CVGS_PROG3050.Controllers
 {
     public class HomeController : Controller
