@@ -1,0 +1,112 @@
+﻿@* profileview.cshtml
+* Vapor
+* Revision History
+* Austin Cameron, 2024.09.26: Created
+*@
+
+@{
+    ViewData["Title"] = "profile";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-center">
+    <h2>Your Profile</h2>
+
+    <form asp-controller="" asp-action="" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <label for="ProfileUserName">Username:</label>
+        <input type="text" id="loginUserName" name="loginUserName" />
+        <br />
+        <label for="ProfileEmail">Email:</label>
+        <input type="text" id="ProfileEmail" name="ProfileEmail" />
+        <br />
+        <label for="ProfilePassword">Password:</label>
+        <input type="text" id="ProfilePassword" name="ProfilePassword" />
+        <br />
+        <label for="ProfileFirstName">First Name:</label>
+        <input type="text" id="ProfileFirstName" name="ProfileFirstName" />
+        <br />
+        <label for="ProfileLastName">Last Name:</label>
+        <input type="text" id="ProfileLastName" name="ProfileLastName" />
+        <br />
+        <label for="ProfileGender">Gender:</label> 
+        <select id="ProfileGender" name="ProfileGender"> <option value="">Select an option</option> <option value="Man">Man</option> <option value="Woman">Woman</option> <option value="Other">Other</option> </select>
+        <br />
+        <label for="ProfileBirthDate">Birth Day:</label>
+        <input type="date" id="ProfileBirthDate" name="ProfileBirthDate" class="date-picker"/>
+        <br />
+        <label for="ProfilePromoEmails">Would you like to receive promotional emails from CVGS?:</label> 
+        <input type="checkbox" id="ProfilePromoEmails" name="ProfilePromoEmails" />
+        <br />
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+    </form>
+
+    <h3>Prefrences</h3>
+    <form asp-controller="" asp-action="" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <label for="FavoriteGamingPlatform">Favorite gaming platform (or platforms):</label> 
+        <input type="checkbox" id="PC" name="PC" value="PC"> PC 
+        <input type="checkbox" id="Xbox" name="Xbox" value="Xbox"> Xbox 
+        <input type="checkbox" id="PlayStation" name="PlayStation" value="PlayStation"> PlayStation 
+        <input type="checkbox" id="Nintendo" name="Nintendo" value="Nintendo"> Nintendo 
+        <input type="checkbox" id="Mobile" name="Mobile" value="Mobile"> Mobile
+        <br />
+        <label for="FavoriteGameCategory">Favorite game category (or categories):</label> 
+        <input type="checkbox" id="Action" name="Action" value="Action"> Action 
+        <input type="checkbox" id="Adventure" name="Adventure" value="Adventure"> Adventure 
+        <input type="checkbox" id="Role-Playing" name="Role-Playing" value="Role-Playing"> Role-Playing 
+        <input type="checkbox" id="Category4" name="Sports" value="Sports"> Sports 
+        <input type="checkbox" id="Category5" name="Strategy" value="Strategy"> Strategy
+        <br />
+        <label for="LanguagePreferences">Language preferences:</label> 
+        <input type="checkbox" id="English" name="English" value="English"> English 
+        <input type="checkbox" id="Spanish" name="Spanish" value="Spanish"> Spanish 
+        <input type="checkbox" id="French" name="French" value="French"> French 
+        <input type="checkbox" id="Mandarin" name="Mandarin" value="Mandarin"> Mandarin 
+        <br />
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+    </form>
+
+    <h3>Shipping Information</h3>
+
+    <form asp-controller="" asp-action="" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <label for="Country">Country:</label> 
+        <input type="text" id="Country" name="Country" />
+        <br />
+        <label for="FullName">Full name (First and Last name):</label> 
+        <input type="text" id="FullName" name="FullName" />
+        <br />
+        <label for="PhoneNumber">Phone number:</label> 
+        <input type="tel" id="PhoneNumber" name="PhoneNumber" />
+        <br />
+        <label for="StreetAddress">Street address:</label> 
+        <input type="text" id="StreetAddress" name="StreetAddress" />
+        <br />
+        <label for="AptSuite">Apt - Suite:</label> 
+        <input type="text" id="AptSuite" name="AptSuite" />
+        <br />
+        <label for="City">City:</label> 
+        <input type="text" id="City" name="City" />
+        <br />
+        <label for="Province">Province:</label> 
+        <input type="text" id="Province" name="Province" />
+        <br />
+        <label for="PostalCode">Postal code:</label> 
+        <input type="text" id="PostalCode" name="PostalCode" />
+        <br />
+        <label for="DeliveryInstructions">Delivery instructions:</label>
+        <textarea id="DeliveryInstructions" name="DeliveryInstructions"></textarea>
+        <br />
+        <label for="SameAddress">Mailing and shipping address are the same:</label> 
+        <input type="checkbox" id="SameAddress" name="SameAddress" />
+        <br />
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+    </form>
+</div>
