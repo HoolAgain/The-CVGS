@@ -1,8 +1,11 @@
+/* HomeController.cs
+* Vapor
+* Revision History
+* Julia Lebedzeva, 2024.09.28: Edited
+*/
 using CVGS_PROG3050.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-// New Comment
-// Yall are great!
 namespace CVGS_PROG3050.Controllers
 {
     public class HomeController : Controller

@@ -1,0 +1,37 @@
+﻿@* loginview.cshtml
+* Vapor
+* Revision History
+* Austin Cameron, 2024.09.26: Created
+* Julia Lebedzeva, 2024.09.29: Revised
+*@
+
+@model CVGS_PROG3050.Models.LoginViewModel
+@{
+    ViewData["Title"] = "login";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-center">
+    <h2>Welcome Back!</h2>
+
+    <form asp-controller="Account" asp-action="LogIn" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <label asp-for="UserName">Username:</label>
+        <input asp-for="UserName" class="form-control"/>
+        <span asp-validation-for="UserName" class="text-danger"></span>
+
+        <br />
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for"Password" class="text-danger"></span>
+
+        <br />
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Cancel</a>
+        <br />
+        <p>Don't have an account? <a asp-area="" asp-controller="Account" asp-action="Register">Signup</a>!</p>
+    </form>
+
+    
+</div>

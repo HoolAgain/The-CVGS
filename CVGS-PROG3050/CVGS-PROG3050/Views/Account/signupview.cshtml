@@ -1,0 +1,40 @@
+﻿@* signupview.cshtml
+* Vapor
+* Revision History
+* Austin Cameron, 2024.09.26: Created
+* Julia Lebedzeva, 2024.09.29: Revised
+*@
+
+@model CVGS_PROG3050.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "signup";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-center">
+    <h2>Welcome!</h2>
+
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <label asp-for="UserName">Username:</label>
+        <input asp-for"UserName" class="form-control" />
+
+        <br />
+        <label asp-for="Email">Email:</label>
+        <input asp-for"Email" class="form-control"/>
+
+        <br />
+        <label asp-for="Password">Password:</label>
+        <input asp-for"Password" type="password" class="form-control"/>
+
+        <br />
+        <label asp-for="ConfirmPassword">ConfirmPassword:</label>
+        <input asp-for="ConfirmPassword" type="password" class="text-danger"/>
+        <br />
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+    </form>
+</div>
