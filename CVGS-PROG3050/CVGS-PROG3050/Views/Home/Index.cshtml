@@ -1,10 +1,39 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<!--Drop down menu to search for tags-->
+<div class="text-end">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle bi bi-search" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Search Tags
+        </button>
+        <ul class="dropdown-menu dropdownColours">
+            <li><a class="dropdown-item" style="color:snow;" href="#">Action</a></li>
+            <li><a class="dropdown-item" style="color:snow;" href="#">RPG</a></li>
+            <li><a class="dropdown-item" style="color:snow;" href="#">Shooter</a></li>
+        </ul>
+
+    </div>
+</div>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Hello, test for project Commit</p>
-    <p>Austin</p>
+    <h1 class="display-4 audiowide-regular">Vapor</h1>
+    <br /><br /><br />
+
+    <h3 class="audiowide-regular">Suggested</h3>
+    <!--Suggeted that shows 3 random games based that matches prefrences-->
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <img src="" alt="Game 1" width="500" height="600">
+            </div>
+            <div class="col">
+                <img src="" alt="Game 2" width="500" height="600">
+            </div>
+            <div class="col">
+                <img src="" alt="Game 3" width="500" height="600">
+            </div>
+        </div>
+    </div>
 </div>
