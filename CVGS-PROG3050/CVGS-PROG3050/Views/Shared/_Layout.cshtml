@@ -10,12 +10,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-light audiowide-regular" asp-area="" asp-controller="Home" asp-action="Index">Vapor</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="img\Vapor_NoBackground.png" alt="Vapour_NoBackground.png" style="width:40px; height:40px;" /></a>
+                <a class="navbar-brand text-light audiowide-regular" asp-area="" asp-controller="Home" asp-action="Index">apor</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -39,16 +42,6 @@
                 </div>
             </div>
         </nav>
-        <button style="float:right;"class=" btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">WIP</button>
-        <div class="offcanvas offcanvas-start dropdownColours" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">WIP</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <p>WIP</p>
-            </div>
-        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
