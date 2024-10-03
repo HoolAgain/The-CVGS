@@ -39,6 +39,14 @@ namespace CVGS_PROG3050.Controllers
         {
             return View();
         }
+        public IActionResult GameInfoview()
+        {
+            return View();
+        }
+        public IActionResult SearchResultview()
+        {
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
