@@ -19,7 +19,7 @@ namespace CVGS_PROG3050.Entities
         // Preferences
         public string? FavoritePlatform { get; set; }
         public string? FavoriteCategory { get; set; }
-
+        public string? LanguagePreference { get; set; }
         public ICollection<Address>? Addresses { get; set; }
     }
 }

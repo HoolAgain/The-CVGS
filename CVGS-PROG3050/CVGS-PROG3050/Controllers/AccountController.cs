@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
+using System.Net;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -116,31 +117,78 @@ namespace CVGS_PROG3050.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(User);
-
+            
             if (user == null) 
             {
                 return RedirectToAction("Login");
             }
 
-            var model = new ProfileViewModel 
+            Address mailingAddress = null;
+            Address shippingAddress = null;
+
+            if (user.Addresses != null)
+            {
+                foreach (var adrs in user.Addresses)
                 {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Gender = user.Gender,
-                    PhoneNumber = user.PhoneNumber,
-                    BirthDate = user.BirthDate,
-                    PromotionalEmails = user.PromotionalEmails,
-                    FavoritePlatform = user.FavoritePlatform,
-                    FavoriteCategory = user.FavoriteCategory
-                    
-                };
+                    if (adrs.MailingAddress == true)
+                    {
+                        mailingAddress = adrs;
+                    }
+                    if (adrs.ShippingAddress == true)
+                    {
+                        shippingAddress = adrs;
+                    }
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("Mailing Address: " + mailingAddress?.StreetAddress);
+            System.Diagnostics.Debug.WriteLine("Shipping Address: " + shippingAddress?.StreetAddress);
+            System.Diagnostics.Debug.WriteLine("Number of Addresses: " + user.Addresses?.Count);
+
+            var model = new ProfileViewModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                //PhoneNumber = user.PhoneNumber,
+                BirthDate = user.BirthDate,
+                PromotionalEmails = user.PromotionalEmails,
+
+                FavoritePlatform = user.FavoritePlatform,
+                FavoriteCategory = user.FavoriteCategory,
+                LanguagePreference = user.LanguagePreference,
+
+                // Mailing Address
+                Country = mailingAddress?.Country,
+                FullName = mailingAddress?.FullName,
+                PhoneNumber = mailingAddress?.PhoneNumber,
+                StreetAddress = mailingAddress?.StreetAddress,
+                Address2 = mailingAddress?.Address2,
+                City = mailingAddress?.City,
+                Province = mailingAddress?.Province,
+                PostalCode = mailingAddress?.PostalCode,
+                DeliveryInstructions = mailingAddress?.DeliveryInstructions,
+                
+                //MailingSameAsShipping = (mailingAddress != null && shippingAddress != null && mailingAddress.StreetAddress == shippingAddress.StreetAddress),
+
+                // Shipping Address
+                ShippingCountry = shippingAddress?.Country,
+                ShippingFullName = shippingAddress?.FullName,
+                ShippingPhoneNumber = shippingAddress?.PhoneNumber,
+                ShippingStreetAddress = shippingAddress?.StreetAddress,
+                ShippingAddress2 = shippingAddress?.Address2,
+                ShippingCity = shippingAddress?.City,
+                ShippingProvince = shippingAddress?.Province,
+                ShippingPostalCode = shippingAddress?.PostalCode,
+                ShippingDeliveryInstructions = shippingAddress?.DeliveryInstructions
+
+            };
             return View("profileview", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profile(ProfileViewModel model)
+        public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -150,6 +198,17 @@ namespace CVGS_PROG3050.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    foreach (var item in state.Value.Errors)
+                    {
+                        System.Diagnostics.Debug.WriteLine("ModelState Error" + state.Key + item.ErrorMessage);
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 user.FirstName = model.FirstName;
@@ -157,15 +216,15 @@ namespace CVGS_PROG3050.Controllers
                 user.Gender = model.Gender;
                 user.PhoneNumber = model.PhoneNumber;
                 user.BirthDate = model.BirthDate;
+
                 user.PromotionalEmails = (bool)model.PromotionalEmails;
-                user.FavoritePlatform = model.FavoritePlatform;
-                user.FavoriteCategory = model.FavoriteCategory;
+
 
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Profile");
                 }
                 else
                 {
@@ -176,9 +235,162 @@ namespace CVGS_PROG3050.Controllers
                 }
 
             }
-            return View(model);
+            return View("Profile", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserPreferences(ProfileViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (ModelState.IsValid)
+            {
+                user.FavoriteCategory = model.FavoriteCategory;
+                user.FavoritePlatform = model.FavoritePlatform;
+                user.LanguagePreference = model.LanguagePreference;
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
+
+            return View("Profile", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserShipping(ProfileViewModel model)
+        {
+            var user = await _userManager.GetUserAsync (User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (user.Addresses == null)
+                {
+                    user.Addresses = new List<Address>();
+                }
+
+                if (model.MailingSameAsShipping)
+                {
+
+
+                    Address address = null;
+                    foreach (var adrs in user.Addresses)
+                    {
+                        if (adrs.MailingAddress == true || adrs.ShippingAddress == true)
+                        {
+                            address = adrs;
+                            break;
+                        }
+                    }
+
+                    if (address == null)
+                    {
+                        address = new Address { UserId = user.Id };
+                        user.Addresses.Add(address);
+                    }
+                    address.UserId = user.Id;
+                    address.MailingAddress = true;
+                    address.ShippingAddress = true;
+                    address.StreetAddress = model.StreetAddress;
+                    address.FullName = model.FullName;
+                    address.PhoneNumber = model.PhoneNumber;
+                    address.Address2 = model.Address2;
+                    address.City = model.City;
+                    address.Province = model.Province;
+                    address.PostalCode = model.PostalCode;
+                    address.Country = model.Country;
+                    address.DeliveryInstructions = model.DeliveryInstructions;
+                }
+                else
+                {
+                    Address mailingAddress = null;
+                    foreach (var adrs in user.Addresses)
+                    {
+                        if (adrs.MailingAddress == true)
+                        {
+                            mailingAddress = adrs;
+                            break;
+                        }
+                    }
+
+                    if (mailingAddress == null)
+                    {
+                        mailingAddress = new Address { UserId = user.Id, MailingAddress = true };
+                        user.Addresses.Add(mailingAddress);
+                    }
+
+                    mailingAddress.UserId = user.Id;
+                    mailingAddress.StreetAddress = model.StreetAddress;
+                    mailingAddress.FullName = model.FullName;
+                    mailingAddress.Address2 = model.Address2;
+                    mailingAddress.City = model.City;
+                    mailingAddress.Province = model.Province;
+                    mailingAddress.PostalCode = model.PostalCode;
+                    mailingAddress.Country = model.Country;
+                    mailingAddress.DeliveryInstructions = model.DeliveryInstructions;
+
+                    Address shippingAddress = null;
+                    foreach (var adrs in user.Addresses)
+                    {
+                        if (adrs.ShippingAddress == true)
+                        {
+                            shippingAddress = adrs;
+                            break;
+                        }
+                    }
+
+                    if (shippingAddress == null)
+                    {
+                        shippingAddress = new Address { UserId = user.Id, ShippingAddress = true };
+                        user.Addresses.Add(shippingAddress);
+                    }
+                    shippingAddress.UserId = user.Id;
+                    shippingAddress.Country = model.ShippingCountry;
+                    shippingAddress.FullName = model.ShippingFullName;
+                    shippingAddress.PhoneNumber = model.ShippingPhoneNumber;
+                    shippingAddress.StreetAddress = model.ShippingStreetAddress;
+                    shippingAddress.Address2 = model.ShippingAddress2;
+                    shippingAddress.City = model.ShippingCity;
+                    shippingAddress.Province = model.ShippingProvince;
+                    shippingAddress.PostalCode = model.ShippingPostalCode;
+                    shippingAddress.DeliveryInstructions = model.ShippingDeliveryInstructions;
+                }
+                
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Profile");
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    }
+                }
+
+            }
+            return View("profileview", model);
         }
 
     }
+
 
 }

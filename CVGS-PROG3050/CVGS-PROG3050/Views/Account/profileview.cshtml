@@ -6,6 +6,7 @@
 *@
 
 @model CVGS_PROG3050.Models.ProfileViewModel
+
 @{
     ViewData["Title"] = "profile";
 }
@@ -14,38 +15,48 @@
 <div class="text-center">
     <h2 class="audiowide-regular">Your Profile</h2>
 
-    <form asp-controller="Profile" asp-action="" method="post">
+    <form asp-controller="Account" asp-action="UpdateProfile" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
-
+        @Html.HiddenFor(m => m.UserName)
+        @Html.HiddenFor(m => m.Email)
+        @Html.HiddenFor(m => m.StreetAddress)
+        @Html.HiddenFor(m => m.City)
+        @Html.HiddenFor(m => m.Province)
         <label asp-for="UserName">Username:</label>
-        <input asp-for="UserName" id="loginUserName" name="loginUserName" class="form-control"/>
+        <input asp-for="UserName" id="loginUserName" class="form-control"/>
 
         <br />
         <label asp-for="Email">Email:</label>
-        <input asp-for="Email" id="ProfileEmail" name="ProfileEmail" class="form-control" />
+        <input asp-for="Email" id="ProfileEmail" class="form-control" />
         
         <br />
         <label asp-for="FirstName">First Name:</label>
-        <input asp-for="FirstName" type="text" id="ProfileFirstName" name="ProfileFirstName" class="form-control" />
+        <input asp-for="FirstName" type="text" id="ProfileFirstName" class="form-control" />
         <br />
         <label asp-for="LastName">Last Name:</label>
-        <input asp-for="LastName" type="text" id="ProfileLastName" name="ProfileLastName" class="form-control" />
+        <input asp-for="LastName" type="text" id="ProfileLastName" class="form-control" />
         <br />
         <label asp-for="Gender">Gender:</label> 
-        <select class="form-control" asp-for="Gender" id="ProfileGender" name="ProfileGender"> <option value="">Select an option</option> <option value="Man">Man</option> <option value="Woman">Woman</option> <option value="Other">Other</option> </select>
+        <select asp-for="Gender" class="form-control" id="ProfileGender"> 
+            <option value="">Select an option</option> 
+            <option value="Man">Man</option> 
+            <option value="Woman">Woman</option> 
+            <option value="Woman">Woman</option> 
+            <option value="Other">Other</option> 
+        </select>
         <br />
         <label asp-for="BirthDate">Birth Day:</label>
-        <input class="form-control" asp-for="BirthDate" type="date" id="ProfileBirthDate" name="ProfileBirthDate" class="date-picker" />
+        <input asp-for="BirthDate" class="form-control" type="date" id="ProfileBirthDate" class="date-picker" />
         <br />
         <label asp-for="PromotionalEmails">Would you like to receive promotional emails from CVGS?:</label> 
-        <input asp-for="PromotionalEmails" type="checkbox" id="ProfilePromoEmails" name="ProfilePromoEmails" />
+        <input asp-for="PromotionalEmails" type="checkbox" id="ProfilePromoEmails" />
         <br />
         <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+        <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
     </form>
 
     <h3 class="audiowide-regular">Prefrences</h3>
-    <form asp-controller="" asp-action="" method="post">
+    <form asp-controller="Account" asp-action="UserPreferences" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <label for="FavoriteGamingPlatform">Favorite gaming platform (or platforms):</label> 
@@ -57,11 +68,6 @@
             <option value="Mobile">Mobile</option>
         </select>
         
-@*          <input type="checkbox" id="PC" name="PC" value="PC"> PC 
-         <input type="checkbox" id="Xbox" name="Xbox" value="Xbox"> Xbox 
-         <input type="checkbox" id="PlayStation" name="PlayStation" value="PlayStation"> PlayStation 
-         <input type="checkbox" id="Nintendo" name="Nintendo" value="Nintendo"> Nintendo 
-         <input type="checkbox" id="Mobile" name="Mobile" value="Mobile"> Mobile *@
 
         <br />
         <label for="FavoriteGameCategory">Favorite game category (or categories):</label> 
@@ -70,69 +76,90 @@
             <option value="Adventure">Adventure</option>
             <option value="RolePlaying">Role-Playing</option>
         </select>
-
-        @* <input type="checkbox" id="Action" name="Action" value="Action"> Action 
-        <input type="checkbox" id="Adventure" name="Adventure" value="Adventure"> Adventure 
-        <input type="checkbox" id="Role-Playing" name="Role-Playing" value="Role-Playing"> Role-Playing 
-        <input type="checkbox" id="Category4" name="Sports" value="Sports"> Sports 
-        <input type="checkbox" id="Category5" name="Strategy" value="Strategy"> Strategy
-         *@
         <br />
 
-        <label for="LanguagePreferences">Language preferences:</label> 
-       <select asp-for="LanguagePreference" class="form-control">
+        <label for="LanguagePreferences">Language preferences:</label>
+        <select asp-for="LanguagePreference" class="form-control">
            <option value="English">English</option>
            <option value="French">French</option>
            <option value="Spanish">Spanish</option>
            <option value="Mandarin">Mandarin</option>
        </select>
-@* 
-        <input type="checkbox" id="English" name="English" value="English"> English 
-        <input type="checkbox" id="Spanish" name="Spanish" value="Spanish"> Spanish 
-        <input type="checkbox" id="French" name="French" value="French"> French 
-        <input type="checkbox" id="Mandarin" name="Mandarin" value="Mandarin"> Mandarin  *@
 
         <br />
         <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+        <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
     </form>
 
     <h3 class="audiowide-regular">Shipping Information</h3>
 
-    <form asp-controller="" asp-action="" method="post">
+    <form asp-controller="Account" asp-action="UserShipping" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         
-        <label for="Country">Country:</label> 
-        <input class="form-control" type="text" id="Country" name="Country" />
+        <label asp-for="Country" for="Country">Country:</label>
+        <input asp-for="Country" class="form-control" type="text" id="Country" />
         <br />
-        <label for="FullName">Full name (First and Last name):</label> 
-        <input class="form-control" type="text" id="FullName" name="FullName" />
+        <label asp-for="FullName" for="FullName">Full name (First and Last name):</label>
+        <input asp-for="FullName" class="form-control" type="text" id="FullName" />
         <br />
-        <label for="PhoneNumber">Phone number:</label> 
-        <input class="form-control" type="tel" id="PhoneNumber" name="PhoneNumber" />
+        <label asp-for="PhoneNumber" for="PhoneNumber">Phone number:</label>
+        <input asp-for="PhoneNumber" class="form-control" type="tel" id="PhoneNumber" />
         <br />
-        <label for="StreetAddress">Street address:</label> 
-        <input class="form-control" type="text" id="StreetAddress" name="StreetAddress" />
+        <label asp-for="StreetAddress" for="StreetAddress">Street address:</label>
+        <input asp-for="StreetAddress" class="form-control" type="text" id="StreetAddress"/>
         <br />
-        <label for="AptSuite">Apt - Suite:</label> 
-        <input class="form-control" type="text" id="AptSuite" name="AptSuite" />
+        <label asp-for="Address2" for="AptSuite">Apt - Suite:</label>
+        <input asp-for="Address2" class="form-control" type="text" id="AptSuite"/>
         <br />
-        <label for="City">City:</label> 
-        <input class="form-control" type="text" id="City" name="City" />
+        <label asp-for="City" for="City">City:</label>
+        <input asp-for="City" class="form-control" type="text" id="City"/>
         <br />
-        <label for="Province">Province:</label> 
-        <input class="form-control" type="text" id="Province" name="Province" />
+        <label asp-for="Province" for="Province">Province:</label>
+        <input asp-for="Province" class="form-control" type="text" id="Province" />
         <br />
-        <label for="PostalCode">Postal code:</label> 
-        <input class="form-control" type="text" id="PostalCode" name="PostalCode" />
+        <label asp-for="PostalCode" for="PostalCode">Postal code:</label>
+        <input asp-for="PostalCode" class="form-control" type="text" id="PostalCode" />
         <br />
-        <label for="DeliveryInstructions">Delivery instructions:</label>
-        <textarea class="form-control" id="DeliveryInstructions" name="DeliveryInstructions"></textarea>
+        <label asp-for="DeliveryInstructions" for="DeliveryInstructions">Delivery instructions:</label>
+        <textarea asp-for="DeliveryInstructions" class="form-control" id="DeliveryInstructions" ></textarea>
         <br />
-        <label for="SameAddress">Mailing and shipping address are the same:</label> 
-        <input type="checkbox" id="SameAddress" name="SameAddress" />
+        <label asp-for="MailingSameAsShipping" for="SameAddress">Mailing and shipping address are the same:</label>
+        <input asp-for="MailingSameAsShipping" type="checkbox" id="SameAddress" />
         <br />
+
+        <div id="shippingAddressSection">
+            <label asp-for="ShippingCountry" for="ShippingCountry">Country:</label>
+            <input asp-for="ShippingCountry" class="form-control" type="text" id="ShippingCountry"/>
+            <br />
+            <label asp-for="ShippingFullName" for="ShippingFullName">Full name (First and Last name):</label>
+            <input asp-for="ShippingFullName" class="form-control" type="text" id="ShippingFullName" />
+            <br />
+            <label asp-for="ShippingPhoneNumber" for="ShippingPhoneNumber">Phone number:</label>
+            <input asp-for="ShippingPhoneNumber" class="form-control" type="tel" id="ShippingPhoneNumber" />
+            <br />
+            <label asp-for="ShippingStreetAddress" for="ShippingStreetAddress">Street address:</label>
+            <input asp-for="ShippingStreetAddress" class="form-control" type="text" id="ShippingStreetAddress"/>
+            <br />
+            <label asp-for="ShippingAddress2" for="ShippingAptSuite">Apt - Suite:</label>
+            <input asp-for="ShippingAddress2" class="form-control" type="text" id="ShippingAptSuite"/>
+            <br />
+            <label asp-for="ShippingCity" for="ShippingCity">City:</label>
+            <input asp-for="ShippingCity" class="form-control" type="text" id="ShippingCity"/>
+            <br />
+            <label asp-for="ShippingProvince" for="ShippingProvince">Province:</label>
+            <input asp-for="ShippingProvince" class="form-control" type="text" id="ShippingProvince"/>
+            <br />
+            <label asp-for="ShippingPostalCode" for="ShippingPostalCode">Postal code:</label>
+            <input asp-for="ShippingPostalCode" class="form-control" type="text" id="ShippingPostalCode" />
+            <br />
+            <label asp-for="ShippingDeliveryInstructions" for="ShippingDeliveryInstructions">Delivery instructions:</label>
+            <textarea asp-for="ShippingDeliveryInstructions" class="form-control" id="ShippingDeliveryInstructions" ></textarea>
+            <br />
+
+        </div>
+
+
         <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-controller="" asp-action="" class="btn btn-primary">Cancel</a>
+        <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
     </form>
 </div>

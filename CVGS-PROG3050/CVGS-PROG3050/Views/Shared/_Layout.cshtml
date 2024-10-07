@@ -54,6 +54,33 @@
             &copy; 2024 - CVGS_PROG3050 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script>
+        window.onload = function(){
+            var shippingSection = document.getElementById("shippingAddressSection");
+            var sameAddress = document.getElementById("SameAddress");
+
+            if (sameAddress) {
+                toggleShippingAddressSection(sameAddress.checked, shippingSection);
+                sameAddress.addEventListener("change", function () {
+                    toggleShippingAddressSection(this.checked, shippingSection);
+                });
+            }
+            else
+            {
+                console.error("CHECKBOX ERROR")
+            }  
+        }
+
+        function toggleShippingAddressSection(isChecked, shippingSection) {
+            if (isChecked) {
+                shippingSection.style.display = "none";
+            }
+            else {
+                shippingSection.style.display = "block";
+            }
+        }
+
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
