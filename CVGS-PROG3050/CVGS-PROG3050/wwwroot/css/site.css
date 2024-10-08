@@ -40,3 +40,21 @@ header {
     font-weight: 400;
     font-style: normal;
 }
+
+.hidden {
+    display: none;
+}
+
+.ULButtonOutline{
+    outline: auto;
+    outline-color: snow;
+    background-color: darkblue;
+}
+.sliderimg{
+    width:375px;
+    height:500px;
+    margin:auto;
+}
+
+
+
