@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -116,8 +117,10 @@ namespace CVGS_PROG3050.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var user = await _userManager.GetUserAsync(User);
-            
+            var user = await _userManager.Users
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+
             if (user == null) 
             {
                 return RedirectToAction("Login");
@@ -140,9 +143,6 @@ namespace CVGS_PROG3050.Controllers
                     }
                 }
             }
-            System.Diagnostics.Debug.WriteLine("Mailing Address: " + mailingAddress?.StreetAddress);
-            System.Diagnostics.Debug.WriteLine("Shipping Address: " + shippingAddress?.StreetAddress);
-            System.Diagnostics.Debug.WriteLine("Number of Addresses: " + user.Addresses?.Count);
 
             var model = new ProfileViewModel
             {
@@ -151,7 +151,6 @@ namespace CVGS_PROG3050.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Gender = user.Gender,
-                //PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
                 PromotionalEmails = user.PromotionalEmails,
 
@@ -170,8 +169,6 @@ namespace CVGS_PROG3050.Controllers
                 PostalCode = mailingAddress?.PostalCode,
                 DeliveryInstructions = mailingAddress?.DeliveryInstructions,
                 
-                //MailingSameAsShipping = (mailingAddress != null && shippingAddress != null && mailingAddress.StreetAddress == shippingAddress.StreetAddress),
-
                 // Shipping Address
                 ShippingCountry = shippingAddress?.Country,
                 ShippingFullName = shippingAddress?.FullName,
@@ -277,6 +274,7 @@ namespace CVGS_PROG3050.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            
 
             if (ModelState.IsValid)
             {
@@ -374,6 +372,9 @@ namespace CVGS_PROG3050.Controllers
                 
 
                 var result = await _userManager.UpdateAsync(user);
+                foreach (var addr in user.Addresses)
+                {
+                }
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Profile");
