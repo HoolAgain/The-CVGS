@@ -56,5 +56,8 @@ header {
     margin:auto;
 }
 
-
+.EventPost{
+    outline: auto;
+    outline-color: snow;
+}
 
