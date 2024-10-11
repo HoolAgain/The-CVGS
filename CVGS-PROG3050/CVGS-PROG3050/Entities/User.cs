@@ -21,5 +21,12 @@ namespace CVGS_PROG3050.Entities
         public string? FavoriteCategory { get; set; }
         public string? LanguagePreference { get; set; }
         public ICollection<Address>? Addresses { get; set; }
+        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Wishlist>? Wishlists { get; set; }
+        public ICollection<Rating>? Ratings { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<UserPayment>? UserPayments { get; set; }
+        public ICollection<Cart>? Carts { get; set; }
+        public ICollection<UserEvent>? UserEvents { get; set; }
     }
 }
