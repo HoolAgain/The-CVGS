@@ -22,6 +22,9 @@
         <li class="nav-item mx-4">
             <button id="toggleShippingInfo" class="btn btn-primary btn-lg audiowide-regular">Shipping Info</button>
         </li>
+        <li class="nav-item mx-4">
+            <button id="togglePaymentInfo" class="btn btn-primary btn-lg audiowide-regular">Payment Info</button>
+        </li>
     </ul>
 </div>
 
@@ -58,7 +61,6 @@
         <select asp-for="Gender" class="form-control" id="ProfileGender"> 
             <option value="">Select an option</option> 
             <option value="Man">Man</option> 
-            <option value="Woman">Woman</option> 
             <option value="Woman">Woman</option> 
             <option value="Other">Other</option> 
         </select>
@@ -212,8 +214,31 @@
 
         </div>
 
+  
+
 
         <button type="submit" class="btn btn-primary">Save</button>
         <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
+    </form>
+</div>
+
+<div id="PaymentMethodPage" class="hidden text-center" style="margin-left:160px; margin-right:160px;">
+    <h3 class="audiowide-regular">Payment Information</h3>
+
+     <form asp-controller="Account" asp-action="UserPayment" method="post">
+    <label for="">Full name (First and Last name):</label>
+    <input class="form-control" type="text" id="CreditCardFullName" />
+    <br />
+    <label for="">Credit Card Number:</label>
+    <input class="form-control" type="" id="CreditCardNumber" />
+    <br />
+    <label for="">CVV:</label>
+    <input class="form-control" type="" id="CVVNumber" />
+    <br />
+    <label for="">ExpiryDate:</label>
+    <input class="form-control" type="date" id="ExpiryDate" class="date-picker" />
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-controller="Account" asp-action="CreditCardInfo" class="btn btn-primary">Cancel</a>
     </form>
 </div>
