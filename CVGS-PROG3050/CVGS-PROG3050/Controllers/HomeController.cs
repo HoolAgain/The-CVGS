@@ -26,6 +26,10 @@ namespace CVGS_PROG3050.Controllers
         {
             return View();
         }
+        public IActionResult AdminPanelView()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
