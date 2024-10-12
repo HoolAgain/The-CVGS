@@ -176,7 +176,198 @@ namespace CVGS_PROG3050.DataAccess
                 .WithMany(u => u.UserEvents)
                 .HasForeignKey(me => me.UserId);
 
-            // this area for seeding data such as games
+            // Seeding the Database with Games
+            builder.Entity<Game>().HasData(
+                new Game() 
+                { 
+                    GameId = 1, 
+                    Name = "Dead Cells", 
+                    Genre = "Adventure", 
+                    ReleaseDate = new DateTime(2018, 8, 6), 
+                    Developer = "Motion Twin",
+                    Publisher = "Motion Twin",
+                    Description = "Dead Cells is a roguelite, metroidvania inspired, action-platformer. You'll explore a sprawling, ever-changing castle... assuming you’re able to fight your way past its keepers in 2D souls-lite combat. No checkpoints. Kill, die, learn, repeat.",
+                    Price = 29.99m
+                },
+                new Game()
+                {
+                    GameId = 2,
+                    Name = "Destiny 2",
+                    Genre = "Role Playing",
+                    ReleaseDate = new DateTime(2019, 10, 1),
+                    Developer = "Bungie",
+                    Publisher = "Bungie",
+                    Description = "Destiny 2 is an action MMO with a single evolving world that you and your friends can join anytime, anywhere.",
+                    Price = 9.99m
+                },
+                new Game()
+                {
+                    GameId = 3,
+                    Name = "Elden Ring",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2022, 2, 24),
+                    Developer = "FromSoftware, Inc.",
+                    Publisher = "FromSoftware, Inc., Bandai Namco Entertainment",
+                    Description = "THE CRITICALLY ACCLAIMED FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.",
+                    Price = 79.99m
+                },
+                new Game()
+                {
+                    GameId = 4,
+                    Name = "Fallout 4",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2015, 11, 10),
+                    Developer = "Bethesda Game Studios",
+                    Publisher = "Bethesda Softworks",
+                    Description = "Bethesda Game Studios, the award-winning creators of Fallout 3 and The Elder Scrolls V: Skyrim, welcome you to the world of Fallout 4 – their most ambitious game ever, and the next generation of open-world gaming.",
+                    Price = 26.99m
+                },
+                new Game()
+                {
+                    GameId = 5,
+                    Name = "Forza Horizon 5",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2021, 11, 8),
+                    Developer = "Playground Games",
+                    Publisher = "Xbox Game Studios",
+                    Description = "Explore the vibrant open world landscapes of Mexico with limitless, fun driving action in the world’s greatest cars. Join a thrilling game of chase with our new 5v1 Multiplayer Experience: Hide & Seek.",
+                    Price = 79.99m
+                },
+                new Game()
+                {
+                    GameId = 6,
+                    Name = "LEGO: Batman",
+                    Genre = "Adventure",
+                    ReleaseDate = new DateTime(2008, 9, 28),
+                    Developer = "Traveller's Tale",
+                    Publisher = "Warner Bros. Interactive Entertainment",
+                    Description = "When all the villains in Arkham Asylum team up and break loose, only the dynamic duo is bold enough to take them on to save Gotham City. The fun of LEGO, the drama of Batman and the uniqueness of the combination makes for a comical and exciting adventure in LEGO Batman: The Videogame.",
+                    Price = 19.99m
+                },
+                new Game()
+                {
+                    GameId = 7,
+                    Name = "LEGO: Harry Potter",
+                    Genre = "Adventure",
+                    ReleaseDate = new DateTime(2024, 10, 8),
+                    Developer = "TT Games, Double Eleven",
+                    Publisher = "Warner Bros. Games",
+                    Description = "The LEGO® Harry Potter™: Collection brings LEGO® Harry Potter™: Years 1-4 and LEGO® Harry Potter™: Years 5-7 together in one game, now remastered with enhanced graphics.",
+                    Price = 49.99m
+                },
+                new Game()
+                {
+                    GameId = 8,
+                    Name = "LEGO: Star Wars",
+                    Genre = "Adventure",
+                    ReleaseDate = new DateTime(2022, 4, 5),
+                    Developer = "TT Games",
+                    Publisher = "Warner Bros. Games, Warner Bros. Interactive Entertainment",
+                    Description = "Play through all nine Skywalker saga films in a game unlike any other. With over 300 playable characters, over 100 vehicles, and 23 planets to explore, a galaxy far, far away has never been more fun! *Includes classic Obi-Wan Kenobi playable character",
+                    Price = 59.99m
+                },
+                new Game()
+                {
+                    GameId = 9,
+                    Name = "Monster Hunter: WORLDS",
+                    Genre = "Role Playing",
+                    ReleaseDate = new DateTime(2018, 8, 8),
+                    Developer = "CAPCOM Co., Ltd.",
+                    Publisher = "CAPCOM Co., Ltd.",
+                    Description = "Welcome to a new world! In Monster Hunter: World, the latest installment in the series, you can enjoy the ultimate hunting experience, using everything at your disposal to hunt monsters in a new world teeming with surprises and excitement.",
+                    Price = 39.99m
+                },
+                new Game()
+                {
+                    GameId = 10,
+                    Name = "Nioh: Complete Edition",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2017, 11, 7),
+                    Developer = "KOEI TECMO GAMES CO., LTD.",
+                    Publisher = "KOEI TECMO GAMES CO., LTD.",
+                    Description = "Ready to die? Experience the newest brutal action game from Team NINJA and Koei Tecmo Games. In the age of samurai, a lone traveler lands on the shores of Japan. He must fight his way through the vicious warriors and supernatural Yokai that infest the land in order to find that which he seeks.",
+                    Price = 64.99m
+                },
+                new Game()
+                {
+                    GameId = 11,
+                    Name = "Overwatch 2",
+                    Genre = "Role Playing",
+                    ReleaseDate = new DateTime(2023, 8, 10),
+                    Developer = "Blizzard Entertainment, Inc.",
+                    Publisher = "Blizzard Entertainment, Inc.",
+                    Description = "Overwatch 2 is a critically acclaimed, team-based shooter game set in an optimistic future with an evolving roster of heroes. Team up with friends and jump in today.",
+                    Price = 9.99m
+                },
+                new Game()
+                {
+                    GameId = 12,
+                    Name = "Risk of Rain 2",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2020, 8, 11),
+                    Developer = "Hopoo Games",
+                    Publisher = "Gearbox Publishing",
+                    Description = "Escape a chaotic alien planet by fighting through hordes of frenzied monsters – with your friends, or on your own. Combine loot in surprising ways and master each character until you become the havoc you feared upon your first crash landing.",
+                    Price = 28.99m
+                },
+                new Game()
+                {
+                    GameId = 13,
+                    Name = "Street Fighter 6",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2023, 6, 2),
+                    Developer = "CAPCOM Co., Ltd.",
+                    Publisher = "CAPCOM Co., Ltd.",
+                    Description = "Here comes Capcom’s newest challenger! Street Fighter™ 6 launches worldwide on June 2nd, 2023 and represents the next evolution of the Street Fighter™ series! Street Fighter 6 spans three distinct game modes, including World Tour, Fighting Ground and Battle Hub.",
+                    Price = 79.99m
+                },
+                new Game()
+                {
+                    GameId = 14,
+                    Name = "The Elder Scrolls V: Skyrim",
+                    Genre = "Role Playing",
+                    ReleaseDate = new DateTime(2016, 10, 27),
+                    Developer = "Bethesda Game Studios",
+                    Publisher = "Bethesda Softworks",
+                    Description = "Winner of more than 200 Game of the Year Awards, The Elder Scrolls V: Skyrim Special Edition brings the epic fantasy to life in stunning detail. The Special Edition includes the critically acclaimed game and add-ons with all-new features.",
+                    Price = 54.99m
+                },
+                new Game()
+                {
+                    GameId = 15,
+                    Name = "Stardew Valley",
+                    Genre = "Role Playing",
+                    ReleaseDate = new DateTime(2016, 2, 26),
+                    Developer = "ConcernedApe",
+                    Publisher = "ConcernedApe",
+                    Description = "You've inherited your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home?",
+                    Price = 16.99m
+                },
+                new Game()
+                {
+                    GameId = 16,
+                    Name = "Tekken 8",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2024, 1, 25),
+                    Developer = "Bandai Namco Studios Inc.",
+                    Publisher = "Bandai Namco Entertainment",
+                    Description = "Get ready for the next chapter in the legendary fighting game franchise, TEKKEN 8.",
+                    Price = 93.49m
+                },
+                new Game()
+                {
+                    GameId = 17,
+                    Name = "The King of Fighters XV",
+                    Genre = "Action",
+                    ReleaseDate = new DateTime(2022, 2, 17),
+                    Developer = "SNK CORPORATION",
+                    Publisher = "SNK CORPORATION",
+                    Description = "SHATTER ALL EXPECTATIONS! Transcend beyond your limits with KOF XV!",
+                    Price = 79.99m
+                }
+            );
+
+
         }
 
 

@@ -7,8 +7,8 @@
         public int GameId { get; set; } // Foreign Key to Game
         public int Score { get; set; }
 
-        public User User { get; set; }
-        public Game Game { get; set; }
+        public User? User { get; set; }
+        public Game? Game { get; set; }
 
     }
 }

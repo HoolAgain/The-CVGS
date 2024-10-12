@@ -5,8 +5,8 @@
         public int EventId { get; set; } // Foreign Key to Event
         public string? UserId { get; set; } // Foreign Key to User
 
-        public Event Event { get; set; }
-        public User User { get; set; }
+        public Event? Event { get; set; }
+        public User? User { get; set; }
 
     }
 }

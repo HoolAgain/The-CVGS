@@ -13,9 +13,9 @@
 
         public ICollection<Order>? Orders { get; set; }
         public ICollection<Wishlist>? Wishlists { get; set; }
-        public ICollection<Rating> Ratings { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Cart> Carts { get; set; }
+        public ICollection<Rating>? Ratings { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<Cart>? Carts { get; set; }
 
     }
 }
