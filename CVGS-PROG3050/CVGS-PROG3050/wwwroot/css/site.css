@@ -61,3 +61,8 @@ header {
     outline-color: snow;
 }
 
+
+#GameCarousel {
+    max-width: 375px;
+    margin: 0 auto;
+}
