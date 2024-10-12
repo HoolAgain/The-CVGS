@@ -5,6 +5,7 @@
 */
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using CVGS_PROG3050.DataAccess;
 
 using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
@@ -15,12 +16,14 @@ namespace CVGS_PROG3050.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly VaporDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(VaporDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -128,6 +131,7 @@ namespace CVGS_PROG3050.Controllers
 
             Address mailingAddress = null;
             Address shippingAddress = null;
+            UserPayment userPayment = user.UserPayments?.FirstOrDefault();
 
             if (user.Addresses != null)
             {
@@ -178,7 +182,13 @@ namespace CVGS_PROG3050.Controllers
                 ShippingCity = shippingAddress?.City,
                 ShippingProvince = shippingAddress?.Province,
                 ShippingPostalCode = shippingAddress?.PostalCode,
-                ShippingDeliveryInstructions = shippingAddress?.DeliveryInstructions
+                ShippingDeliveryInstructions = shippingAddress?.DeliveryInstructions,
+
+                //Billing info WIP -> Not auto populating user's billing info
+                NameOnCard = userPayment?.NameOnCard,
+                CardNumber = userPayment?.CardNumber,
+                ExpirationDate = userPayment?.ExpirationDate,
+                CVVCode = userPayment?.CVVCode,
 
             };
             return View("profileview", model);
@@ -388,6 +398,46 @@ namespace CVGS_PROG3050.Controllers
                 }
 
             }
+            return View("profileview", model);
+        }
+
+        [HttpGet]
+        public IActionResult CardAdd()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CardAdd(ProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var creditCard = new UserPayment
+                {
+                    UserId = user.Id,
+                    NameOnCard = model.NameOnCard,
+                    CardNumber = model.CardNumber,
+                    ExpirationDate = model.ExpirationDate,
+                    CVVCode = model.CVVCode
+                };
+                _context.Add(creditCard);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Profile", "Account");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ModelState Error: {state.Key} - {error.ErrorMessage}");
+                    }
+                }
+            }
+
             return View("profileview", model);
         }
 
