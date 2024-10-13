@@ -6,28 +6,40 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using CVGS_PROG3050.DataAccess;
-
+using System.Linq;
+using System.Web;
 using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using DNTCaptcha.Core;
+using CaptchaMvc.Attributes;
+using CaptchaMvc.Infrastructure;
+using CaptchaMvc.HtmlHelpers;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Net.Mail;
 
 namespace CVGS_PROG3050.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IDNTCaptchaValidatorService _captchaValidator;
         private readonly VaporDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
 
 
-        public AccountController(VaporDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(VaporDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IDNTCaptchaValidatorService captchaValidator)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _captchaValidator = captchaValidator;
+
         }
+
 
         [HttpGet]
         public IActionResult Register()
@@ -39,6 +51,13 @@ namespace CVGS_PROG3050.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+
+            if (!_captchaValidator.HasRequestValidCaptchaEntry())
+            {
+                ModelState.AddModelError("Captcha", "Captcha is not valid.");
+            }
+
+
             if (ModelState.IsValid)
             {
                 var existingUser = await _userManager.FindByNameAsync(model.UserName);
@@ -53,8 +72,40 @@ namespace CVGS_PROG3050.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, Request.Scheme);
+
+                    try
+                    {
+                        var smtpClient = new SmtpClient("smtp.gmail.com")
+                        {
+                            Port = 587,
+                            Credentials = new NetworkCredential("vapormarketplace@gmail.com", "hiytpdbbojkvcggr"),
+                            EnableSsl = true,
+                        };
+
+                        var mailMessage = new MailMessage
+                        {
+                            From = new MailAddress("Vapormarketplace@gmail.com", "Vapor Marketplace"),
+                            Subject = "Please verify your email",
+                            Body = $"Please confirm your email by clicking this link: <a href='{confirmationLink}'>Verify Email</a>",
+                            IsBodyHtml = true
+                        };
+
+                        mailMessage.To.Add(user.Email);
+
+                        await smtpClient.SendMailAsync(mailMessage);
+                        return RedirectToAction("EmailVerificationSent");
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", $"There was an error sending the confirmation email");
+                    }
+                
+
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("EmailVerificationSent");
                 }
                 else
                 {
@@ -66,6 +117,36 @@ namespace CVGS_PROG3050.Controllers
             }
             return View("signupview", model);
         }
+
+        [HttpGet]
+        public IActionResult EmailVerificationSent()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task <IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return View("Error");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");  
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Profile");
+            }
+
+            return View("Error");
+        }
+
         // logic for signing out
         [HttpPost]
         public async Task<IActionResult> LogOut()
