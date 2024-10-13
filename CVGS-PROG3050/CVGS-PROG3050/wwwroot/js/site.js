@@ -8,11 +8,13 @@ const toggleButtonProfile = document.getElementById('toggleProfile');
 const toggleButtonPrefrences = document.getElementById('togglePrefrences');
 const toggleButtonShippingInfo = document.getElementById('toggleShippingInfo');
 const togglePaymentInfo = document.getElementById("togglePaymentInfo")
+const toggleAddEventButton = document.getElementById('toggleAddEvent');
 
 const div1 = document.getElementById('AccountMainPage');
 const div2 = document.getElementById('PrefrencesPage');
 const div3 = document.getElementById('ShippingInformationPage');
 const div4 = document.getElementById('PaymentMethodPage');
+const AdminEventsDiv = document.getElementById('AddEventAdminPage');
 
 
 toggleButtonProfile.addEventListener('click', function () {
@@ -43,4 +45,19 @@ togglePaymentInfo.addEventListener('click', function () {
     div4.classList.remove('hidden');
 
 });
+//-------------------------------------------------------------------------------
+
+
+
+//Toggle admin pages-------------------------------------------------------------
+
+
+toggleAddEventButton.addEventListener('click', function () {
+
+    AdminEventsDiv.classList.remove('hidden');
+    console.log('Button clicked!')
+
+});
+
+
 //-------------------------------------------------------------------------------

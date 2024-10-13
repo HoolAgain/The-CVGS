@@ -122,6 +122,7 @@ namespace CVGS_PROG3050.Controllers
         {
             var user = await _userManager.Users
                 .Include(u => u.Addresses)
+                .Include(u => u.UserPayments)
                 .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
 
             if (user == null) 
