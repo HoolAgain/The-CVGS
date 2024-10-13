@@ -11,6 +11,7 @@ using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -76,7 +77,7 @@ namespace CVGS_PROG3050.Controllers
 
         // Logic for logging in
         [HttpGet]
-        public IActionResult LogIn(String? returnUrl = "")
+        public IActionResult LogIn(string? returnUrl = "")
         {
             var model = new LoginViewModel { ReturnUrl = returnUrl };
             return View("loginview",model);
@@ -149,6 +150,17 @@ namespace CVGS_PROG3050.Controllers
                 }
             }
 
+            bool mailingSameAsShipping = mailingAddress != null && shippingAddress != null &&
+                mailingAddress.Country == shippingAddress.Country &&
+                mailingAddress.FullName == shippingAddress.FullName &&
+                mailingAddress.PhoneNumber == shippingAddress.PhoneNumber &&
+                mailingAddress.StreetAddress == shippingAddress.StreetAddress &&
+                mailingAddress.Address2 == shippingAddress.Address2 &&
+                mailingAddress.City == shippingAddress.City &&
+                mailingAddress.Province == shippingAddress.Province &&
+                mailingAddress.PostalCode == shippingAddress.PostalCode &&
+                mailingAddress.DeliveryInstructions == shippingAddress.DeliveryInstructions;
+
             var model = new ProfileViewModel
             {
                 UserName = user.UserName,
@@ -173,7 +185,7 @@ namespace CVGS_PROG3050.Controllers
                 Province = mailingAddress?.Province,
                 PostalCode = mailingAddress?.PostalCode,
                 DeliveryInstructions = mailingAddress?.DeliveryInstructions,
-                
+
                 // Shipping Address
                 ShippingCountry = shippingAddress?.Country,
                 ShippingFullName = shippingAddress?.FullName,
@@ -184,7 +196,7 @@ namespace CVGS_PROG3050.Controllers
                 ShippingProvince = shippingAddress?.Province,
                 ShippingPostalCode = shippingAddress?.PostalCode,
                 ShippingDeliveryInstructions = shippingAddress?.DeliveryInstructions,
-
+                MailingSameAsShipping = mailingSameAsShipping,
                 //Billing info WIP -> Not auto populating user's billing info
                 NameOnCard = userPayment?.NameOnCard,
                 CardNumber = userPayment?.CardNumber,
@@ -232,7 +244,7 @@ namespace CVGS_PROG3050.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Profile");
+                    return RedirectToAction("Profile", "Account");
                 }
                 else
                 {
@@ -259,20 +271,34 @@ namespace CVGS_PROG3050.Controllers
                 user.FavoriteCategory = model.FavoriteCategory;
                 user.FavoritePlatform = model.FavoritePlatform;
                 user.LanguagePreference = model.LanguagePreference;
-            }
 
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Profile");
+                _context.Entry(user).State = EntityState.Modified;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Profile", "Account");
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error updating user: {item.Description}");
+                    }
+                }
             }
             else
             {
-                foreach (var item in result.Errors)
+                foreach (var state in ModelState)
                 {
-                    ModelState.AddModelError("", item.Description);
+                    foreach(var error in state.Value.Errors)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ModelState Error: {state.Key} - {error.ErrorMessage}");
+
+                    }
                 }
             }
+
 
             return View("Profile", model);
         }
@@ -310,12 +336,16 @@ namespace CVGS_PROG3050.Controllers
 
                     if (address == null)
                     {
-                        address = new Address { UserId = user.Id };
+                        address = new Address { UserId = user.Id, MailingAddress = true, ShippingAddress = true};
                         user.Addresses.Add(address);
+                        _context.Add(address);
                     }
-                    address.UserId = user.Id;
-                    address.MailingAddress = true;
-                    address.ShippingAddress = true;
+                    else
+                    {
+                        address.MailingAddress = true;
+                        address.ShippingAddress = true;
+                        _context.Entry(address).State = EntityState.Modified;
+                    }
                     address.StreetAddress = model.StreetAddress;
                     address.FullName = model.FullName;
                     address.PhoneNumber = model.PhoneNumber;
@@ -342,17 +372,24 @@ namespace CVGS_PROG3050.Controllers
                     {
                         mailingAddress = new Address { UserId = user.Id, MailingAddress = true };
                         user.Addresses.Add(mailingAddress);
+                        _context.Add(mailingAddress);
+                    }
+                    else
+                    {
+                        _context.Entry(mailingAddress).State = EntityState.Modified;
                     }
 
-                    mailingAddress.UserId = user.Id;
                     mailingAddress.StreetAddress = model.StreetAddress;
                     mailingAddress.FullName = model.FullName;
+                    mailingAddress.PhoneNumber = model.PhoneNumber;
                     mailingAddress.Address2 = model.Address2;
                     mailingAddress.City = model.City;
                     mailingAddress.Province = model.Province;
                     mailingAddress.PostalCode = model.PostalCode;
                     mailingAddress.Country = model.Country;
                     mailingAddress.DeliveryInstructions = model.DeliveryInstructions;
+
+
 
                     Address shippingAddress = null;
                     foreach (var adrs in user.Addresses)
@@ -368,27 +405,27 @@ namespace CVGS_PROG3050.Controllers
                     {
                         shippingAddress = new Address { UserId = user.Id, ShippingAddress = true };
                         user.Addresses.Add(shippingAddress);
+                        _context.Add(shippingAddress);
                     }
-                    shippingAddress.UserId = user.Id;
-                    shippingAddress.Country = model.ShippingCountry;
+
+                    shippingAddress.StreetAddress = model.ShippingStreetAddress;
                     shippingAddress.FullName = model.ShippingFullName;
                     shippingAddress.PhoneNumber = model.ShippingPhoneNumber;
-                    shippingAddress.StreetAddress = model.ShippingStreetAddress;
                     shippingAddress.Address2 = model.ShippingAddress2;
                     shippingAddress.City = model.ShippingCity;
                     shippingAddress.Province = model.ShippingProvince;
                     shippingAddress.PostalCode = model.ShippingPostalCode;
+                    shippingAddress.Country = model.ShippingCountry;
                     shippingAddress.DeliveryInstructions = model.ShippingDeliveryInstructions;
                 }
-                
+
+                await _context.SaveChangesAsync();
 
                 var result = await _userManager.UpdateAsync(user);
-                foreach (var addr in user.Addresses)
-                {
-                }
+                
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Profile");
+                    return RedirectToAction("Profile", "Account");
                 }
                 else
                 {
@@ -397,7 +434,6 @@ namespace CVGS_PROG3050.Controllers
                         ModelState.AddModelError("", item.Description);
                     }
                 }
-
             }
             return View("profileview", model);
         }
@@ -408,21 +444,50 @@ namespace CVGS_PROG3050.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CardAdd(ProfileViewModel model)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
-                var creditCard = new UserPayment
+                if (user.UserPayments == null)
                 {
-                    UserId = user.Id,
-                    NameOnCard = model.NameOnCard,
-                    CardNumber = model.CardNumber,
-                    ExpirationDate = model.ExpirationDate,
-                    CVVCode = model.CVVCode
-                };
-                _context.Add(creditCard);
+                    user.UserPayments = new List<UserPayment>();
+                }
+
+                UserPayment paymentInfo = null;
+
+                foreach (var payment in user.UserPayments)
+                {
+                    paymentInfo = payment;
+                    break;
+                }
+
+                if (paymentInfo == null)
+                {
+                    paymentInfo = new UserPayment { UserId = user.Id };
+                }
+
+                paymentInfo.NameOnCard = model.NameOnCard;
+                paymentInfo.CardNumber = model.CardNumber;
+                paymentInfo.ExpirationDate = model.ExpirationDate;
+                paymentInfo.CVVCode = model.CVVCode;
+
+                if (!user.UserPayments.Contains(paymentInfo))
+                {
+                    user.UserPayments.Add(paymentInfo);
+                }
+
+
+                _context.Entry(user).State = EntityState.Modified;
+                _context.Entry(paymentInfo).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Profile", "Account");
