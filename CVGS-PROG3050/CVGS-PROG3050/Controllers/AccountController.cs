@@ -519,6 +519,13 @@ namespace CVGS_PROG3050.Controllers
 
                 await _context.SaveChangesAsync();
 
+                var updatedUser = await _userManager.Users.Include(u => u.UserPayments).FirstOrDefaultAsync(u => u.Id == user.Id);
+
+                if (updatedUser == null)
+                {
+                    user = updatedUser;
+                }
+
                 return RedirectToAction("Profile", "Account");
             }
 
