@@ -11,10 +11,15 @@ namespace CVGS_PROG3050.Models
     public class ProfileViewModel
     {
         public string? UserName { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         public string? Email { get; set; }
+        [StringLength(50, ErrorMessage =("First name must be between 1 and 50 characters"))]
         public string? FirstName { get; set; }
+        [StringLength(50, ErrorMessage = ("Last name must be between 1 and 50 characters"))]
         public string? LastName { get; set; }
         public string? Gender { get; set; }
+        [Range(typeof(DateTime), "1/1/1930", "10/17/2024", ErrorMessage = "Birth date cannot be in the future")]
         public DateTime? BirthDate { get; set; }
         public bool PromotionalEmails { get; set; }
         public PreferencesViewModel Preferences { get; set; }
