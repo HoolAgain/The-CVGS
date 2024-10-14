@@ -14,7 +14,8 @@ namespace CVGS_PROG3050.Tests
                 // Missing fields
                 Email = "",
                 FirstName = "", 
-                LastName = ""
+                LastName = "",
+                BirthDate = new DateTime(2025, 10, 01)
             };
 
             var context = new ValidationContext(profileModel, null, null);
@@ -25,6 +26,10 @@ namespace CVGS_PROG3050.Tests
 
             // Assert
             Assert.False(isValid);
+            Assert.Contains(results, v => v.ErrorMessage.Contains("Email is required"));
+            Assert.Contains(results, v => v.ErrorMessage.Contains("First name must be at least 1 character long"));
+            Assert.Contains(results, v => v.ErrorMessage.Contains("Last name must be at least 1 character long"));
+            Assert.Contains(results, v => v.ErrorMessage.Contains("Birth date cannot be in the future"));
         }
     }
 }

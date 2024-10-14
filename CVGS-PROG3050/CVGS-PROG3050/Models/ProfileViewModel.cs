@@ -14,8 +14,10 @@ namespace CVGS_PROG3050.Models
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         public string? Email { get; set; }
+        [MinLength(1, ErrorMessage = "First name must be at least 1 character long")]
         [StringLength(50, ErrorMessage =("First name must be between 1 and 50 characters"))]
         public string? FirstName { get; set; }
+        [MinLength(1, ErrorMessage = "Last name must be at least 1 character long")]
         [StringLength(50, ErrorMessage = ("Last name must be between 1 and 50 characters"))]
         public string? LastName { get; set; }
         public string? Gender { get; set; }
