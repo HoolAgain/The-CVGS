@@ -27,5 +27,51 @@ namespace CVGS_PROG3050.Tests
             Assert.False(isValid);
             Assert.Contains(validationResults, v => v.ErrorMessage.Contains("'Password' and 'Confirm Password' do not match."));
         }
+
+        [Fact]
+        public void TestForMissingUsername()
+        {
+            // Arrange:
+            var model = new RegisterViewModel
+            {
+                UserName = "", // Blank username
+                Email = "test@example.com",
+                Password = "Password123!",
+                ConfirmPassword = "Password123!"
+            };
+
+            var context = new ValidationContext(model, null, null);
+            var validationResults = new List<ValidationResult>();
+
+            // Act:
+            bool isValid = Validator.TryValidateObject(model, context, validationResults, true);
+
+            // Assert:
+            Assert.False(isValid);
+            Assert.Contains(validationResults, v => v.ErrorMessage.Contains("Please enter a username"));
+        }
+
+        [Fact]
+        public void TestForMissingEmail()
+        {
+            // Arrange:
+            var model = new RegisterViewModel
+            {
+                UserName = "newuser",
+                Email = "", // Blank Email
+                Password = "Password123!",
+                ConfirmPassword = "Password123!"
+            };
+
+            var context = new ValidationContext(model, null, null);
+            var validationResults = new List<ValidationResult>();
+
+            // Act:
+            bool isValid = Validator.TryValidateObject(model, context, validationResults, true);
+
+            // Assert:
+            Assert.False(isValid);
+            Assert.Contains(validationResults, v => v.ErrorMessage.Contains("Please enter an email"));
+        }
     }
 }
