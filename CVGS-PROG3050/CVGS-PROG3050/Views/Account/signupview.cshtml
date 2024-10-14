@@ -6,6 +6,11 @@
 *@
 
 @model CVGS_PROG3050.Models.RegisterViewModel
+@using CaptchaMvc.HtmlHelpers;
+@using CaptchaMvc.Attributes;
+@using CaptchaMvc.Infrastructure;
+@addTagHelper *, DNTCaptcha.Core
+
 
 @{
     ViewData["Title"] = "signup";
@@ -34,7 +39,15 @@
         <input asp-for="ConfirmPassword" type="password" class="form-control"/>
         <br />
 
-        <div class="g-recaptcha" data-sitekey=""></div>
+        <label asp-for"Captcha">Captcha:</label>
+        <dnt-captcha asp-captcha-generator-language="English"
+                     asp-captcha-generator-display-mode="SumOfTwoNumbers"
+                     asp-placeholder="" 
+                     asp-captcha-generator-min="1"
+                     asp-captcha-generator-max="9"
+                     asp-font-size="25">
+        </dnt-captcha>
+        <br />
 
         <br />
         <button type="submit" class="btn btn-primary">Sign Up</button>

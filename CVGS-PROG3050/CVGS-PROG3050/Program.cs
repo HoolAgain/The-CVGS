@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Entities;
+using DNTCaptcha.Core;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,13 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 })
         .AddEntityFrameworkStores<VaporDbContext>()
         .AddDefaultTokenProviders();
+
+builder.Services.AddDNTCaptcha(options =>
+{
+    options.UseCookieStorageProvider(SameSiteMode.Strict)
+           .ShowThousandsSeparators(false)
+           .WithEncryptionKey("VaporIsBest");
+});
 
 
 var app = builder.Build();

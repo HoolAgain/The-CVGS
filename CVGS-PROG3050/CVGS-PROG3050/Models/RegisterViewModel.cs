@@ -4,6 +4,8 @@
 * Julia Lebedzeva, 2024.09.28: Created
 */
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace CVGS_PROG3050.Models
 {
