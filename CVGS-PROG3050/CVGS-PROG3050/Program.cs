@@ -32,6 +32,12 @@ builder.Services.AddDNTCaptcha(options =>
            .WithEncryptionKey("VaporIsBest");
 });
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.AllowedForNewUsers = true;
+});
 
 var app = builder.Build();
 

@@ -132,7 +132,7 @@
         <input asp-for="Address.FullName" class="form-control" type="text" id="FullName" />
         <br />
         <label asp-for="Address.PhoneNumber" for="PhoneNumber">Phone number:</label>
-        <input asp-for="Address.PhoneNumber" class="form-control" type="tel" id="PhoneNumber" />
+        <input asp-for="Address.PhoneNumber" class="form-control" type="tel" id="PhoneNumber" maxlength="10" />
         <br />
         <label asp-for="Address.StreetAddress" for="StreetAddress">Street address:</label>
         <input asp-for="Address.StreetAddress" class="form-control" type="text" id="StreetAddress" />
@@ -180,7 +180,7 @@
             <input asp-for="Address.ShippingFullName" class="form-control" type="text" id="ShippingFullName" />
             <br />
             <label asp-for="Address.ShippingPhoneNumber" for="ShippingPhoneNumber">Phone number:</label>
-            <input asp-for="Address.ShippingPhoneNumber" class="form-control" type="tel" id="ShippingPhoneNumber" />
+            <input asp-for="Address.ShippingPhoneNumber" class="form-control" type="tel" id="ShippingPhoneNumber" maxlength="10" />
             <br />
             <label asp-for="Address.ShippingStreetAddress" for="ShippingStreetAddress">Street address:</label>
             <input asp-for="Address.ShippingStreetAddress" class="form-control" type="text" id="ShippingStreetAddress" />

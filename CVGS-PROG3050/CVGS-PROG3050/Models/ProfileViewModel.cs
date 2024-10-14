@@ -11,7 +11,6 @@ namespace CVGS_PROG3050.Models
     public class ProfileViewModel
     {
         public string? UserName { get; set; }
-        [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         public string? Email { get; set; }
         [StringLength(50, ErrorMessage =("First name must be between 1 and 50 characters"))]
