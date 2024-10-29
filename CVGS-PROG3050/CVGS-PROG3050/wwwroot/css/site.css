@@ -1,31 +1,33 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: #49565C;
-  color: snow;
+    margin-bottom: 60px;
+    background-color: #49565C;
+    color: snow;
 }
+
 nav {
     background-color: darkblue;
     color: snow;
 }
+
 header {
     color: snow;
 }
@@ -45,18 +47,19 @@ header {
     display: none;
 }
 
-.ULButtonOutline{
+.ULButtonOutline {
     outline: auto;
     outline-color: snow;
     background-color: darkblue;
 }
-.sliderimg{
-    width:375px;
-    height:500px;
-    margin:auto;
+
+.sliderimg {
+    width: 375px;
+    height: 500px;
+    margin: auto;
 }
 
-.EventPost{
+.EventPost {
     outline: auto;
     outline-color: snow;
 }
@@ -65,4 +68,17 @@ header {
 #GameCarousel {
     max-width: 375px;
     margin: 0 auto;
+}
+
+.gameDiv {
+    border: solid;
+    border-color: snow;
+    background-color: darkblue;
+    margin: auto;
+    width: auto;
+    height: 200px;
+}
+.gameDivImg{
+    width: auto;
+    height:100px;
 }
