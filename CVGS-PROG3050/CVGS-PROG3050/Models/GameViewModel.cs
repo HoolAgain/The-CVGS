@@ -8,5 +8,15 @@ namespace CVGS_PROG3050.Models
         public string Name { get; set; }
         public string Genre { get; set; }
 
+        public string Description { get; set; }
+
+        public DateTime ReleaseDate { get; set; }
+
+        public string Developer {  get; set; }
+
+        public string Publisher { get; set; }
+
+        public int Price { get; set; }
+
     }
 }

@@ -82,3 +82,8 @@ header {
     width: auto;
     height:100px;
 }
+
+.gameInfoDiv {
+    background-color: #49565C;
+    color: snow;
+}

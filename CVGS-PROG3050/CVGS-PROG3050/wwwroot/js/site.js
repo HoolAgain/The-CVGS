@@ -61,3 +61,16 @@ toggleAddEventButton.addEventListener('click', function () {
 
 
 //-------------------------------------------------------------------------------
+
+function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher) {
+    document.querySelector('#gameInfoCardLabel').innerText = gameName;
+    document.querySelector('#gameDescription').innerHTML = gameInfo;
+    document.querySelector('#gameImage').src = gameImageUrl;
+    document.querySelector('#gameGenre').innerHTML = gameGenre;
+    document.querySelector('#gamePrice').innerHTML = "$" + gamePrice;
+    document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
+    document.querySelector('#gamePublisher').innerHTML = gamePublisher;
+    var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
+    myModal.show();
+}
+
