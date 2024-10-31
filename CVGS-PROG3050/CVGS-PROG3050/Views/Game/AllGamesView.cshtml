@@ -64,13 +64,36 @@
 </div>
 </div>
 
+<!--Drop down menu to search for tags-->
+<div class="text-end">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle bi bi-search" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            Search Tags
+        </button>
+        <ul class="dropdown-menu dropdownColours">
+            <li>
+                <button class="btn btn-secondary dropdown-toggle bi bi-search" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Genre
+                </button>
+                <ul class="dropdown-menu dropdownColours">
+                    <li><a class="dropdown-item" style="color:snow;" href="javascript:void(0);" onclick="filterByGenre('all')">All</a></li>
+                    <li><a class="dropdown-item" style="color:snow;" href="javascript:void(0);" onclick="filterByGenre('Action')">Action</a></li>
+                    <li><a class="dropdown-item" style="color:snow;" href="javascript:void(0);" onclick="filterByGenre('Adventure')">Adventure</a></li>
+                    <li><a class="dropdown-item" style="color:snow;" href="javascript:void(0);" onclick="filterByGenre('Role Playing')">Role Playing</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
 <div>
     <div class="container text-center">
         <div class="row">
         @foreach (var game in Model)
         {
            
-                <div class="col order-last gameDiv">
+                <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (GameImages.ContainsKey(game.Name))
                     {
                         <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@GameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">

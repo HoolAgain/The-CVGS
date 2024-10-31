@@ -3,6 +3,7 @@
 * Revision History
 * Julia Lebedzeva, 2024.09.28: Edited
 */
+using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -13,14 +14,18 @@ namespace CVGS_PROG3050.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, VaporDbContext context)
         {
             _logger = logger;
+            _db = context;
         }
 
+        private readonly VaporDbContext _db;
+        
         public IActionResult Index()
         {
-            return View();
+            var games = _db.Games.ToList();
+            return View(games);
         }
         public IActionResult EventsView()
         {

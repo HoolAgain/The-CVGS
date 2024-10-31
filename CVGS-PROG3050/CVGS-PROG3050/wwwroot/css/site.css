@@ -86,4 +86,12 @@ header {
 .gameInfoDiv {
     background-color: #49565C;
     color: snow;
+    display: flex;
+    justify-content: space-between;
+}
+.game-details {
+    flex-grow: 1;
+}
+.carousel {
+    height: 500px;
 }

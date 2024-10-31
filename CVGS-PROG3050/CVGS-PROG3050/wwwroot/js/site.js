@@ -60,7 +60,7 @@ toggleAddEventButton.addEventListener('click', function () {
 });
 
 
-//-------------------------------------------------------------------------------
+//Show the games info-----------------------------------------------------------
 
 function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher) {
     document.querySelector('#gameInfoCardLabel').innerText = gameName;
@@ -74,3 +74,16 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     myModal.show();
 }
 
+//Filter for genre------------------------------------------------------------------
+
+function filterByGenre(genre) {
+    const games = document.querySelectorAll('.gameDiv');
+    games.forEach(game => {
+        const gameGenre = game.getAttribute('data-genre');
+        if (genre === 'all' || gameGenre === genre) {
+            game.style.display = '';
+        } else {
+            game.style.display = 'none';
+        }
+    });
+}
