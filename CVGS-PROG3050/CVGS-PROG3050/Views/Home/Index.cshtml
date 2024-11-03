@@ -1,7 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<CVGS_PROG3050.Entities.User> UserManager
+@inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
+@model List<CVGS_PROG3050.Entities.Game>
 
 <div class="text-center">
     <img src="~/img/Vapor_NoBackground1.png" alt="VapourBanner.png" style="width:auto; height:400px;" />
@@ -41,6 +44,11 @@
     };
 }
 
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var preferredGenre = user?.FavoriteCategory ?? "All";
+}
+<!--Creates the entire game card-->
 <div class="modal fade" id="gameInfoCard" tabindex="-1" aria-labelledby="gameInfoCardLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 80%;">
         <div class="modal-content">
@@ -66,20 +74,31 @@
                 <!--Carousel for suggested------------------------------------------>
                 <div id="GameCarousel" class="carousel slide flex-shrink-0" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        @{
+                            //makes buttons
+                            int slideIndex = 0;
+                            foreach (var game in Model.Where(g => preferredGenre == "All" || g.Genre == preferredGenre))
+                            {
+                                <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="@slideIndex" class="@(slideIndex == 0 ? "active" : "")" aria-current="@(slideIndex == 0 ? "true" : "false")" aria-label="Slide @slideIndex"></button>
+                                ;
+                                slideIndex++;
+                            }
+                        }
                     </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active sliderimg">
-                            <img src="~/img/RiskofRain2.jpg" class="d-block w-100 sliderimg" alt="game1">
-                        </div>
-                        <div class="carousel-item sliderimg">
-                            <img src="~/img/StardewValley.jpeg" class="d-block w-100 sliderimg" alt="game2">
-                        </div>
-                        <div class="carousel-item sliderimg">
-                            <img src="~/img/Destiny2.jpeg" class="d-block w-100 sliderimg" alt="game3">
-                        </div>
+                        @{
+                            //adds all the items
+                            slideIndex = 0;
+                            foreach (var game in Model.Where(g => preferredGenre == "All" || g.Genre == preferredGenre))
+                            {
+                                <div class="carousel-item @(slideIndex == 0 ? "active" : "") sliderimg">
+                                    <img src="@(GameImages.ContainsKey(game.Name) ? Url.Content(GameImages[game.Name]) : "")" class="d-block w-100 sliderimg" alt="@(game.Name)">
+
+                                </div>
+                                ;
+                                slideIndex++;
+                            }
+                        }
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#GameCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -141,6 +160,7 @@
         <div class="row">
             @foreach (var game in Model)
             {
+                // creates the games list and allows them to be clickable
 
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (GameImages.ContainsKey(game.Name))

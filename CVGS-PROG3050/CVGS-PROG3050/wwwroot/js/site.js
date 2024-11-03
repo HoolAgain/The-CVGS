@@ -61,7 +61,7 @@ toggleAddEventButton.addEventListener('click', function () {
 
 
 //Show the games info-----------------------------------------------------------
-
+//sends all the informatiuon 
 function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher) {
     document.querySelector('#gameInfoCardLabel').innerText = gameName;
     document.querySelector('#gameDescription').innerHTML = gameInfo;
@@ -75,7 +75,7 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
 }
 
 //Filter for genre------------------------------------------------------------------
-
+//the button
 function filterByGenre(genre) {
     const games = document.querySelectorAll('.gameDiv');
     games.forEach(game => {
