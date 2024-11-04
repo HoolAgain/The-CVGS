@@ -76,11 +76,11 @@ header {
     background-color: darkblue;
     margin: auto;
     width: auto;
-    height: 200px;
+    height: 300px;
 }
 .gameDivImg{
     width: auto;
-    height:100px;
+    height:200px;
 }
 
 .gameInfoDiv {

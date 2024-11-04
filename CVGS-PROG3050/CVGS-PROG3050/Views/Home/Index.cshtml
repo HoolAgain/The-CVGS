@@ -22,7 +22,7 @@
 
 <!--Select and Display Games-->
 @{
-    var GameImages = new Dictionary<string, string>
+    var gameImages = new Dictionary<string, string>
     {
         { "Overwatch 2", "/img/OW2.jpg" },
         { "Dead Cells", "/img/DeadCellsCoverArt.png" },
@@ -76,27 +76,27 @@
                     <div class="carousel-indicators">
                         @{
                             //makes buttons
-                            int slideIndex = 0;
-                            foreach (var game in Model.Where(g => preferredGenre == "All" || g.Genre == preferredGenre))
+                            int slideNumber = 0;
+                            foreach (var game in Model.Where(gr => preferredGenre == "All" || gr.Genre == preferredGenre))
                             {
-                                <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="@slideIndex" class="@(slideIndex == 0 ? "active" : "")" aria-current="@(slideIndex == 0 ? "true" : "false")" aria-label="Slide @slideIndex"></button>
+                                <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="@slideNumber" class="@(slideNumber == 0 ? "active" : "")" aria-current="@(slideNumber == 0 ? "true" : "false")" aria-label="Slide @slideNumber"></button>
                                 ;
-                                slideIndex++;
+                                slideNumber++;
                             }
                         }
                     </div>
                     <div class="carousel-inner">
                         @{
                             //adds all the items
-                            slideIndex = 0;
-                            foreach (var game in Model.Where(g => preferredGenre == "All" || g.Genre == preferredGenre))
+                            slideNumber = 0;
+                            foreach (var game in Model.Where(gr => preferredGenre == "All" || gr.Genre == preferredGenre))
                             {
-                                <div class="carousel-item @(slideIndex == 0 ? "active" : "") sliderimg">
-                                    <img src="@(GameImages.ContainsKey(game.Name) ? Url.Content(GameImages[game.Name]) : "")" class="d-block w-100 sliderimg" alt="@(game.Name)">
+                                <div class="carousel-item @(slideNumber == 0 ? "active" : "") sliderimg">
+                                    <img src="@(gameImages.ContainsKey(game.Name) ? Url.Content(gameImages[game.Name]) : "")" class="d-block w-100 sliderimg" alt="@(game.Name)">
 
                                 </div>
                                 ;
-                                slideIndex++;
+                                slideNumber++;
                             }
                         }
                     </div>
@@ -115,11 +115,11 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">
-                            <textarea id="gameComment" class="form-control" rows="3" placeholder="Leave a review"></textarea>
+                            <textarea id="gameCommentReview" class="form-control" rows="3" placeholder="Leave a review"></textarea>
                         </div>
                         <div class="col-md-4">
-                            <label for="gameRating">Rating (1-5):</label>
-                            <input type="number" id="gameRating" class="form-control" min="1" max="5">
+                            <label for="gameRatingReview">Rating (1-5):</label>
+                            <input type="number" id="gameRatingReview" class="form-control" min="1" max="5">
                         </div>
                     </div>
                     <form asp-controller="" asp-action="">
@@ -163,10 +163,10 @@
                 // creates the games list and allows them to be clickable
 
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
-                    @if (GameImages.ContainsKey(game.Name))
+                    @if (gameImages.ContainsKey(game.Name))
                     {
-                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@GameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">
-                            <img src="@GameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">
+                            <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
                         </a>
                     }
                     <br />
