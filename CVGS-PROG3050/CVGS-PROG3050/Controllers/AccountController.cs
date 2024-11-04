@@ -3,6 +3,7 @@
 * Revision History
 * Julia Lebedzeva, 2024.09.28: Created
 */
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using CVGS_PROG3050.DataAccess;
@@ -480,6 +481,9 @@ namespace CVGS_PROG3050.Controllers
                 }
 
             }
+
+            model.Email = user.Email;
+            model.UserName = user.UserName;
             return View("profileview", model);
 
         }
@@ -532,6 +536,9 @@ namespace CVGS_PROG3050.Controllers
                 }
             }
 
+            model.Preferences.FavoriteCategory = user.FavoriteCategory;
+            model.Preferences.FavoritePlatform = user.FavoritePlatform;
+            model.Preferences.LanguagePreference = user.LanguagePreference;
 
             return View("profileview", model);
         }
@@ -671,6 +678,8 @@ namespace CVGS_PROG3050.Controllers
                 }
             }
 
+            model = await PopulateUserProfile(user);
+            ViewData["ActiveTab"] = "ShippingInfo";
             return View("profileview", model);
         }
 
@@ -692,6 +701,14 @@ namespace CVGS_PROG3050.Controllers
 
             ModelState.Remove("Preferences");
             ModelState.Remove("Address");
+
+
+            if (!ModelState.IsValid)
+            {
+                model = await PopulateUserProfile(user);
+                ViewData["ActiveTab"] = "PaymentInfo";
+                return View("profileview", model);
+            }
 
             if (ModelState.IsValid)
             {
@@ -742,21 +759,135 @@ namespace CVGS_PROG3050.Controllers
                 return RedirectToAction("Profile", "Account");
             }
 
-            if (!ModelState.IsValid)
+
+           
+
+            if (user.UserPayments != null && user.UserPayments.Any())
             {
-                foreach (var state in ModelState)
+                var currentPaymentInfo = user.UserPayments.FirstOrDefault();
+                if (currentPaymentInfo != null)
                 {
-                    foreach (var error in state.Value.Errors)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"ModelState Error: {state.Key} - {error.ErrorMessage}");
-                    }
+                    model.Payment.NameOnCard = currentPaymentInfo.NameOnCard;
+                    model.Payment.CardNumber = currentPaymentInfo.CardNumber;
+                    model.Payment.CVVCode = currentPaymentInfo.CVVCode;
+                    model.Payment.ExpirationDate = currentPaymentInfo.ExpirationDate;
                 }
             }
+            else
+            {
+                model.Payment = new PaymentViewModel();
+            }
+
+
+            foreach (var state in ModelState)
+            {
+                foreach (var error in state.Value.Errors)
+                {
+                    System.Diagnostics.Debug.WriteLine($"ModelState Error: {state.Key} - {error.ErrorMessage}");
+                }
+            }
+
 
             return View("profileview", model);
         }
 
+        private async Task<ProfileViewModel> PopulateUserProfile(User user)
+        {
+            user = await _userManager.Users
+                .Include(u => u.Addresses)
+                .Include(u => u.UserPayments)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            Address mailingAddress = null;
+            Address shippingAddress = null;
+            UserPayment userPayment = user.UserPayments?.FirstOrDefault();
+
+
+
+            if (user.Addresses != null)
+            {
+                foreach (var adrs in user.Addresses)
+                {
+                    if (adrs.MailingAddress == true)
+                    {
+                        mailingAddress = adrs;
+                    }
+                    if (adrs.ShippingAddress == true)
+                    {
+                        shippingAddress = adrs;
+                    }
+                }
+            }
+
+            bool mailingSameAsShipping = mailingAddress != null && shippingAddress != null &&
+                mailingAddress.Country == shippingAddress.Country &&
+                mailingAddress.FullName == shippingAddress.FullName &&
+                mailingAddress.PhoneNumber == shippingAddress.PhoneNumber &&
+                mailingAddress.StreetAddress == shippingAddress.StreetAddress &&
+                mailingAddress.Address2 == shippingAddress.Address2 &&
+                mailingAddress.City == shippingAddress.City &&
+                mailingAddress.Province == shippingAddress.Province &&
+                mailingAddress.PostalCode == shippingAddress.PostalCode &&
+                mailingAddress.DeliveryInstructions == shippingAddress.DeliveryInstructions;
+
+
+
+            var model = new ProfileViewModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                BirthDate = user.BirthDate,
+                PromotionalEmails = user.PromotionalEmails,
+
+                Preferences = new PreferencesViewModel
+                {
+                    FavoriteCategory = user.FavoriteCategory,
+                    FavoritePlatform = user.FavoritePlatform,
+                    LanguagePreference = user.LanguagePreference
+                },
+
+                // Mailing Address
+                Address = new AddressViewModel
+                {
+                    Country = mailingAddress?.Country,
+                    FullName = mailingAddress?.FullName,
+                    PhoneNumber = mailingAddress?.PhoneNumber,
+                    StreetAddress = mailingAddress?.StreetAddress,
+                    Address2 = mailingAddress?.Address2,
+                    City = mailingAddress?.City,
+                    Province = mailingAddress?.Province,
+                    PostalCode = mailingAddress?.PostalCode,
+                    DeliveryInstructions = mailingAddress?.DeliveryInstructions,
+
+                    // Shipping Address
+                    ShippingCountry = shippingAddress?.Country,
+                    ShippingFullName = shippingAddress?.FullName,
+                    ShippingPhoneNumber = shippingAddress?.PhoneNumber,
+                    ShippingStreetAddress = shippingAddress?.StreetAddress,
+                    ShippingAddress2 = shippingAddress?.Address2,
+                    ShippingCity = shippingAddress?.City,
+                    ShippingProvince = shippingAddress?.Province,
+                    ShippingPostalCode = shippingAddress?.PostalCode,
+                    ShippingDeliveryInstructions = shippingAddress?.DeliveryInstructions,
+                    MailingSameAsShipping = mailingSameAsShipping,
+                },
+                Payment = new PaymentViewModel
+                {
+                    NameOnCard = userPayment?.NameOnCard,
+                    CardNumber = userPayment?.CardNumber,
+                    ExpirationDate = userPayment?.ExpirationDate,
+                    CVVCode = userPayment?.CVVCode,
+                }
+            };
+            return model;
+        }
     }
-
-
 }

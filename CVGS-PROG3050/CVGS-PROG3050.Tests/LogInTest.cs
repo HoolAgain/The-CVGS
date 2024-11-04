@@ -1,6 +1,7 @@
 ﻿using CVGS_PROG3050.Controllers;
 using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
+using DNTCaptcha.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

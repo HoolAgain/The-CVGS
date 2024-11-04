@@ -15,13 +15,14 @@ const div2 = document.getElementById('PrefrencesPage');
 const div3 = document.getElementById('ShippingInformationPage');
 const div4 = document.getElementById('PaymentMethodPage');
 const AdminEventsDiv = document.getElementById('AddEventAdminPage');
-
+const activeTab = document.getElementById('activeTab');
 
 toggleButtonProfile.addEventListener('click', function () {
     div1.classList.remove('hidden');
     div2.classList.add('hidden');
     div3.classList.add('hidden');
     div4.classList.add('hidden');
+    setActiveTab('Profile');
 
 });
 toggleButtonPrefrences.addEventListener('click', function () {
@@ -29,6 +30,7 @@ toggleButtonPrefrences.addEventListener('click', function () {
     div2.classList.remove('hidden');
     div3.classList.add('hidden');
     div4.classList.add('hidden');
+    setActiveTab('Preferences');
 
 });
 toggleButtonShippingInfo.addEventListener('click', function () {
@@ -36,6 +38,7 @@ toggleButtonShippingInfo.addEventListener('click', function () {
     div2.classList.add('hidden');
     div3.classList.remove('hidden');
     div4.classList.add('hidden');
+    setActiveTab('ShippingInfo');
 
 });
 togglePaymentInfo.addEventListener('click', function () {
@@ -43,7 +46,29 @@ togglePaymentInfo.addEventListener('click', function () {
     div2.classList.add('hidden');
     div3.classList.add('hidden');
     div4.classList.remove('hidden');
+    setActiveTab('PaymentInfo');
 
+});
+
+function setActiveTab(tab) {
+    if (activeTab) {
+        activeTab.value = tab;
+    }
+    showTab(tab);
+}
+
+function showTab(tab) {
+    div1.classList.toggle('hidden', tab != 'Profile');
+    div2.classList.toggle('hidden', tab != 'Preferences');
+    div3.classList.toggle('hidden', tab != 'ShippingInfo');
+    div4.classList.toggle('hidden', tab != 'PaymentInfo');
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (activeTab) {
+        const currTab = activeTab.value || 'Profile';
+        showTab(currTab);
+    }
 });
 //-------------------------------------------------------------------------------
 
