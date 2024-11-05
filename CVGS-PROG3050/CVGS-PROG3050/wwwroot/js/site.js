@@ -87,7 +87,7 @@ toggleAddEventButton.addEventListener('click', function () {
 
 //Show the games info-----------------------------------------------------------
 //sends all the informatiuon 
-function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher) {
+function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist) {
     document.querySelector('#gameInfoCardLabel').innerText = gameName;
     document.querySelector('#gameDescription').innerHTML = gameInfo;
     document.querySelector('#gameImage').src = gameImageUrl;
@@ -95,9 +95,25 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     document.querySelector('#gamePrice').innerHTML = "$" + gamePrice;
     document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
     document.querySelector('#gamePublisher').innerHTML = gamePublisher;
+    document.querySelector('#gameIdWishlist').value = gameId;
+
+    const wishlistForm = document.querySelector('#wishlistForm');
+    const wishlistBtn = document.querySelector('#wishlistButton');
+    if (inWishlist == 'True')
+    {
+        wishlistForm.action = "/Game/RemoveFromWishlist";
+        wishlistBtn.innerText = "Remove From Wishlist";
+    }
+    else
+    {
+        wishlistForm.action = "/Game/AddToWishlist";
+        wishlistBtn.innerText = "Add To Wishlist";
+
+    }
     var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
     myModal.show();
 }
+
 
 //Filter for genre------------------------------------------------------------------
 //the button

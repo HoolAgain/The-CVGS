@@ -16,7 +16,8 @@ namespace CVGS_PROG3050.Models
 
         public string Publisher { get; set; }
 
-        public int Price { get; set; }
+        public decimal Price { get; set; }
+        public bool InWishlist { get; set; } = false;
 
     }
 }

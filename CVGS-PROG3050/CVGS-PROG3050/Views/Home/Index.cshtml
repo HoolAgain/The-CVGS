@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 @using Microsoft.AspNetCore.Identity
@@ -123,17 +123,29 @@
                         </div>
                     </div>
                     <form asp-controller="" asp-action="">
-                        <button type="button" id="wishListBtn"class="btn btn-primary">Add to Wish List</button>
+                        <button type="button" class="btn btn-primary">Add to Cart</button>
                     </form>
-                    <form asp-controller="" asp-action="">
-                        <button type="button" id="addToCartBtn"class="btn btn-primary">Add to Cart</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    
+                   
+                    <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
+                        <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
+                        <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
                     </form>
                     
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
                 </div>
             </div>
         </div>
     </div>
+</div>
+<!--View Wishlist-->
+<div class="text-start">
+    <form asp-controller="Game" asp-action="ViewWishlist" method="post">
+        <button type="submit" class="btn btn-primary">View Wishlist</button>
+    </form>
 </div>
 
 <!--Drop down menu to search for tags-->
@@ -169,7 +181,7 @@
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (gameImages.ContainsKey(game.Name))
                     {
-                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist')">
                             <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
                         </a>
                     }

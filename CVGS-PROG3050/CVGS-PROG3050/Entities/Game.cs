@@ -12,6 +12,7 @@
         public decimal Price { get; set; }
 
         public ICollection<Order>? Orders { get; set; }
+        public bool InWishlist { get; set; }
         public ICollection<Wishlist>? Wishlists { get; set; }
         public ICollection<Rating>? Ratings { get; set; }
         public ICollection<Review>? Reviews { get; set; }

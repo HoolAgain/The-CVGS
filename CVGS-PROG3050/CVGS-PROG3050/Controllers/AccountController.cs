@@ -858,7 +858,7 @@ namespace CVGS_PROG3050.Controllers
                 // Mailing Address
                 Address = new AddressViewModel
                 {
-                    Country = mailingAddress?.Country,
+                    Country = mailingAddress?.Country, 
                     FullName = mailingAddress?.FullName,
                     PhoneNumber = mailingAddress?.PhoneNumber,
                     StreetAddress = mailingAddress?.StreetAddress,
