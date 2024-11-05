@@ -55,10 +55,14 @@
                                 <a class="nav-link text-light audiowide-regular" asp-area="" asp-controller="Account" asp-action="LogIn">Login</a>
                             </li>
                         }
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-light audiowide-regular" asp-area="" asp-controller="Home" asp-action="AdminPanelView">Admin Panel</a>
                         </li>
-                         
+                        }
+                        
                     </ul>
                 </div>
             </div>
