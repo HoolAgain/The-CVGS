@@ -17,7 +17,7 @@ namespace CVGS_PROG3050.Tests
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
 
-            using(var context  = new VaporDbContext(options))
+            using (var context = new VaporDbContext(options))
             {
                 var controller = new AccountController(context, null, null);
 
@@ -41,7 +41,7 @@ namespace CVGS_PROG3050.Tests
                 await context.SaveChangesAsync();
 
                 var addedAddress = await context.Addresses.FirstOrDefaultAsync(a => a.UserId == "test-user-id");
-                
+
                 // Assert: Check if the address was added to the database
                 Assert.NotNull(addedAddress);
                 // Testing for a couple of the Address fields

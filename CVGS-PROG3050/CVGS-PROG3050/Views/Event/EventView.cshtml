@@ -1,41 +1,93 @@
-﻿<div class="text-center">
+﻿@model List<CVGS_PROG3050.Models.EventViewModel>
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "profile";
+}
+
+<div class="text-center">
     <h1 class="display-4 audiowide-regular">Events</h1>
     <br /><br /><br />
 
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="container text-end">
+            <form asp-controller="Events" asp-action="Create" method="get">
+                <button id="createEvent" class="btn btn-primary">Create Event</button>
+            </form>
+        </div>
+    }
 
-    
+    <br />
+    <div class="row row-cols-2">
+        @foreach (var eventModel in Model)
+        {
+            <div id="EventPost" class="EventPost col">
+                <br />
+                <h3>Event: </h3> <h3 id="EventName">@eventModel.EventName</h3>
+                <p>Event Time and Day: </p> <p id="EventTimeDay">@eventModel.EventDate</p>
+                <p>Event Location: </p> <p id="EventLocation">@eventModel.Location - @eventModel.LocationType</p>
+                <p>Event Entry Price: </p> <p id="EventPrice">$@eventModel.EventPrice</p>
 
-    <div class="container text-center">
+                @if (eventModel.UserEvents != null && eventModel.UserEvents.Any(ue => ue.UserId == eventModel.CurrentUserId))
+                {
+                    <div>
+                        <h4>Registered</h4>
+                        <form asp-action="Unregister" method="post">
+                            <input type="hidden" name="eventId" value="@eventModel.Id" />
+                            <button id="unregister" class="btn btn-secondary">Unregister</button>
+                        </form>
+                    </div>
+
+                    
+                }
+                else
+                {
+                    <form asp-action="Register" method="post">
+                        <input type="hidden" name="eventId" value="@eventModel.Id" />
+                        <button id="eventRegister" class="btn btn-primary">Register</button>
+                    </form>
+                }
+
+                <br />
+            </div>
+        }
+    </div>
+</div>
+
+@*
+
         <div class="row row-cols-2">
             <div id="EventPost" class="EventPost col">
+                <br />
                 <h3>Event: </h3> <h3 id="EventName"></h3>
                 <p>Event Time and Day: </p> <p id="EventTimeDay"></p>
                 <p>Event Location: </p> <p id="EventLocation"></p>
                 <p>Event Entry Price: </p> <p id="EventPrice"></p>
-                <button id="" class="btn btn-primary">Register</button>
+                <button id="eventRegister" class="btn btn-primary">Register</button>
             </div>
             <div id="EventPost" class="EventPost col">
+                <br />
                 <h3>Event: </h3> <h3 id="EventName"></h3>
                 <p>Event Time and Day: </p> <p id="EventTimeDay"></p>
                 <p>Event Location: </p> <p id="EventLocation"></p>
                 <p>Event Entry Price: </p> <p id="EventPrice"></p>
-                <button id="" class="btn btn-primary">Register</button>
+                <button id="eventRegister" class="btn btn-primary">Register</button>
             </div>
             <div id="EventPost" class="EventPost col">
+                <br />
                 <h3>Event: </h3> <h3 id="EventName"></h3>
                 <p>Event Time and Day: </p> <p id="EventTimeDay"></p>
                 <p>Event Location: </p> <p id="EventLocation"></p>
                 <p>Event Entry Price: </p> <p id="EventPrice"></p>
-                <button id="" class="btn btn-primary">Register</button>
+                <button id="eventRegister" class="btn btn-primary">Register</button>
             </div>
             <div id="EventPost" class="EventPost col">
+                <br />
                 <h3>Event: </h3> <h3 id="EventName"></h3>
                 <p>Event Time and Day: </p> <p id="EventTimeDay"></p>
                 <p>Event Location: </p> <p id="EventLocation"></p>
                 <p>Event Entry Price: </p> <p id="EventPrice"></p>
-                <button id="" class="btn btn-primary">Register</button>
+                <button id="eventRegister" class="btn btn-primary">Register</button>
             </div>
-        </div>
-    </div>
-
-</div>
+        </div> *@

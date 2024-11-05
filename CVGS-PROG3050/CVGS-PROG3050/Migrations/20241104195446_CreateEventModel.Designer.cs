@@ -4,6 +4,7 @@ using CVGS_PROG3050.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVGS_PROG3050.Migrations
 {
     [DbContext(typeof(VaporDbContext))]
-    partial class VaporDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241104195446_CreateEventModel")]
+    partial class CreateEventModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,13 +108,14 @@ namespace CVGS_PROG3050.Migrations
                     b.Property<string>("EventName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("EventPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<TimeSpan>("EventTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocationType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
@@ -534,9 +538,6 @@ namespace CVGS_PROG3050.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.HasKey("EventId", "UserId");
 

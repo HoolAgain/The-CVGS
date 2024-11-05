@@ -34,11 +34,9 @@
 <br />
 <br />
 
+@* ******* MAIN PROFILE ********@
 <div class="text-center" id="AccountMainPage" style="margin-left:160px; margin-right:160px;">
     <h2 class="audiowide-regular">Your Profile</h2>
-
-    @* ******* MAIN PROFILE ********@
-
     <form asp-controller="Account" asp-action="UpdateProfile" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         @Html.HiddenFor(m => m.UserName)
