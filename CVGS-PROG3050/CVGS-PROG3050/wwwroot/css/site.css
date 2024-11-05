@@ -95,3 +95,10 @@ header {
 .carousel {
     height: 500px;
 }
+
+.gameReviewReviewDiv {
+    background-color: darkblue;
+    color: snow;
+    border: solid;
+    border-color: snow;
+}

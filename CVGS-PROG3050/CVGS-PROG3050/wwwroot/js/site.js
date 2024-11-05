@@ -2,19 +2,20 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-
+document.addEventListener('DOMContentLoaded', function () {
 //toggle profile pages ----------------------------------------------------------
 const toggleButtonProfile = document.getElementById('toggleProfile');
 const toggleButtonPrefrences = document.getElementById('togglePrefrences');
 const toggleButtonShippingInfo = document.getElementById('toggleShippingInfo');
 const togglePaymentInfo = document.getElementById("togglePaymentInfo")
-const toggleAddEventButton = document.getElementById('toggleAddEvent');
+
+
 
 const div1 = document.getElementById('AccountMainPage');
 const div2 = document.getElementById('PrefrencesPage');
 const div3 = document.getElementById('ShippingInformationPage');
 const div4 = document.getElementById('PaymentMethodPage');
-const AdminEventsDiv = document.getElementById('AddEventAdminPage');
+
 const activeTab = document.getElementById('activeTab');
 
 toggleButtonProfile.addEventListener('click', function () {
@@ -23,6 +24,7 @@ toggleButtonProfile.addEventListener('click', function () {
     div3.classList.add('hidden');
     div4.classList.add('hidden');
     setActiveTab('Profile');
+
 
 });
 toggleButtonPrefrences.addEventListener('click', function () {
@@ -76,13 +78,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Toggle admin pages-------------------------------------------------------------
 
+    const toggleAddEventAdminPage = document.getElementById("AddEventAdminPage")
+    const toggleReviewReviewsAdminPage = document.getElementById("ReviewReviewsAdminPage")
 
-toggleAddEventButton.addEventListener('click', function () {
+    const toggleAddEventBtn = document.getElementById("toggleAddEvent")
+    const toggleReviewsBtn = document.getElementById("toggleReviews")
 
-    AdminEventsDiv.classList.remove('hidden');
-    console.log('Button clicked!')
+    toggleAddEventAdminPage.addEventListener('click', function () {
+        toggleAddEventBtn.classList.remove('hidden');
+        toggleReviewsBtn.classList.add('hidden');
+    });
+    toggleAddEventAdminPage.addEventListener('click', function () {
+        toggleAddEventBtn.classList.add('hidden');
+        toggleReviewsBtn.classList.remove('hidden');
+    });
 
-});
 
 
 //Show the games info-----------------------------------------------------------
@@ -112,3 +122,6 @@ function filterByGenre(genre) {
         }
     });
 }
+
+
+});

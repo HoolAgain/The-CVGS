@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </head>
 <body>
     <header>
@@ -59,7 +60,7 @@
                         @if (User.IsInRole("Admin"))
                         {
                         <li class="nav-item">
-                            <a class="nav-link text-light audiowide-regular" asp-area="" asp-controller="Home" asp-action="AdminPanelView">Admin Panel</a>
+                            <a class="nav-link text-light audiowide-regular" asp-area="" asp-controller="Admin" asp-action="AdminPanelView">Admin Panel</a>
                         </li>
                         }
                         

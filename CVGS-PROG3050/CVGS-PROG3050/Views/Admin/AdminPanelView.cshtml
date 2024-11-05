@@ -1,10 +1,18 @@
-﻿<h2 class="audiowide-regular">Admin Panel</h2>
+﻿@{
+    ViewData["Title"] = "Admin";
+}
+
+<h2 class="audiowide-regular">Admin Panel</h2>
+
 
 
 <div class="ULButtonOutline">
     <ul class="nav justify-content-center">
         <li class="nav-item mx-4">
             <button id="toggleAddEvent" class="btn btn-primary btn-lg audiowide-regular">Add Event</button>
+        </li>
+        <li class="nav-item mx-4">
+            <button id="toggleReviews" class="btn btn-primary btn-lg audiowide-regular">See Reviews</button>
         </li>
     </ul>
 </div>
@@ -32,5 +40,27 @@
         <button type="submit" class="btn btn-primary">Save</button>
         <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
     </form>
+
+</div>
+
+
+<div id="ReviewReviewsAdminPage" class="text-center" style="margin-left:160px; margin-right:160px;">
+    <div class="gameReviewReviewDiv">
+        <h2>Game</h2>
+        <h3>DeadCells</h3>
+        <h3>Review Comment</h3>
+        <p>Love this game</p>
+        <h3>Rating</h3>
+        <p>5/5</p>
+    </div>
+
+    <div class="gameReviewReviewDiv">
+        <h2>Game</h2>
+        <h3>DeadCells</h3>
+        <h3>Review Comment</h3>
+        <p>Love this game</p>
+        <h3>Rating</h3>
+        <p>5/5</p>
+    </div>
 
 </div>
