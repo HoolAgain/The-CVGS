@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
 const toggleButtonProfile = document.getElementById('toggleProfile');
 const toggleButtonPrefrences = document.getElementById('togglePrefrences');
 const toggleButtonShippingInfo = document.getElementById('toggleShippingInfo');
-const togglePaymentInfo = document.getElementById("togglePaymentInfo")
+const togglePaymentInfo = document.getElementById("togglePaymentInfo");
+const toggleFandF = document.getElementById("toggleFandF");
 
 
 
@@ -15,6 +16,7 @@ const div1 = document.getElementById('AccountMainPage');
 const div2 = document.getElementById('PrefrencesPage');
 const div3 = document.getElementById('ShippingInformationPage');
 const div4 = document.getElementById('PaymentMethodPage');
+const div5 = document.getElementById('FriendsandFamilyPage');
 
 const activeTab = document.getElementById('activeTab');
 
@@ -23,6 +25,7 @@ toggleButtonProfile.addEventListener('click', function () {
     div2.classList.add('hidden');
     div3.classList.add('hidden');
     div4.classList.add('hidden');
+    div5.classList.add('hidden');
     setActiveTab('Profile');
 
 
@@ -32,6 +35,7 @@ toggleButtonPrefrences.addEventListener('click', function () {
     div2.classList.remove('hidden');
     div3.classList.add('hidden');
     div4.classList.add('hidden');
+    div5.classList.add('hidden');
     setActiveTab('Preferences');
 
 });
@@ -40,6 +44,7 @@ toggleButtonShippingInfo.addEventListener('click', function () {
     div2.classList.add('hidden');
     div3.classList.remove('hidden');
     div4.classList.add('hidden');
+    div5.classList.add('hidden');
     setActiveTab('ShippingInfo');
 
 });
@@ -48,9 +53,20 @@ togglePaymentInfo.addEventListener('click', function () {
     div2.classList.add('hidden');
     div3.classList.add('hidden');
     div4.classList.remove('hidden');
+    div5.classList.add('hidden');
     setActiveTab('PaymentInfo');
 
 });
+
+    toggleFandF.addEventListener('click', function () {
+        div1.classList.add('hidden');
+        div2.classList.add('hidden');
+        div3.classList.add('hidden');
+        div4.classList.add('hidden');
+        div5.classList.remove('hidden');
+        setActiveTab('FandF');
+
+    });
 
 function setActiveTab(tab) {
     if (activeTab) {
@@ -64,6 +80,7 @@ function showTab(tab) {
     div2.classList.toggle('hidden', tab != 'Preferences');
     div3.classList.toggle('hidden', tab != 'ShippingInfo');
     div4.classList.toggle('hidden', tab != 'PaymentInfo');
+    div5.classList.toggle('hidden', tab != 'FandF');
 }
 
 document.addEventListener("DOMContentLoaded", function () {

@@ -26,6 +26,9 @@
         <li class="nav-item mx-4">
             <button id="togglePaymentInfo" class="btn btn-primary btn-lg audiowide-regular">Payment Info</button>
         </li>
+        <li class="nav-item mx-4">
+            <button id="toggleFandF" class="btn btn-primary btn-lg audiowide-regular">Friends and Family</button>
+        </li>
     </ul>
 </div>
 
@@ -242,4 +245,22 @@
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
     </form>
+</div>
+
+@* ******* Freinds and Family ********@
+<div id="FriendsandFamilyPage" class="hidden text-center" style="margin-left:160px; margin-right:160px;">
+    <h3 class="audiowide-regular">Friends and Family</h3>
+    <form action="/" method="post">
+        <!--Will allow to adding the freind if the name is correct and in the DB-->
+        <label for="addFreindText">Add Freind</label>
+        <input  class="form-control" type="text" id="addFreindText" class="text" />
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+
+
+    <h4>Friends List</h4>
+    <!--Add stuff for listing friends and family here (forloop)-->
+    <div class="freindsDiv">
+        <a href="#">Mom</a> <!--Click with either bring up their wishlist in a modal or will bring it up in the right side of the view-->
+    </div>
 </div>
