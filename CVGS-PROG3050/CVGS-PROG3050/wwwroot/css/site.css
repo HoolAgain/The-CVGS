@@ -108,3 +108,10 @@ header {
     border: solid;
     border-color: snow;
 }
+
+.loopedReviewDiv {
+    background-color: snow;
+    color: black;
+    border: solid;
+    border-color: black;
+}
