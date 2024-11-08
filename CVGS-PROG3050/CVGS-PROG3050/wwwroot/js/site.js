@@ -2,7 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
     //toggle profile pages ----------------------------------------------------------
     const toggleButtonProfile = document.getElementById('toggleProfile');
     const toggleButtonPrefrences = document.getElementById('togglePrefrences');
@@ -91,14 +91,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     //-------------------------------------------------------------------------------
 
-
-
-    //Toggle admin pages-------------------------------------------------------------
     
-    
-
-
-
+});
     //Show the games info-----------------------------------------------------------
     //sends all the informatiuon 
     function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher) {
@@ -128,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-});
 
 
 
@@ -139,18 +132,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const toggleAddEventBtn = document.getElementById("toggleAddEvent")
     const toggleReviewsBtn = document.getElementById("toggleReviews")
-       
-        toggleAddEventBtn.addEventListener('click', function () {
-            toggleAddEventAdminPage.classList.remove('hidden');
-            toggleReviewReviewsAdminPage.classList.add('hidden');
-        });
 
-    
+    toggleAddEventBtn.addEventListener('click', function () {
+        toggleAddEventAdminPage.classList.remove('hidden');
+        toggleReviewReviewsAdminPage.classList.add('hidden');
+    });
 
-        toggleReviewsBtn.addEventListener('click', function () {
-            toggleAddEventAdminPage.classList.add('hidden');
-            toggleReviewReviewsAdminPage.classList.remove('hidden');
-        });
 
-    
+
+    toggleReviewsBtn.addEventListener('click', function () {
+        toggleAddEventAdminPage.classList.add('hidden');
+        toggleReviewReviewsAdminPage.classList.remove('hidden');
+    });
+
+
 });
+
