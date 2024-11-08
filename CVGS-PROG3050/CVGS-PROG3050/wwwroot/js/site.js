@@ -99,7 +99,7 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
 
     const wishlistForm = document.querySelector('#wishlistForm');
     const wishlistBtn = document.querySelector('#wishlistButton');
-    if (inWishlist == 'True')
+    if (inWishlist === 'True')
     {
         wishlistForm.action = "/Game/RemoveFromWishlist";
         wishlistBtn.innerText = "Remove From Wishlist";
@@ -114,6 +114,23 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     myModal.show();
 }
 
+/*document.querySelector('#wishlistForm').addEventListener('submit', function (event)){
+    event.preventDefault();
+    const wishlistForm = document.querySelector('#wishlistForm');
+    const gameId = document.querySelector('#gameIdWishlist').value;
+
+    const wishlistBtn = document.querySelector('#wishlistButton');
+    if (inWishlist == 'True') {
+        wishlistForm.action = "/Game/RemoveFromWishlist";
+        wishlistBtn.innerText = "Remove From Wishlist";
+    }
+    else {
+        wishlistForm.action = "/Game/AddToWishlist";
+        wishlistBtn.innerText = "Add To Wishlist";
+
+    }
+
+}*/
 
 //Filter for genre------------------------------------------------------------------
 //the button

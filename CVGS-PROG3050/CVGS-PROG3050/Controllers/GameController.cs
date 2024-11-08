@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using CVGS_PROG3050.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -46,12 +47,16 @@ namespace CVGS_PROG3050.Controllers
             return View(games);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToWishlist(int gameId)
         {
             var userId = _userManager.GetUserId(User);
             var game = await _db.Wishlist.FirstOrDefaultAsync(w => w.UserId == userId && w.GameId == gameId);
             bool added = false;
+            //bool inWishlist = _db.Wishlist
+            //    .Where(w => w.UserId == userId && w.GameId == g.GameId)
+            //    .Any();
             if (game == null)
             {
                 var wishlistGame = new Wishlist
@@ -59,19 +64,42 @@ namespace CVGS_PROG3050.Controllers
                     UserId = userId,
                     GameId = gameId
                 };
+
+
                 _db.Wishlist.Add(wishlistGame);
-                await _db.SaveChangesAsync();
+                added = true;
+                TempData["WishlistNotification"] = "It has been successfully added to your wishlist!";
+
             }
             else
             {
                 _db.Wishlist.Remove(game);
-                await _db.SaveChangesAsync();
+                added = false;
+
+                TempData["WishlistNotification"] = "It has been successfully removed from your wishlist";
             }
 
-            return RedirectToAction("AllGamesView");
+
+            await _db.SaveChangesAsync();
+
+            var games = await _db.Games.Select(g => new GameViewModel
+            {
+                GameId = g.GameId,
+                Name = g.Name,
+                Genre = g.Genre,
+                Description = g.Description,
+                ReleaseDate = g.ReleaseDate,
+                Developer = g.Developer,
+                Publisher = g.Publisher,
+                Price = g.Price,
+                InWishlist = _db.Wishlist.Any(w => w.UserId == userId && w.GameId == g.GameId)
+            }).ToListAsync();
+            return RedirectToAction("Index", "Home");
         }
 
 
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> RemoveFromWishlist(int gameId)
         {
@@ -82,9 +110,21 @@ namespace CVGS_PROG3050.Controllers
             {
                 _db.Wishlist.Remove(game);
                 await _db.SaveChangesAsync();
+                TempData["WishlistNotification"] = "It has been successfully removed from your wishlist";
             }
-
-            return RedirectToAction("AllGamesView");
+            var games = await _db.Games.Select(g => new GameViewModel
+            {
+                GameId = g.GameId,
+                Name = g.Name,
+                Genre = g.Genre,
+                Description = g.Description,
+                ReleaseDate = g.ReleaseDate,
+                Developer = g.Developer,
+                Publisher = g.Publisher,
+                Price = g.Price,
+                InWishlist = _db.Wishlist.Any(w => w.UserId == userId && w.GameId == g.GameId)
+            }).ToListAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

@@ -2,15 +2,22 @@
     ViewData["Title"] = "Wishlist";
 }
 
-@* 
+
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<CVGS_PROG3050.Entities.User> UserManager
-@inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager *@
+@inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
 @model List<CVGS_PROG3050.Models.GameViewModel>
-
 <div class="text-center">
     <h1>Wishlist</h1>
     <br /><br />
+    <div class="text-center">
+        @if (TempData["WishlistNotification"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["WishlistNotification"]
+            </div>
+        }
+    </div>
 </div>
 
 
@@ -38,10 +45,10 @@
     };
 }
 
-@* @{
+@{
     var user = await UserManager.GetUserAsync(User);
     var preferredGenre = user?.FavoriteCategory ?? "All";
-} *@
+}
 <!--Creates the entire game card-->
 <div class="modal fade" id="gameInfoCard" tabindex="-1" aria-labelledby="gameInfoCardLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 80%;">
@@ -76,14 +83,30 @@
                             <input type="number" id="gameRatingReview" class="form-control" min="1" max="5">
                         </div>
                     </div>
-                    <form asp-controller="Game" asp-action="AddToCart" method="post">
+                    <form asp-controller="" asp-action="">
                         <button type="button" class="btn btn-primary">Add to Cart</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </form>
+
+
+                    <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
+                        <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
+                        <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
+                    </form>
+
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!--Back to all games-->
+<div class="text-start">
+    <form asp-controller="Home" asp-action="Index" method="post">
+        <button type="submit" class="btn btn-primary">Return to all games</button>
+    </form>
 </div>
 
 <div>
@@ -96,7 +119,7 @@
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (gameImages.ContainsKey(game.Name))
                     {
-                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', 'True')">
                             <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
                         </a>
                     }
@@ -108,3 +131,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/site.js"></script>
