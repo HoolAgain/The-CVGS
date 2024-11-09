@@ -38,7 +38,7 @@ namespace CVGS_PROG3050.Tests
             mockSignInManager.Setup(s => s.PasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), false, true))
                 .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
 
-            var controller = new AccountController(null, mockUserManager.Object, mockSignInManager.Object);
+            var controller = new AccountController(null, mockUserManager.Object, mockSignInManager.Object, null);
 
             // Act
             var result = await controller.LogIn(loginViewModel);
