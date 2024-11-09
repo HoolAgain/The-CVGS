@@ -49,7 +49,7 @@
 }
 <!--Creates the entire game card-->
 <div class="modal fade" id="gameInfoCard" tabindex="-1" aria-labelledby="gameInfoCardLabel" aria-hidden="true">
-    <div class="modal-dialog" style="max-width: 80%;">
+    <div class="modal-dialog" style="max-width: 85%;">
         <div class="modal-content">
             <div class="modal-header gameInfoDiv">
                 <h5 class="modal-title" id="gameInfoCardLabel">Game Info</h5>
@@ -74,7 +74,7 @@
                 <div id="GameCarousel" class="carousel slide flex-shrink-0" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                         @{
-                            //makes buttons
+                            //makes indicator buttons
                             int slideNumber = 0;
                             foreach (var game in Model.Where(gr => preferredGenre == "All" || gr.Genre == preferredGenre))
                             {
@@ -114,7 +114,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">
-                            <textarea id="gameCommentReview" class="form-control" rows="3" placeholder="Leave a review"></textarea>
+                            <textarea id="gameCommentReview" class="form-control" rows="4" placeholder="Write a review"></textarea>
                         </div>
                         <div class="col-md-4">
                             <label for="gameRatingReview">Rating (1-5):</label>

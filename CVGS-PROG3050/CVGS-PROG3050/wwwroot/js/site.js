@@ -103,8 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('#gamePrice').innerHTML = "$" + gamePrice;
         document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
         document.querySelector('#gamePublisher').innerHTML = gamePublisher;
-        var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
-        myModal.show();
+        var gameModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
+        gameModal.show();
     }
 
     //Filter for genre------------------------------------------------------------------
