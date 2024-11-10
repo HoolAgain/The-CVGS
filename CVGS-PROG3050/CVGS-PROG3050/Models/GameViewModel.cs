@@ -12,12 +12,11 @@ namespace CVGS_PROG3050.Models
 
         public DateTime ReleaseDate { get; set; }
 
-        public string Developer { get; set; }
+        public string Developer {  get; set; }
 
         public string Publisher { get; set; }
 
-        public decimal Price { get; set; }
-        public bool InWishlist { get; set; } = false;
+        public int Price { get; set; }
 
     }
 }

@@ -5,55 +5,27 @@
 */
 using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using CVGS_PROG3050.DataAccess;
-using CVGS_PROG3050.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using CVGS_PROG3050.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace CVGS_PROG3050.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<User> _userManager;
 
 
-        public HomeController(ILogger<HomeController> logger, VaporDbContext context, UserManager<User> userManager)
+        public HomeController(ILogger<HomeController> logger, VaporDbContext context)
         {
             _logger = logger;
             _db = context;
-            _userManager = userManager;
         }
 
         private readonly VaporDbContext _db;
-
-        public async Task<IActionResult> Index()
+        
+        public IActionResult Index()
         {
-            //var games = _db.Games.ToList();
-            var userId = _userManager.GetUserId(User);
-
-            var wishlistIds = await _db.Wishlist
-                .Where(w => w.UserId == userId)
-                .Select(w => w.GameId)
-                .ToListAsync();
-
-            var games = await _db.Games.Select(g => new GameViewModel
-            {
-                GameId = g.GameId,
-                Name = g.Name,
-                Genre = g.Genre,
-                Description = g.Description,
-                ReleaseDate = g.ReleaseDate,
-                Developer = g.Developer,
-                Publisher = g.Publisher,
-                Price = g.Price,
-                InWishlist = wishlistIds.Contains(g.GameId)
-            }).ToListAsync();
+            var games = _db.Games.ToList();
             return View(games);
         }
         public IActionResult EventsView()

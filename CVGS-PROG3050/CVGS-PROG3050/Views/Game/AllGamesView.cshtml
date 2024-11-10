@@ -1,6 +1,4 @@
-﻿@model List<CVGS_PROG3050.Models.GameViewModel>
-<script src="site.js"></script>
-<h1>Games</h1>
+﻿<h1>Games</h1>
 
 @{
     var GameImages = new Dictionary<string, string>
@@ -24,6 +22,7 @@
         { "Destiny 2", "/img/Destiny2.jpeg" },
     };
 }
+
 <div class="modal fade" id="gameInfoCard" tabindex="-1" aria-labelledby="gameInfoCardLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 80%;">
         <div class="modal-content">
@@ -55,26 +54,15 @@
                             <input type="number" id="gameRating" class="form-control" min="1" max="5">
                         </div>
                     </div>
-                    <form asp-controller="Game" asp-action="AddToCart" method="post">
-                        <input type="hidden" name="gameId" value="" />
-                        <button type="button" class="btn btn-primary">Add to Cart</button>
-                    </form>
-
-
-                    <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
-                        <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
-                        <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
-                    </form>
-
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                </div>
+                <form asp-controller="" asp-action="">
+                <button type="button" class="btn btn-primary">Add to Cart</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </form>
             </div>
-        </div>
     </div>
 </div>
-
+</div>
+</div>
 
 <!--Drop down menu to search for tags-->
 <div class="text-end">
@@ -102,22 +90,21 @@
 <div>
     <div class="container text-center">
         <div class="row">
-            @foreach (var game in Model)
-            {
-
+        @foreach (var game in Model)
+        {
+           
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (GameImages.ContainsKey(game.Name))
                     {
-                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@GameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist')">
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@GameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">
                             <img src="@GameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
                         </a>
                     }
                     <br />
-                    @game.Name
-
+                        @game.Name
                 </div>
-
-            }
-        </div>
+            
+        }
+            </div>
     </div>
 </div>

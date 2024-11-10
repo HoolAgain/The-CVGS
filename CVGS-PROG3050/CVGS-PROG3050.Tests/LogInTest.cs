@@ -1,4 +1,4 @@
-﻿/*using CVGS_PROG3050.Controllers;
+﻿using CVGS_PROG3050.Controllers;
 using CVGS_PROG3050.Entities;
 using CVGS_PROG3050.Models;
 using DNTCaptcha.Core;
@@ -50,4 +50,3 @@ namespace CVGS_PROG3050.Tests
         }
     }
 }
-*/

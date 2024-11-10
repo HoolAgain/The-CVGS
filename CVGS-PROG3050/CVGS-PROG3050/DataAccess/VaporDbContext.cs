@@ -10,7 +10,7 @@ namespace CVGS_PROG3050.DataAccess
 {
     public class VaporDbContext : IdentityDbContext<User>
     {
-        public VaporDbContext(DbContextOptions<VaporDbContext> options) : base(options)
+        public VaporDbContext(DbContextOptions<VaporDbContext> options) : base(options) 
         {
         }
 
@@ -27,7 +27,6 @@ namespace CVGS_PROG3050.DataAccess
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<UserEvent> UserEvents { get; set; }
-        public DbSet<Friend> Friends { get; set; }
 
         // To create admin users
         public static async Task CreateAdminUser(IServiceProvider serviceProvider)
@@ -45,13 +44,13 @@ namespace CVGS_PROG3050.DataAccess
             if (await roleManager.FindByNameAsync(roleName) == null)
             {
                 var roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
-                if (!roleResult.Succeeded)
+                if (!roleResult.Succeeded) 
                 {
                     Console.WriteLine("error creating role" + roleResult.Errors.ToString());
                     return;
                 }
             }
-
+      
             if (await userManager.FindByNameAsync(username) == null)
             {
                 User user = new User { UserName = username };
@@ -107,7 +106,7 @@ namespace CVGS_PROG3050.DataAccess
 
             // Configuration for Wishlist
             builder.Entity<Wishlist>()
-                .HasKey(w => new { w.GameId, w.UserId });
+                .HasKey(w => new {w.GameId, w.UserId});
             builder.Entity<Wishlist>()
                 .HasOne(w => w.User)
                 .WithMany(u => u.Wishlists)
@@ -179,12 +178,12 @@ namespace CVGS_PROG3050.DataAccess
 
             // Seeding the Database with Games
             builder.Entity<Game>().HasData(
-                new Game()
-                {
-                    GameId = 1,
-                    Name = "Dead Cells",
-                    Genre = "Adventure",
-                    ReleaseDate = new DateTime(2018, 8, 6),
+                new Game() 
+                { 
+                    GameId = 1, 
+                    Name = "Dead Cells", 
+                    Genre = "Adventure", 
+                    ReleaseDate = new DateTime(2018, 8, 6), 
                     Developer = "Motion Twin",
                     Publisher = "Motion Twin",
                     Description = "Dead Cells is a roguelite, metroidvania inspired, action-platformer. You'll explore a sprawling, ever-changing castle... assuming you’re able to fight your way past its keepers in 2D souls-lite combat. No checkpoints. Kill, die, learn, repeat.",

@@ -136,9 +136,6 @@ namespace CVGS_PROG3050.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("InWishlist")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -162,7 +159,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Dead Cells is a roguelite, metroidvania inspired, action-platformer. You'll explore a sprawling, ever-changing castle... assuming you’re able to fight your way past its keepers in 2D souls-lite combat. No checkpoints. Kill, die, learn, repeat.",
                             Developer = "Motion Twin",
                             Genre = "Adventure",
-                            InWishlist = false,
                             Name = "Dead Cells",
                             Price = 29.99m,
                             Publisher = "Motion Twin",
@@ -174,7 +170,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Destiny 2 is an action MMO with a single evolving world that you and your friends can join anytime, anywhere.",
                             Developer = "Bungie",
                             Genre = "Role Playing",
-                            InWishlist = false,
                             Name = "Destiny 2",
                             Price = 9.99m,
                             Publisher = "Bungie",
@@ -186,7 +181,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "THE CRITICALLY ACCLAIMED FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.",
                             Developer = "FromSoftware, Inc.",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Elden Ring",
                             Price = 79.99m,
                             Publisher = "FromSoftware, Inc., Bandai Namco Entertainment",
@@ -198,7 +192,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Bethesda Game Studios, the award-winning creators of Fallout 3 and The Elder Scrolls V: Skyrim, welcome you to the world of Fallout 4 – their most ambitious game ever, and the next generation of open-world gaming.",
                             Developer = "Bethesda Game Studios",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Fallout 4",
                             Price = 26.99m,
                             Publisher = "Bethesda Softworks",
@@ -210,7 +203,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Explore the vibrant open world landscapes of Mexico with limitless, fun driving action in the world’s greatest cars. Join a thrilling game of chase with our new 5v1 Multiplayer Experience: Hide & Seek.",
                             Developer = "Playground Games",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Forza Horizon 5",
                             Price = 79.99m,
                             Publisher = "Xbox Game Studios",
@@ -222,7 +214,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "When all the villains in Arkham Asylum team up and break loose, only the dynamic duo is bold enough to take them on to save Gotham City. The fun of LEGO, the drama of Batman and the uniqueness of the combination makes for a comical and exciting adventure in LEGO Batman: The Videogame.",
                             Developer = "Traveller's Tale",
                             Genre = "Adventure",
-                            InWishlist = false,
                             Name = "LEGO: Batman",
                             Price = 19.99m,
                             Publisher = "Warner Bros. Interactive Entertainment",
@@ -234,7 +225,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "The LEGO® Harry Potter™: Collection brings LEGO® Harry Potter™: Years 1-4 and LEGO® Harry Potter™: Years 5-7 together in one game, now remastered with enhanced graphics.",
                             Developer = "TT Games, Double Eleven",
                             Genre = "Adventure",
-                            InWishlist = false,
                             Name = "LEGO: Harry Potter",
                             Price = 49.99m,
                             Publisher = "Warner Bros. Games",
@@ -246,7 +236,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Play through all nine Skywalker saga films in a game unlike any other. With over 300 playable characters, over 100 vehicles, and 23 planets to explore, a galaxy far, far away has never been more fun! *Includes classic Obi-Wan Kenobi playable character",
                             Developer = "TT Games",
                             Genre = "Adventure",
-                            InWishlist = false,
                             Name = "LEGO: Star Wars",
                             Price = 59.99m,
                             Publisher = "Warner Bros. Games, Warner Bros. Interactive Entertainment",
@@ -258,7 +247,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Welcome to a new world! In Monster Hunter: World, the latest installment in the series, you can enjoy the ultimate hunting experience, using everything at your disposal to hunt monsters in a new world teeming with surprises and excitement.",
                             Developer = "CAPCOM Co., Ltd.",
                             Genre = "Role Playing",
-                            InWishlist = false,
                             Name = "Monster Hunter: WORLDS",
                             Price = 39.99m,
                             Publisher = "CAPCOM Co., Ltd.",
@@ -270,7 +258,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Ready to die? Experience the newest brutal action game from Team NINJA and Koei Tecmo Games. In the age of samurai, a lone traveler lands on the shores of Japan. He must fight his way through the vicious warriors and supernatural Yokai that infest the land in order to find that which he seeks.",
                             Developer = "KOEI TECMO GAMES CO., LTD.",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Nioh: Complete Edition",
                             Price = 64.99m,
                             Publisher = "KOEI TECMO GAMES CO., LTD.",
@@ -282,7 +269,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Overwatch 2 is a critically acclaimed, team-based shooter game set in an optimistic future with an evolving roster of heroes. Team up with friends and jump in today.",
                             Developer = "Blizzard Entertainment, Inc.",
                             Genre = "Role Playing",
-                            InWishlist = false,
                             Name = "Overwatch 2",
                             Price = 9.99m,
                             Publisher = "Blizzard Entertainment, Inc.",
@@ -294,7 +280,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Escape a chaotic alien planet by fighting through hordes of frenzied monsters – with your friends, or on your own. Combine loot in surprising ways and master each character until you become the havoc you feared upon your first crash landing.",
                             Developer = "Hopoo Games",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Risk of Rain 2",
                             Price = 28.99m,
                             Publisher = "Gearbox Publishing",
@@ -306,7 +291,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Here comes Capcom’s newest challenger! Street Fighter™ 6 launches worldwide on June 2nd, 2023 and represents the next evolution of the Street Fighter™ series! Street Fighter 6 spans three distinct game modes, including World Tour, Fighting Ground and Battle Hub.",
                             Developer = "CAPCOM Co., Ltd.",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Street Fighter 6",
                             Price = 79.99m,
                             Publisher = "CAPCOM Co., Ltd.",
@@ -318,7 +302,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Winner of more than 200 Game of the Year Awards, The Elder Scrolls V: Skyrim Special Edition brings the epic fantasy to life in stunning detail. The Special Edition includes the critically acclaimed game and add-ons with all-new features.",
                             Developer = "Bethesda Game Studios",
                             Genre = "Role Playing",
-                            InWishlist = false,
                             Name = "The Elder Scrolls V: Skyrim",
                             Price = 54.99m,
                             Publisher = "Bethesda Softworks",
@@ -330,7 +313,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "You've inherited your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home?",
                             Developer = "ConcernedApe",
                             Genre = "Role Playing",
-                            InWishlist = false,
                             Name = "Stardew Valley",
                             Price = 16.99m,
                             Publisher = "ConcernedApe",
@@ -342,7 +324,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "Get ready for the next chapter in the legendary fighting game franchise, TEKKEN 8.",
                             Developer = "Bandai Namco Studios Inc.",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "Tekken 8",
                             Price = 93.49m,
                             Publisher = "Bandai Namco Entertainment",
@@ -354,7 +335,6 @@ namespace CVGS_PROG3050.Migrations
                             Description = "SHATTER ALL EXPECTATIONS! Transcend beyond your limits with KOF XV!",
                             Developer = "SNK CORPORATION",
                             Genre = "Action",
-                            InWishlist = false,
                             Name = "The King of Fighters XV",
                             Price = 79.99m,
                             Publisher = "SNK CORPORATION",
@@ -602,9 +582,6 @@ namespace CVGS_PROG3050.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.HasKey("GameId", "UserId");
 
