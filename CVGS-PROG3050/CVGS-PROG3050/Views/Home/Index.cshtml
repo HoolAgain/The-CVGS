@@ -4,7 +4,9 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<CVGS_PROG3050.Entities.User> UserManager
 @inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
-@model List<CVGS_PROG3050.Entities.Game>
+@* @model List<CVGS_PROG3050.Entities.Game> *@
+@model List<CVGS_PROG3050.Models.GameViewModel>
+<script src="site.js"></script>
 <div class="text-center">
     <img src="~/img/Vapor_NoBackground1.png" alt="VapourBanner.png" style="width:auto; height:400px;" />
 </div>
@@ -12,12 +14,20 @@
 <div class="text-center">
     <h1 class="display-4 audiowide-regular">Vapor</h1>
     <br /><br /><br />
-
+    <div class="text-center">
+        @if (TempData["WishlistNotification"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["WishlistNotification"]
+            </div>
+        }
+    </div>
     <h3 class="audiowide-regular">Games</h3>
     <!--Suggeted that shows 3 random games based that matches prefrences-->
     <br/> 
     
 </div>
+
 
 <!--Select and Display Games-->
 @{
@@ -122,18 +132,34 @@
                         </div>
                     </div>
                     <form asp-controller="" asp-action="">
-                        <button type="button" id="wishListBtn"class="btn btn-primary">Add to Wish List</button>
+                        <button type="button" class="btn btn-primary">Add to Cart</button>
                     </form>
-                    <form asp-controller="" asp-action="">
-                        <button type="button" id="addToCartBtn"class="btn btn-primary">Add to Cart</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    
+                   
+                    <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
+                        <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
+                        <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
                     </form>
                     
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--View Wishlist-->
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-start">
+        <form asp-controller="Game" asp-action="ViewWishlist" method="post">
+            <button type="submit" class="btn btn-primary">View Wishlist</button>
+        </form>
+    </div>
+}
+
 
 <!--Drop down menu to search for tags-->
 <div class="text-end">
@@ -156,6 +182,7 @@
         </ul>
 
     </div>
+    <br />
 </div>
 
 <div>
@@ -168,7 +195,7 @@
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (gameImages.ContainsKey(game.Name))
                     {
-                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher')">
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist')">
                             <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
                         </a>
                     }

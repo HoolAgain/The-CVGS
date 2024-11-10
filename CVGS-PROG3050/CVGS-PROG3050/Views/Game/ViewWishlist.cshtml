@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "Wishlist";
+}
+
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<CVGS_PROG3050.Entities.User> UserManager
+@inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
+@model List<CVGS_PROG3050.Models.GameViewModel>
+<div class="text-center">
+    <h1>Wishlist</h1>
+    <br /><br />
+    <div class="text-center">
+        @if (TempData["WishlistNotification"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["WishlistNotification"]
+            </div>
+        }
+    </div>
+</div>
+
+
+<!--Game Images-->
+@{
+    var gameImages = new Dictionary<string, string>
+    {
+        { "Overwatch 2", "/img/OW2.jpg" },
+        { "Dead Cells", "/img/DeadCellsCoverArt.png" },
+        { "Elden Ring", "/img/EldenRingBoxArt.jpg" },
+        { "Fallout 4", "/img/Fallout4-1.jpeg" },
+        { "Forza Horizon 5", "/img/ForzaH5.jpeg" },
+        { "LEGO: Batman", "/img/Lego_batman_cover.jpg" },
+        { "LEGO: Harry Potter", "/img/Legoharrypotter.jpg" },
+        { "LEGO: Star Wars", "/img/LegoStarWars.jpeg" },
+        { "Monster Hunter: WORLDS", "/img/Monster.jpeg" },
+        { "Nioh: Complete Edition", "/img/Nioh.png" },
+        { "Risk of Rain 2", "/img/RiskofRain2.jpg" },
+        { "Street Fighter 6", "/img/SF6.jpeg" },
+        { "The Elder Scrolls V: Skyrim", "/img/Skyrim.jpg" },
+        { "Stardew Valley", "/img/StardewValley.jpeg" },
+        { "Tekken 8", "/img/Tekken8.jpeg" },
+        { "The King of Fighters XV", "/img/TKoF.jpg" },
+        { "Destiny 2", "/img/Destiny2.jpeg" },
+    };
+}
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var preferredGenre = user?.FavoriteCategory ?? "All";
+}
+<!--Creates the entire game card-->
+<div class="modal fade" id="gameInfoCard" tabindex="-1" aria-labelledby="gameInfoCardLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 80%;">
+        <div class="modal-content">
+            <div class="modal-header gameInfoDiv">
+                <h5 class="modal-title" id="gameInfoCardLabel">Game Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body gameInfoDiv d-flex">
+                <div class="game-details flex-grow-1 me-3">
+                    <img id="gameImage" src="" alt="Game Image" class="img-fluid mb-3" />
+                    <h3>Description</h3>
+                    <div id="gameDescription"></div>
+                    <h3>Genre</h3>
+                    <div id="gameGenre"></div>
+                    <h3>Developer</h3>
+                    <div id="gameDeveloper"></div>
+                    <h3>Publisher</h3>
+                    <div id="gamePublisher"></div>
+                    <h3>Price</h3>
+                    <div id="gamePrice"></div>
+                </div>
+            </div>
+            <div class="modal-footer gameInfoDiv">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <textarea id="gameCommentReview" class="form-control" rows="3" placeholder="Leave a review"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="gameRatingReview">Rating (1-5):</label>
+                            <input type="number" id="gameRatingReview" class="form-control" min="1" max="5">
+                        </div>
+                    </div>
+                    <form asp-controller="" asp-action="">
+                        <button type="button" class="btn btn-primary">Add to Cart</button>
+                    </form>
+
+
+                    <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
+                        <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
+                        <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
+                    </form>
+
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Back to all games-->
+<div class="text-start">
+    <form asp-controller="Home" asp-action="Index" method="post">
+        <button type="submit" class="btn btn-primary">Return to all games</button>
+    </form>
+</div>
+
+<div>
+    <div class="container text-center">
+        <div class="row">
+            @foreach (var game in Model)
+            {
+            // creates the games list and allows them to be clickable
+
+                <div class="col order-last gameDiv" data-genre="@game.Genre">
+                    @if (gameImages.ContainsKey(game.Name))
+                    {
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', 'True')">
+                            <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
+                        </a>
+                    }
+                    <br />
+                    @game.Name
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/site.js"></script>
