@@ -19,7 +19,7 @@ namespace CVGS_PROG3050.Tests
 
             using (var context = new VaporDbContext(options))
             {
-                var controller = new AccountController(context, null, null);
+                var controller = new AccountController(context, null, null, null);
 
                 // Creating new Address to be added
                 var address = new Address()

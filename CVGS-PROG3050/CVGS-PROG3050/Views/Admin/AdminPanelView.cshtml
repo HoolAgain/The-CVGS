@@ -13,6 +13,9 @@
         <li class="nav-item mx-4">
             <button id="toggleReviews" class="btn btn-primary btn-lg audiowide-regular">See Reviews</button>
         </li>
+        <li class="nav-item mx-4">
+            <button id="toggleReports" class="btn btn-primary btn-lg audiowide-regular">Generate Report</button>
+        </li>
     </ul>
 </div>
 <br />
@@ -60,6 +63,29 @@
         <p>4/5</p>
         <h4>Reviews</h4>
         <div class="loopedReviewDiv"><p>ForniteLover3: Looped through all reviews for game</p></div>
+    </div>
+
+</div>
+
+<div id="GenerateReportAdminPage" class="text-center hidden" style="margin-left:160px; margin-right:160px;">
+    <h3 class="audiowide-regular">View Reports</h3>
+
+    <div class="grid-container">
+        <div class="grid-item">
+            <h4>Member Report</h4>
+            <p>Obtain a full detailed listing of Members who have signed up for Vapor.</p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportMembersToExcel","UserReport")'">Download Member Report (Excel)</button>
+        </div>
+        <div class="grid-item">
+            <h4>Game Report</h4>
+            <p>Obtain a full detailed listing of the Games currently being sold on Vapor.</p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportGamesToExcel","GameReport")'">Download Game Report (Excel)</button>
+        </div>
+        <div class="grid-item">
+            <h4>Event Report</h4>
+            <p>Obtain a full detailed listing of the Events on Vapor. The reports also indicates how many members have registered for the event.</p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportEventsToExcel","EventReport")'">Download Event Report (Excel)</button>
+        </div>
     </div>
 
 </div>

@@ -127,24 +127,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Toggle admin pages-------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-    const toggleAddEventAdminPage = document.getElementById("AddEventAdminPage")
-    const toggleReviewReviewsAdminPage = document.getElementById("ReviewReviewsAdminPage")
+    const toggleAddEventAdminPage = document.getElementById("AddEventAdminPage");
+    const toggleReviewReviewsAdminPage = document.getElementById("ReviewReviewsAdminPage");
+    const toggleGenerateReportAdminPage = document.getElementById("GenerateReportAdminPage");
 
-    const toggleAddEventBtn = document.getElementById("toggleAddEvent")
-    const toggleReviewsBtn = document.getElementById("toggleReviews")
+    const toggleAddEventBtn = document.getElementById("toggleAddEvent");
+    const toggleReviewsBtn = document.getElementById("toggleReviews");
+    const toggleReportsBtn = document.getElementById("toggleReports");
 
     toggleAddEventBtn.addEventListener('click', function () {
         toggleAddEventAdminPage.classList.remove('hidden');
         toggleReviewReviewsAdminPage.classList.add('hidden');
+        toggleGenerateReportAdminPage.classList.add('hidden');
     });
-
-
 
     toggleReviewsBtn.addEventListener('click', function () {
         toggleAddEventAdminPage.classList.add('hidden');
         toggleReviewReviewsAdminPage.classList.remove('hidden');
+        toggleGenerateReportAdminPage.classList.add('hidden');
     });
 
-
+    toggleReportsBtn.addEventListener('click', function () {
+        toggleAddEventAdminPage.classList.add('hidden');
+        toggleReviewReviewsAdminPage.classList.add('hidden');
+        toggleGenerateReportAdminPage.classList.remove('hidden');
+    })
 });
 
