@@ -907,5 +907,34 @@ namespace CVGS_PROG3050.Controllers
                 .ToListAsync();
             return friends;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> FriendsWishlist(string friendId)
+        {
+            var friend = await _userManager.FindByIdAsync(friendId);
+            if (friend == null)
+            {
+                TempData["FriendStatus"] = "Friend doesn't exist";
+            }
+
+            var games = await _context.Wishlist
+                .Where(w => w.UserId == friendId)
+                .Include(w => w.Game)
+                .Select(g => new GameViewModel
+            {
+                GameId = g.Game.GameId,
+                Name = g.Game.Name,
+                Genre = g.Game.Genre,
+                Description = g.Game.Description,
+                ReleaseDate = g.Game.ReleaseDate,
+                Developer = g.Game.Developer,
+                Publisher = g.Game.Publisher,
+                Price = g.Game.Price
+            }).ToListAsync();
+
+            ViewBag.FriendName = friend.UserName;
+            ViewBag.FriendId = friendId;
+            return View("~/Views/Game/ViewWishlist.cshtml", games);
+        }
     }
 }

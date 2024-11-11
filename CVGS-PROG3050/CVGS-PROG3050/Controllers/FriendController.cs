@@ -35,13 +35,17 @@ namespace CVGS_PROG3050.Controllers
         {
             if (string.IsNullOrWhiteSpace(friendUsername))
             {
-                TempData["FriendStatus"] = $"The user '{friendUsername}' was not found.";
-                return RedirectToAction("profileview", "Account");
+                TempData["FriendStatus"] = $"Please enter a username";
+                return RedirectToAction("Profile", "Account");
             }
             var userId = _userManager.GetUserId(User);
             var friend = await _userManager.FindByNameAsync(friendUsername);
 
-           
+            if (friend == null)
+            {
+                TempData["FriendStatus"] = $"The user '{friendUsername}' was not found.";
+                return RedirectToAction("Profile", "Account");
+            }
 
             var alreadyFriends = await _db.Friends.AnyAsync(f => (f.UserId == userId && f.FriendUserId == friend.Id) || (f.UserId == friend.Id && f.FriendUserId == userId));
             if (alreadyFriends)
@@ -61,6 +65,29 @@ namespace CVGS_PROG3050.Controllers
                 TempData["FriendStatus"] = $"The user '{friendUsername}' is now your friend!";
             }
 
+            return RedirectToAction("Profile", "Account");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFriend(string friendId)
+        {
+            var userId = _userManager.GetUserId(User);
+            var friends = await _db.Friends.FirstOrDefaultAsync (f => (f.UserId == userId && f.FriendUserId == friendId) || (f.UserId == friendId && f.FriendUserId == userId));
+
+
+            if (friends == null)
+            {
+                TempData["FriendStatus"] = $"This friend doesn't exist";
+                return RedirectToAction("Profile", "Account");
+            }
+            else
+            {
+                _db.Friends.Remove(friends);
+                await _db.SaveChangesAsync();
+                TempData["FriendStatus"] = "Friend has been removed";
+
+            }
             return RedirectToAction("Profile", "Account");
 
         }

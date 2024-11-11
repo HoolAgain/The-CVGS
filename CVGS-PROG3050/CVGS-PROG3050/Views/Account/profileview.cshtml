@@ -252,7 +252,7 @@
     <h3 class="audiowide-regular">Friends and Family</h3>
     @if (TempData["FriendStatus"] != null)
     {
-        <div class="alert alert-info">@TempData["FriendNotification"]</div>
+        <div class="alert alert-info">@TempData["FriendStatus"]</div>
     }
     <form asp-controller="Friend" asp-action="AddFriend" method="post">
         <!--Will allow to adding the friend if the name is correct and in the DB-->
@@ -271,10 +271,15 @@
             @foreach(var friend in Model.Friends)
             {
                 <li class="list-group-item">
-                    @friend.Username
+                    <a asp-controller="Account" asp-action="FriendsWishlist" asp-route-friendId="@friend.UserId">
+                        @friend.Username
+                    </a>
+                    <form asp-controller="Friend" asp-action="RemoveFriend" method="post" class="d-inline">
+                        <input type="hidden" name="friendId" value="@friend.UserId" />
+                        <button type="submit" class="btn btn-danger">Remove Friend</button>
+                    </form>
                 </li>
             }
         </ul>
-        <a href="#">Mom</a> <!--Click with either bring up their wishlist in a modal or will bring it up in the right side of the view-->
     </div>
 </div>

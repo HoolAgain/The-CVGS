@@ -8,7 +8,18 @@
 @inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
 @model List<CVGS_PROG3050.Models.GameViewModel>
 <div class="text-center">
-    <h1>Wishlist</h1>
+    @{
+        var currentUser = UserManager.GetUserId(User);
+    }
+    @if (ViewBag.FriendId == currentUser || ViewBag.FriendId == null)
+    {
+        <h1>Your Wishlist</h1>
+    }
+    else
+    {
+        <h1>@ViewBag.FriendName's Wishlist</h1>
+    }
+   
     <br /><br />
     <div class="text-center">
         @if (TempData["WishlistNotification"] != null)
