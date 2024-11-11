@@ -1,8 +1,12 @@
 ﻿using CVGS_PROG3050.Controllers;
 using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Entities;
+using CVGS_PROG3050.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using System.Security.Claims;
 
 namespace CVGS_PROG3050.Tests
 {
@@ -10,6 +14,7 @@ namespace CVGS_PROG3050.Tests
     {
         private readonly GameController _controller;
         private readonly VaporDbContext _context;
+        private readonly Mock<UserManager<User>> _mockUserManager;
 
         public SelectingGamesTest()
         {
@@ -31,19 +36,22 @@ namespace CVGS_PROG3050.Tests
             );
             _context.SaveChanges();
 
+            _mockUserManager = MockUserManager();
+            _mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("test-user-id");
+
             // Set up controller with in-memory context
-            _controller = new GameController(_context);
+            _controller = new GameController(_context, _mockUserManager.Object);
         }
 
         [Fact]
-        public void AllGamesView_ReturnsAllGames()
+        public async Task AllGamesView_ReturnsAllGames()
         {
             // Act
-            var result = _controller.AllGamesView();
+            var result = await _controller.AllGamesView();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<Game>>(viewResult.Model);
+            var model = Assert.IsAssignableFrom<IEnumerable<GameViewModel>>(viewResult.Model);
             Assert.Equal(2, model.Count());
         }
 
@@ -65,6 +73,13 @@ namespace CVGS_PROG3050.Tests
             // Assert
             Assert.Single(result);
             Assert.Equal("Test", result.First().Name);
+        }
+
+        private Mock<UserManager<User>> MockUserManager()
+        {
+            var store = new Mock<IUserStore<User>>();
+            var mockUserManager = new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+            return mockUserManager;
         }
     }
 }
