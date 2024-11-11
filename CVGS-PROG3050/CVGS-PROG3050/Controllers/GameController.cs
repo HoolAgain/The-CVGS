@@ -54,9 +54,6 @@ namespace CVGS_PROG3050.Controllers
             var userId = _userManager.GetUserId(User);
             var game = await _db.Wishlist.FirstOrDefaultAsync(w => w.UserId == userId && w.GameId == gameId);
             bool added = false;
-            //bool inWishlist = _db.Wishlist
-            //    .Where(w => w.UserId == userId && w.GameId == g.GameId)
-            //    .Any();
             if (game == null)
             {
                 var wishlistGame = new Wishlist

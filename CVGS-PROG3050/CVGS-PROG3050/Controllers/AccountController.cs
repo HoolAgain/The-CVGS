@@ -377,6 +377,7 @@ namespace CVGS_PROG3050.Controllers
                 mailingAddress.PostalCode == shippingAddress.PostalCode &&
                 mailingAddress.DeliveryInstructions == shippingAddress.DeliveryInstructions;
 
+            var friendsList = await GetFriendsListAsync(userId);
             var model = new ProfileViewModel
             {
                 UserName = user.UserName,
@@ -425,7 +426,8 @@ namespace CVGS_PROG3050.Controllers
                     CardNumber = userPayment?.CardNumber,
                     ExpirationDate = userPayment?.ExpirationDate,
                     CVVCode = userPayment?.CVVCode,
-                }
+                },
+                Friends = friendsList
             };
             System.Diagnostics.Debug.WriteLine($"Profile Loaded: Payment Info - NameOnCard = {model.Payment.NameOnCard}, CardNumber = {model.Payment.CardNumber}, ExpirationDate = {model.Payment.ExpirationDate}, CVVCode = {model.Payment.CVVCode}");
 
@@ -889,6 +891,21 @@ namespace CVGS_PROG3050.Controllers
                 }
             };
             return model;
+        }
+
+        [HttpGet]
+        public async Task<List<FriendViewModel>> GetFriendsListAsync(string userId)
+        {
+            var friends = await _context.Friends
+                .Where(f => f.UserId == userId || f.FriendUserId == userId)
+                .Select(f => f.UserId == userId ? f.FriendUser : f.User)
+                .Select(f => new FriendViewModel
+                {
+                    UserId = f.Id,
+                    Username = f.UserName
+                })
+                .ToListAsync();
+            return friends;
         }
     }
 }

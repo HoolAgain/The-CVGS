@@ -27,6 +27,7 @@ namespace CVGS_PROG3050.DataAccess
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<UserEvent> UserEvents { get; set; }
+        public DbSet<Friend> Friends { get; set; }
 
         // To create admin users
         public static async Task CreateAdminUser(IServiceProvider serviceProvider)
@@ -110,11 +111,13 @@ namespace CVGS_PROG3050.DataAccess
             builder.Entity<Wishlist>()
                 .HasOne(w => w.User)
                 .WithMany(u => u.Wishlists)
-                .HasForeignKey(w => w.UserId);
+                .HasForeignKey(w => w.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Wishlist>()
                 .HasOne(w => w.Game)
                 .WithMany(g => g.Wishlists)
-                .HasForeignKey(w => w.GameId);
+                .HasForeignKey(w => w.GameId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Configuration for Rating
             builder.Entity<Rating>()
@@ -175,6 +178,8 @@ namespace CVGS_PROG3050.DataAccess
                 .HasOne(me => me.User)
                 .WithMany(u => u.UserEvents)
                 .HasForeignKey(me => me.UserId);
+
+
 
             // Seeding the Database with Games
             builder.Entity<Game>().HasData(

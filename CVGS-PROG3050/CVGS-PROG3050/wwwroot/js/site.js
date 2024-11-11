@@ -123,19 +123,6 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
     myModal.show();
 }
-    //Show the games info-----------------------------------------------------------
-    //sends all the informatiuon 
-    function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher) {
-        document.querySelector('#gameInfoCardLabel').innerText = gameName;
-        document.querySelector('#gameDescription').innerHTML = gameInfo;
-        document.querySelector('#gameImage').src = gameImageUrl;
-        document.querySelector('#gameGenre').innerHTML = gameGenre;
-        document.querySelector('#gamePrice').innerHTML = "$" + gamePrice;
-        document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
-        document.querySelector('#gamePublisher').innerHTML = gamePublisher;
-        var gameModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
-        gameModal.show();
-    }
 
     //Filter for genre------------------------------------------------------------------
     //the button

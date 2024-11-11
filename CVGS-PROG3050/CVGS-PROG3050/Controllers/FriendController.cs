@@ -1,0 +1,68 @@
+﻿using CVGS_PROG3050.DataAccess;
+using CVGS_PROG3050.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using CVGS_PROG3050.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
+namespace CVGS_PROG3050.Controllers
+{
+    public class FriendController : Controller
+    {
+        private readonly VaporDbContext _db;
+        private readonly UserManager<User> _userManager;
+
+        public FriendController(VaporDbContext context, UserManager<User> userManager)
+        {
+            _db = context;
+            _userManager = userManager;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewFriends()
+        {
+            var userId = _userManager.GetUserId(User);
+            var friends = await _db.Friends
+                .Where(f => f.UserId == userId || f.FriendUserId == userId)
+                .Select (f => f.UserId == userId ? f.FriendUser : f.User)
+                .ToListAsync();
+            return View(friends);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(string friendUsername)
+        {
+            if (string.IsNullOrWhiteSpace(friendUsername))
+            {
+                TempData["FriendStatus"] = $"The user '{friendUsername}' was not found.";
+                return RedirectToAction("profileview", "Account");
+            }
+            var userId = _userManager.GetUserId(User);
+            var friend = await _userManager.FindByNameAsync(friendUsername);
+
+           
+
+            var alreadyFriends = await _db.Friends.AnyAsync(f => (f.UserId == userId && f.FriendUserId == friend.Id) || (f.UserId == friend.Id && f.FriendUserId == userId));
+            if (alreadyFriends)
+            {
+                TempData["FriendStatus"] = $"The user '{friendUsername}' is already your friend.";
+            }
+            else
+            {
+                var friends = new Friend
+                {
+                    UserId = userId,
+                    FriendUserId = friend.Id
+                };
+
+                _db.Friends.Add(friends);
+                await _db.SaveChangesAsync();
+                TempData["FriendStatus"] = $"The user '{friendUsername}' is now your friend!";
+            }
+
+            return RedirectToAction("Profile", "Account");
+
+        }
+    }
+}
