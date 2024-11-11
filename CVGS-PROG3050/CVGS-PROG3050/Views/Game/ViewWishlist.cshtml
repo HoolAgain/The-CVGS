@@ -29,6 +29,13 @@
             </div>
         }
     </div>
+
+    <div>
+        <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=My Wishlist&url=@Url.Action("FriendsWishlist", "Account", new { friendId = currentUser }, Context.Request.Scheme)">
+            Tweet Wishlist
+        </a>
+    </div>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
 
 
@@ -142,5 +149,7 @@
         </div>
     </div>
 </div>
+
+
 
 <script src="~/js/site.js"></script>
