@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Entities;
+using CVGS_PROG3050.Services;
 using DNTCaptcha.Core;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -38,6 +39,10 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.AllowedForNewUsers = true;
 });
+
+builder.Services.AddScoped<GameService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<EventService>();
 
 var app = builder.Build();
 

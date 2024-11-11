@@ -4,3 +4,5 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+<button onclick="location.href='@Url.Action("ExportGamesToExcel","GameReport")'">Download Game Report (Excel)</button>
+<button onclick="location.href='@Url.Action("ExportMembersToExcel","UserReport")'">Download Member Report (Excel)</button>
