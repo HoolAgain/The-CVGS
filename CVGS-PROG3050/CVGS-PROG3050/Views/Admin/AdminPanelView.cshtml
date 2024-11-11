@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Admin";
 }
-
+@model CVGS_PROG3050.Entities.Event
 <h2 class="audiowide-regular">Admin Panel</h2>
 
 
@@ -27,23 +27,34 @@
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <form asp-controller="" asp-action="" method="post">
-        <label>Event Name:</label>
-        <input  class="form-control" type="text" id="EventNameAdmin" />
-        <br />
-        <label>Event Time and Day:</label>
-        <input class="form-control" type="text" id="EventTimeDayAdmin" maxlength="16" />
-        <br />
-        <label >Event Location:</label>
-        <input  class="form-control" type="text" id="EventLocationAdmin" />
-        <br />
-        <label>Event Price:</label>
-        <input class="form-control" type="text" id="EventPriceAdmin" />
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-controller="Account" asp-action="Profile" class="btn btn-primary">Cancel</a>
-    </form>
+    <form asp-controller="Events" asp-action="Create" method="post">
+        <label asp-for="EventName">Event Name:</label>
+        <input asp-for="EventName" id="eventName" class="form-control" />
 
+        <br />
+        <label asp-for="EventDate">Event Date:</label>
+        <input asp-for="EventDate" id="ProfileEmail" class="form-control" />
+
+        <br />
+        <label asp-for="Location">Location:</label>
+        <input asp-for="Location" type="text" class="form-control" />
+        <br />
+        <label asp-for="LocationType">Location Type:</label>
+        <select asp-for="LocationType" class="form-control">
+            <option value="">Select an option</option>
+            <option value="inPerson">In Person</option>
+            <option value="online">Online</option>
+        </select>
+        <br />
+        <label asp-for="EventPrice">Event Price: </label>
+        <input asp-for="EventPrice" type="text" class="form-control" />
+        <br /> <br />
+        <button type="submit" id="" class="btn btn-primary">Create Event</button>
+
+    </form>
 </div>
+
+
 
 
 <div id="ReviewReviewsAdminPage" class="text-center hidden" style="margin-left:160px; margin-right:160px;">
