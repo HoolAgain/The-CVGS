@@ -24,6 +24,10 @@
 
 <div id="AddEventAdminPage" class="text-center" style="margin-left:160px; margin-right:160px;">
     <h3 class="audiowide-regular">Add an Event</h3>
+    @if (TempData["EventStatus"] != null)
+    {
+        <div class="alert alert-info">@TempData["EventStatus"]</div>
+    }
 
     <div asp-validation-summary="All" class="text-danger"></div>
 

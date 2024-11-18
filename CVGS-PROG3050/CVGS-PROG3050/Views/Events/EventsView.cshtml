@@ -8,6 +8,10 @@
 <div class="text-center">
     <h1 class="display-4 audiowide-regular">Events</h1>
     <br /><br /><br />
+    @if (TempData["EventStatus"] != null)
+    {
+        <div class="alert alert-info">@TempData["EventStatus"]</div>
+    }
 
     @if (User.IsInRole("Admin"))
     {

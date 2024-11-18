@@ -473,6 +473,7 @@ namespace CVGS_PROG3050.Controllers
 
                 if (result.Succeeded)
                 {
+                    TempData["ProfileStatus"] = "Profile updated successfully.";
                     return RedirectToAction("Profile", "Account");
                 }
                 else
@@ -481,6 +482,7 @@ namespace CVGS_PROG3050.Controllers
                     {
                         ModelState.AddModelError(string.Empty, item.Description);
                     }
+                    TempData["ProfileStatus"] = "An error occurred while updating the profile.";
                 }
 
             }
@@ -516,7 +518,7 @@ namespace CVGS_PROG3050.Controllers
                 if (result.Succeeded)
                 {
                     System.Diagnostics.Debug.WriteLine($"Preferences updated successfully: FavoriteCategory = {user.FavoriteCategory}, FavoritePlatform = {user.FavoritePlatform}, LanguagePreference = {user.LanguagePreference}");
-
+                    TempData["PreferenceStatus"] = "Preferences updated successfully.";
                     return RedirectToAction("Profile", "Account");
                 }
                 else
@@ -525,6 +527,7 @@ namespace CVGS_PROG3050.Controllers
                     {
                         System.Diagnostics.Debug.WriteLine($"Error updating user: {item.Description}");
                     }
+                    TempData["PreferenceStatus"] = "An error occurred while updating preferences.";
                 }
             }
             else
@@ -537,6 +540,7 @@ namespace CVGS_PROG3050.Controllers
 
                     }
                 }
+                TempData["PreferenceStatus"] = "There was an error with your submission.";
             }
 
             model.Preferences.FavoriteCategory = user.FavoriteCategory;
@@ -664,21 +668,31 @@ namespace CVGS_PROG3050.Controllers
                     shippingAddress.DeliveryInstructions = model.Address.ShippingDeliveryInstructions;
                 }
 
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
 
-                var result = await _userManager.UpdateAsync(user);
-                
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Profile", "Account");
-                }
-                else
-                {
-                    foreach (var item in result.Errors)
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError("", item.Description);
+                        TempData["ShippingStatus"] = "Shipping information saved successfully.";
+                        return RedirectToAction("Profile", "Account");
+                    }
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                        TempData["ShippingStatus"] = "An error occurred while updating the user information.";
                     }
                 }
+                catch (Exception)
+                {
+                    TempData["ShippingStatus"] = "An error occurred while saving the shipping information.";
+                }
+                
             }
 
             model = await PopulateUserProfile(user);
@@ -744,13 +758,20 @@ namespace CVGS_PROG3050.Controllers
                 if (paymentInfo.PaymentId == 0)
                 {
                     _context.UserPayments.Add(paymentInfo);
+                    TempData["PaymentStatus"] = "Card added successfully.";
                 }
                 else
                 {
                     _context.Entry(paymentInfo).State = EntityState.Modified;
+                    TempData["PaymentStatus"] = "Card updated successfully.";
                 }
 
-                await _context.SaveChangesAsync();
+                try { 
+                    await _context.SaveChangesAsync(); TempData["PaymentStatus"] = "Card information saved successfully."; 
+                }
+                catch (Exception) { 
+                    TempData["PaymentStatus"] = "An error occurred while saving the card information."; 
+                }
 
                 var updatedUser = await _userManager.Users.Include(u => u.UserPayments).FirstOrDefaultAsync(u => u.Id == user.Id);
 
