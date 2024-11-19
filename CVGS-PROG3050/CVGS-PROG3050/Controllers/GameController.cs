@@ -15,7 +15,8 @@ namespace CVGS_PROG3050.Controllers
         private readonly VaporDbContext _db;
         private readonly UserManager<User> _userManager;
 
-        public GameController(VaporDbContext context, UserManager<User> userManager) {
+        public GameController(VaporDbContext context, UserManager<User> userManager)
+        {
             _db = context;
             _userManager = userManager;
         }
@@ -145,6 +146,56 @@ namespace CVGS_PROG3050.Controllers
                 }).ToList();
 
             return View("ViewWishlist", wishListItems);
+        }
+     
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddReview(int gameId, string ReviewText)
+        {
+
+
+            if (!_db.Games.Any(g => g.GameId == gameId))
+            {
+                TempData["Error"] = $"The game with ID {gameId} does not exist."; 
+                return RedirectToAction("Index", "Home");
+            }
+                var userId = _userManager.GetUserId(User);
+            var review = new Review
+            {
+                UserId = userId,
+                GameId = gameId,
+                ReviewText = ReviewText,
+            };
+            _db.Reviews.Add(review);
+            await _db.SaveChangesAsync();
+            TempData["Success"] = "Review added successfully!";
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddRating(int gameId, int score)
+        {
+            if (!_db.Games.Any(g => g.GameId == gameId))
+            {
+                TempData["Error"] = $"The game with ID {gameId} does not exist."; 
+                return RedirectToAction("Index", "Home");
+             
+            }
+
+                var userId = _userManager.GetUserId(User);
+            var rating = new Rating
+            {
+                UserId = userId,
+                GameId = gameId,
+                Score = score,
+            };
+            _db.Ratings.Add(rating);
+            await _db.SaveChangesAsync();
+            TempData["Success"] = "Rating added successfully!";
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }

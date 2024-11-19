@@ -19,6 +19,16 @@
                 @TempData["WishlistNotification"]
             </div>
         }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-info">@TempData["Error"]</div>
+        }
+
+        @if (TempData["success"] != null)
+        {
+            <div class="alert alert-info">@TempData["success"]</div>
+        }
     </div>
     <h3 class="audiowide-regular">Games</h3>
     <!--Suggeted that shows 3 random games based that matches prefrences-->
@@ -121,26 +131,41 @@
             </div>
             <div class="modal-footer gameInfoDiv">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <textarea id="gameCommentReview" class="form-control" rows="4" placeholder="Write a review"></textarea>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="gameRatingReview">Rating (1-5):</label>
-                            <input type="number" id="gameRatingReview" class="form-control" min="1" max="5">
-                        </div>
-                    </div>
+                    
                     <form asp-controller="" asp-action="">
                         <button type="button" class="btn btn-primary">Add to Cart</button>
                     </form>
-    
+                    <br /><br />
                    
                     <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
                         <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
                         <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
                     </form>
+                    <br /><br />
                     
+                    <form id="reviewForm" asp-controller="Game" asp-action="AddReview" method="post">
+                    <div class="row">
+                        <div class="col-md-8">
+                             <textarea id="gameCommentReview" name="ReviewText" class="form-control" rows="4" placeholder="Write a review"></textarea>
+                        </div>
+                        
+                    </div>
+                    <input type="hidden" id="gameIdReview" name="gameId" value="" />
+                    <button id="reviewButton" type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                    <br /><br />
 
+                    <form id="ratingForm" asp-controller="Game" asp-action="AddRating" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="gameRatingReview">Rating (1-5):</label>
+                                <input type="number" id="gameRatingReview" name="score" class="form-control" min="1" max="5">
+                            </div>
+                        </div>
+                        <input type="hidden" id="gameIdRating" name="gameId" value="" />
+                        <button id="ratingButton" type="submit" class="btn btn-primary">Submit Rating</button>
+                    </form>
+                    <br /><br />
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
 
