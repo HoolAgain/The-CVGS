@@ -86,6 +86,11 @@
                 <div id="gamePublisher"></div>
                 <h3>Price</h3>
                 <div id="gamePrice"></div>
+
+                <h3>Random Review</h3>
+                <div id="randomReview"></div>
+                <h3>Average Rating</h3>
+                <div id="averageRating"></div>
                 </div>
                 
                 <!--Carousel for suggested------------------------------------------>
@@ -219,9 +224,10 @@
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @if (gameImages.ContainsKey(game.Name))
                     {
-                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist')">
+                        <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist, '@game.AverageRating, '@game.RandomReview')">
                             <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
                         </a>
+                        
                     }
                     <br />
                     @game.Name
@@ -231,3 +237,4 @@
         </div>
     </div>
 </div>
+

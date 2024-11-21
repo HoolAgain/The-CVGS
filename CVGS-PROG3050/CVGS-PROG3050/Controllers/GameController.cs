@@ -39,8 +39,14 @@ namespace CVGS_PROG3050.Controllers
                 Developer = g.Developer,
                 Publisher = g.Publisher,
                 Price = g.Price,
-                InWishlist = wishlistIds.Contains(g.GameId)
+                InWishlist = wishlistIds.Contains(g.GameId),
+                AverageRating = (_db.Ratings.Where(r => r.GameId == g.GameId).Average(r => (double?)r.Score) ?? 0).ToString("0.0"),
+                RandomReview = _db.Reviews.Where(r => r.GameId == g.GameId).OrderBy(r => Guid.NewGuid()).Select(r => r.ReviewText).FirstOrDefault()
+            
+
             }).ToListAsync();
+
+            foreach (var game in games) { Console.WriteLine($"Game: {game.Name}, Average Rating: {game.AverageRating}, Random Review: {game.RandomReview}"); }
 
             if (games == null || !games.Any())
             {
@@ -197,5 +203,40 @@ namespace CVGS_PROG3050.Controllers
             return RedirectToAction("Index", "Home");
 
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetRandomReviewAndAverageRating(int gameId)
+        {
+            var reviews = await _db.Reviews.Where(r => r.GameId == gameId).ToListAsync();
+            var ratings = await _db.Ratings.Where(r => r.GameId == gameId).ToListAsync();
+
+            if (!reviews.Any() || !ratings.Any())
+            {
+                return NotFound("No reviews or ratings found for this game.");
+            }
+
+            var randomReview = reviews[new Random().Next(reviews.Count)];
+            var averageRating = ratings.Average(r => r.Score);
+
+            return Ok(new
+            {
+                RandomReview = randomReview.ReviewText,
+                AverageRating = averageRating
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -19,5 +19,8 @@ namespace CVGS_PROG3050.Models
         public decimal Price { get; set; }
         public bool InWishlist { get; set; } = false;
 
+        public string? AverageRating { get; set; }
+        public string? RandomReview { get; set; }
+
     }
 }

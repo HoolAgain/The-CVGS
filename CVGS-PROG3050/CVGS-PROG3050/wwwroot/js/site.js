@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Show the games info-----------------------------------------------------------
 //sends all the informatiuon 
-function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist) {
+function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist, averageRating, randomReview) {
     document.querySelector('#gameInfoCardLabel').innerText = gameName;
     document.querySelector('#gameDescription').innerHTML = gameInfo;
     document.querySelector('#gameImage').src = gameImageUrl;
@@ -105,6 +105,10 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     document.querySelector('#gamePrice').innerHTML = "$" + gamePrice;
     document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
     document.querySelector('#gamePublisher').innerHTML = gamePublisher;
+
+    document.querySelector('#averageRating').innerHTML = "Rating: " + averageRating;
+    document.querySelector('#randomReview').innerHTML = "Review: " + randomReview;
+
     document.querySelector('#gameIdWishlist').value = gameId;
     document.getElementById('gameIdReview').value = gameId;
     document.getElementById('gameIdRating').value = gameId;
@@ -124,7 +128,11 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     }
     var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
     myModal.show();
+    console.log("Average Rating:", averageRating);
+    console.log("Random Review:", randomReview);
+
 }
+
 
     //Filter for genre------------------------------------------------------------------
     //the button
@@ -172,6 +180,20 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleGenerateReportAdminPage.classList.remove('hidden');
     })
 });
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
 
 
 
