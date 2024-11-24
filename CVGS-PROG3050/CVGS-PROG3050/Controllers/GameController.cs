@@ -42,9 +42,20 @@ namespace CVGS_PROG3050.Controllers
                 InWishlist = wishlistIds.Contains(g.GameId),
                 AverageRating = (_db.Ratings.Where(r => r.GameId == g.GameId).Average(r => (double?)r.Score) ?? 0).ToString("0.0"),
                 RandomReview = _db.Reviews.Where(r => r.GameId == g.GameId).OrderBy(r => Guid.NewGuid()).Select(r => r.ReviewText).FirstOrDefault()
-            
+
 
             }).ToListAsync();
+
+            foreach (var game in games)
+            {
+                var averageRating = (_db.Ratings.Where(r => r.GameId == game.GameId).Average(r => (double?)r.Score) ?? 0).ToString("0.0");
+                var randomReview = _db.Reviews.Where(r => r.GameId == game.GameId).OrderBy(r => Guid.NewGuid()).Select(r => r.ReviewText).FirstOrDefault();
+
+                Console.WriteLine($"Game: {game.Name}, Average Rating: {averageRating}, Random Review: {randomReview}");
+
+                game.AverageRating = averageRating;
+                game.RandomReview = randomReview;
+            }
 
             foreach (var game in games) { Console.WriteLine($"Game: {game.Name}, Average Rating: {game.AverageRating}, Random Review: {game.RandomReview}"); }
 

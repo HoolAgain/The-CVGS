@@ -11,12 +11,17 @@
         public string? Description { get; set; }
         public decimal Price { get; set; }
 
+
+
         public ICollection<Order>? Orders { get; set; }
         public bool InWishlist { get; set; }
         public ICollection<Wishlist>? Wishlists { get; set; }
         public ICollection<Rating>? Ratings { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<Cart>? Carts { get; set; }
+
+        public string? AverageRating { get; set; }
+        public string? RandomReview { get; set; }
 
     }
 }
