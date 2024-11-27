@@ -6,6 +6,7 @@ using CVGS_PROG3050.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Moq;
+using SkiaSharp;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -235,6 +236,12 @@ namespace CVGS_PROG3050.Controllers
                 RandomReview = randomReview.ReviewText,
                 AverageRating = averageRating
             });
+        }
+
+
+        public List<Review> GetAllReviews()
+        {
+            return _db.Reviews.Include(r => r.Game).ToList(); // Assuming you have a navigation property for Game
         }
 
 
