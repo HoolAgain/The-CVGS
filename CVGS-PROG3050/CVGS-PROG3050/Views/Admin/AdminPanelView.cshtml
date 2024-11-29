@@ -2,7 +2,7 @@
     ViewData["Title"] = "Admin";
 }
 @model CVGS_PROG3050.Entities.Event
-@using CVGS_PROG3050.Entities;
+
 <h2 class="audiowide-regular">Admin Panel</h2>
 
 
@@ -10,6 +10,9 @@
     <ul class="nav justify-content-center">
         <li class="nav-item mx-4">
             <button id="toggleAddEvent" class="btn btn-primary btn-lg audiowide-regular">Add Event</button>
+        </li>
+        <li class="nav-item mx-4">
+            <button id="toggleAddGame" class="btn btn-primary btn-lg audiowide-regular">Add Game</button>
         </li>
         <li class="nav-item mx-4">
             <button id="toggleReviews" class="btn btn-primary btn-lg audiowide-regular">See Reviews</button>
@@ -59,29 +62,58 @@
     </form>
 </div>
 
+<div id="AddGameAdminPage" class="text-center hidden" style="margin-left:160px; margin-right:160px;">
+    <h3 class="audiowide-regular">Add a Game</h3>
+    @if (TempData["GameStatus"] != null)
+    {
+        <div class="alert alert-info">@TempData["GameStatus"]</div>
+    }
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-controller="Games" asp-action="" method="post">
+        <label>Game Name:</label>
+        <input  id="gameName" class="form-control" />
+
+        <br />
+
+        <label>Game Genre:</label>
+        <select id="gameGenre" class="form-control">
+            <option value="Adventure">Adventure</option>
+            <option value="Role Playing">Role Playing</option>
+            <option value="Action">Action</option>
+        </select>
+        <br />
+
+        <label>Release Date:</label>
+        <input type="date" id="releaseDate" class="form-control" />
+        <br />
+        <label>Game Developer:</label>
+        <input type="text" id="gameDeveloper" class="form-control" />
+        <br />
+        <label>Game Publisher:</label>
+        <input type="text" id="gamePublisher" class="form-control" />
+        <br />
+        <label>Game Description:</label>
+        <textarea id="gameDescription" class="form-control" rows="5" cols="50"></textarea>
+        <br />
+        <label>Game Price:</label>
+        <input type="text" id="gamePrice" class="form-control" />
+        <br />
+
+
+        <button type="submit" id="" class="btn btn-primary">Create Game</button>
+
+    </form>
+</div>
+
 
 
 
 <div id="ReviewReviewsAdminPage" class="text-center hidden" style="margin-left:160px; margin-right:160px;">
-    @{
-        var reviews = ViewBag.Reviews as List<Review>;
-    }
-
-    @if (reviews != null && reviews.Count > 0)
-    {
-        foreach (var review in reviews)
-        {
-            <div class="gameReviewReviewDiv">
-                <h3>Game ID: @review.GameId</h3>
-                <h4>Review:</h4>
-                <p>@review.ReviewText</p>
-            </div>
-        }
-    }
-    else
-    {
+   
         <p>No reviews available.</p>
-    }
+    
 
 </div>
 

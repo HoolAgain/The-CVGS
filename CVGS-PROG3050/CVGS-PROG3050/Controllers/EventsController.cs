@@ -24,13 +24,11 @@ namespace CVGS_PROG3050.Controllers
     {
         private readonly VaporDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly GameController _gameController;
 
-        public EventsController(VaporDbContext context, UserManager<User> userManager, GameController gameController)
+        public EventsController(VaporDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _gameController = gameController;
         }
 
         [HttpGet]
@@ -52,11 +50,7 @@ namespace CVGS_PROG3050.Controllers
                 }).ToListAsync();
 
 
-            var reviews = await _context.Reviews.Include(r => r.Game).ToListAsync();
-
-
            
-            ViewBag.Reviews = reviews;
 
             return View("EventsView", events ?? new List<EventViewModel>());
         }
