@@ -238,25 +238,72 @@ namespace CVGS_PROG3050.Controllers
             {
                 _db.Games.Add(model.Game);
                 await _db.SaveChangesAsync();
-                TempData["GameStatus"] = "Game added successfully!";
+                TempData["GameStatus"] = "Game added!";
             }
             else
             {
-                TempData["GameStatus"] = "Error adding game. Please check the input.";
+                TempData["GameStatus"] = "Error adding game.";
             }
 
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditGameAdmin(int id, AdminPanelViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var game = await _db.Games.FindAsync(id);
+
+                if (game == null)
+                {
+                    TempData["GameStatus"] = "Game not found.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                game.Name = model.Game.Name;
+                game.Genre = model.Game.Genre;
+                game.ReleaseDate = model.Game.ReleaseDate;
+                game.Developer = model.Game.Developer; 
+                game.Publisher = model.Game.Publisher;
+                game.Description = model.Game.Description; 
+                game.Price = model.Game.Price; 
+
+                await _db.SaveChangesAsync();
+                TempData["GameStatus"] = "Game updated!";
+            }
+            else
+            {
+                TempData["GameStatus"] = "Error updating game.";
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
 
         public List<Review> GetAllReviews()
         {
-            return _db.Reviews.Include(r => r.Game).ToList(); // Assuming you have a navigation property for Game
+            return _db.Reviews.Include(r => r.Game).ToList();
         }
 
 
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AdminDeleteGame(int gameId)
+        {
+            var game = await _db.Games.FindAsync(gameId);
+            if (game == null)
+            {
+                TempData["Error"] = $"The game with the id of {gameId} does not exist.";
+                return RedirectToAction("Index", "Home");
+            }
+            _db.Games.Remove(game);
+            await _db.SaveChangesAsync();
 
+            TempData["Success"] = "Game deleted!";
+            return RedirectToAction("Index", "Home");
+        }
 
 
 
