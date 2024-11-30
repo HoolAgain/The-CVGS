@@ -676,7 +676,7 @@ namespace CVGS_PROG3050.Controllers
 
                     if (result.Succeeded)
                     {
-                        TempData["ShippingStatus"] = "Shipping information saved successfully.";
+                        TempData["AddressStatus"] = "Shipping information saved successfully.";
                         return RedirectToAction("Profile", "Account");
                     }
                     else
@@ -685,12 +685,12 @@ namespace CVGS_PROG3050.Controllers
                         {
                             ModelState.AddModelError("", item.Description);
                         }
-                        TempData["ShippingStatus"] = "An error occurred while updating the user information.";
+                        TempData["AddressStatus"] = "An error occurred while updating the user information.";
                     }
                 }
                 catch (Exception)
                 {
-                    TempData["ShippingStatus"] = "An error occurred while saving the shipping information.";
+                    TempData["AddressStatus"] = "An error occurred while saving the shipping information.";
                 }
                 
             }

@@ -1,4 +1,6 @@
-﻿namespace CVGS_PROG3050.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CVGS_PROG3050.Entities
 {
     public class Game
     {
@@ -20,7 +22,10 @@
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<Cart>? Carts { get; set; }
 
+        [NotMapped]
         public string? AverageRating { get; set; }
+
+        [NotMapped]
         public string? RandomReview { get; set; }
 
     }

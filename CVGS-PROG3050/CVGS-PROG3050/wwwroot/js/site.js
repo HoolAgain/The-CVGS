@@ -106,8 +106,8 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
     document.querySelector('#gamePublisher').innerHTML = gamePublisher;
 
-    document.querySelector('#averageRating').innerHTML = averageRating ? "Rating: " + averageRating : "Rating: Not Available";
-    document.querySelector('#randomReview').innerHTML = randomReview ? "Review: " + randomReview : "Review: No reviews available.";
+    document.querySelector('#averageRating').innerHTML = averageRating;
+    document.querySelector('#randomReview').innerHTML = randomReview;
 
     document.querySelector('#gameIdWishlist').value = gameId;
     document.getElementById('gameIdReview').value = gameId;
@@ -129,8 +129,6 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
     myModal.show();
     console.log("Game Name:", gameName);
-    console.log("Average Rating:", averageRating);
-    console.log("Random Review:", randomReview);
 
 }
 

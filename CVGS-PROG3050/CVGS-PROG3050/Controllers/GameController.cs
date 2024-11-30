@@ -30,7 +30,10 @@ namespace CVGS_PROG3050.Controllers
                 .Select(w => w.GameId)
                 .ToListAsync();
 
-            var games = await _db.Games.Select(g => new GameViewModel
+            var games = await _db.Games
+                .Include(g => g.Ratings)
+                .Include(g =>g.Reviews)
+                .Select(g => new GameViewModel
             {
                 GameId = g.GameId,
                 Name = g.Name,
@@ -41,25 +44,20 @@ namespace CVGS_PROG3050.Controllers
                 Publisher = g.Publisher,
                 Price = g.Price,
                 InWishlist = wishlistIds.Contains(g.GameId),
-                AverageRating = (_db.Ratings.Where(r => r.GameId == g.GameId).Average(r => (double?)r.Score) ?? 0).ToString("0.0"),
-                RandomReview = _db.Reviews.Where(r => r.GameId == g.GameId).OrderBy(r => Guid.NewGuid()).Select(r => r.ReviewText).FirstOrDefault()
+                AverageRating = (_db.Ratings
+                .Where(r => r.GameId == g.GameId)
+                .Average(r => (double?)r.Score) ?? 0)
+                .ToString("0.0"),
+                RandomReview = _db.Reviews
+                .Where(r => r.GameId == g.GameId)
+                .OrderBy(r => Guid.NewGuid())
+                .Select(r => r.ReviewText)
+                .FirstOrDefault()
 
 
             }).ToListAsync();
 
-            foreach (var game in games)
-            {
-                var averageRating = (_db.Ratings.Where(r => r.GameId == game.GameId).Average(r => (double?)r.Score) ?? 0).ToString("0.0");
-                var randomReview = _db.Reviews.Where(r => r.GameId == game.GameId).OrderBy(r => Guid.NewGuid()).Select(r => r.ReviewText).FirstOrDefault();
-
-                Console.WriteLine($"Game: {game.Name}, Average Rating: {averageRating}, Random Review: {randomReview}");
-
-                game.AverageRating = averageRating;
-                game.RandomReview = randomReview;
-            }
-
-            foreach (var game in games) { Console.WriteLine($"Game: {game.Name}, Average Rating: {game.AverageRating}, Random Review: {game.RandomReview}"); }
-
+           
             if (games == null || !games.Any())
             {
                 games = new List<GameViewModel>();
@@ -217,25 +215,19 @@ namespace CVGS_PROG3050.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetRandomReviewAndAverageRating(int gameId)
+        [HttpPost]
+        public async Task<IActionResult> AddGameAdmin(Game game)
         {
-            var reviews = await _db.Reviews.Where(r => r.GameId == gameId).ToListAsync();
-            var ratings = await _db.Ratings.Where(r => r.GameId == gameId).ToListAsync();
-
-            if (!reviews.Any() || !ratings.Any())
+            if (ModelState.IsValid)
             {
-                return NotFound("No reviews or ratings found for this game.");
+                _db.Games.Add(game);
+                await _db.SaveChangesAsync();
+                TempData["GameStatus"] = "Game added successfully!";
+                return RedirectToAction("AllGamesView");
             }
 
-            var randomReview = reviews[new Random().Next(reviews.Count)];
-            var averageRating = ratings.Average(r => r.Score);
-
-            return Ok(new
-            {
-                RandomReview = randomReview.ReviewText,
-                AverageRating = averageRating
-            });
+            TempData["GameStatus"] = "Error adding game. Please check the input.";
+            return View(game);
         }
 
 

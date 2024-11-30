@@ -58,6 +58,7 @@
         { "Tekken 8", "/img/Tekken8.jpeg" },
         { "The King of Fighters XV", "/img/TKoF.jpg" },
         { "Destiny 2", "/img/Destiny2.jpeg" },
+        { "defaultImage", "/img/Destiny2.jpeg" },
     };
 }
 
@@ -219,13 +220,26 @@
         <div class="row">
             @foreach (var game in Model)
             {
-                // creates the games list and allows them to be clickable
-
+                
+                if (game == null)
+                {
+                    continue; 
+                }
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
+                    @{
+                       
+                        string imageUrl = Url.Content(gameImages["defaultImage"]);
+
+                        
+                        if (!string.IsNullOrEmpty(game.Name) && gameImages.ContainsKey(game.Name))
+                        {
+                            imageUrl = Url.Content(gameImages[game.Name]);
+                        }
+                    }
                     @if (gameImages.ContainsKey(game.Name))
                     {
                         <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@gameImages[game.Name]','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist, '@game.AverageRating, '@game.RandomReview')">
-                            <img src="@gameImages[game.Name]" alt="@game.Name" class="gameDivImg" />
+                            <img src="@imageUrl" alt="@game.Name" class="gameDivImg" />
                         </a>
                         
                     }
