@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Admin";
 }
-@model CVGS_PROG3050.Entities.Event
+@model CVGS_PROG3050.Models.AdminPanelViewModel
 
 <h2 class="audiowide-regular">Admin Panel</h2>
 
@@ -35,27 +35,27 @@
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <form asp-controller="Events" asp-action="Create" method="post">
-        <label asp-for="EventName">Event Name:</label>
-        <input asp-for="EventName" id="eventName" class="form-control" />
+    <form asp-controller="Events" asp-action="CreateAdmin" method="post">
+        <label asp-for="Event.EventName">Event Name:</label>
+        <input asp-for="Event.EventName" id="eventName" class="form-control" />
 
         <br />
-        <label asp-for="EventDate">Event Date:</label>
-        <input asp-for="EventDate" id="ProfileEmail" class="form-control" />
+        <label asp-for="Event.EventDate">Event Date:</label>
+        <input asp-for="Event.EventDate" id="ProfileEmail" class="form-control" />
 
         <br />
-        <label asp-for="Location">Location:</label>
-        <input asp-for="Location" type="text" class="form-control" />
+        <label asp-for="Event.Location">Location:</label>
+        <input asp-for="Event.Location" type="text" class="form-control" />
         <br />
-        <label asp-for="LocationType">Location Type:</label>
-        <select asp-for="LocationType" class="form-control">
+        <label asp-for="Event.LocationType">Location Type:</label>
+        <select asp-for="Event.LocationType" class="form-control">
             <option value="">Select an option</option>
             <option value="inPerson">In Person</option>
             <option value="online">Online</option>
         </select>
         <br />
-        <label asp-for="EventPrice">Event Price: </label>
-        <input asp-for="EventPrice" type="text" class="form-control" />
+        <label asp-for="Event.EventPrice">Event Price: </label>
+        <input asp-for="Event.EventPrice" type="text" class="form-control" />
         <br /> <br />
         <button type="submit" id="" class="btn btn-primary">Create Event</button>
 
@@ -71,14 +71,14 @@
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <form asp-controller="Games" asp-action="AddGameAdmin" method="post">
+    <form asp-controller="Game" asp-action="AddGameAdmin" method="post">
         <label>Game Name:</label>
-        <input  id="gameName" class="form-control" />
+        <input asp-for="Game.Name" id="gameName" class="form-control" />
 
         <br />
 
         <label>Game Genre:</label>
-        <select id="gameGenre" class="form-control">
+        <select asp-for="Game.Genre" id="gameGenre" class="form-control">
             <option value="Adventure">Adventure</option>
             <option value="Role Playing">Role Playing</option>
             <option value="Action">Action</option>
@@ -86,19 +86,19 @@
         <br />
 
         <label>Release Date:</label>
-        <input type="date" id="releaseDate" class="form-control" />
+        <input asp-for="Game.ReleaseDate" type="date" id="releaseDate" class="form-control" />
         <br />
         <label>Game Developer:</label>
-        <input type="text" id="gameDeveloper" class="form-control" />
+        <input asp-for="Game.Developer" type="text" id="gameDeveloper" class="form-control" />
         <br />
         <label>Game Publisher:</label>
-        <input type="text" id="gamePublisher" class="form-control" />
+        <input asp-for ="Game.Publisher" type="text" id="gamePublisher" class="form-control" />
         <br />
         <label>Game Description:</label>
-        <textarea id="gameDescription" class="form-control" rows="5" cols="50"></textarea>
+        <input asp-for="Game.Description" id="gameDescription" class="form-control" />
         <br />
         <label>Game Price:</label>
-        <input type="text" id="gamePrice" class="form-control" />
+        <input asp-for="Game.Price" type="text" id="gamePrice" class="form-control" />
         <br />
 
 

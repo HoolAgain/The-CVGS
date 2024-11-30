@@ -77,6 +77,24 @@ namespace CVGS_PROG3050.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> CreateAdmin(AdminPanelViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                _context.Events.Add(model.Event);
+                await _context.SaveChangesAsync();
+                TempData["EventStatus"] = "Event created successfully.";
+                return RedirectToAction("EventsView");
+            }
+            else
+            {
+                TempData["EventStatus"] = "There was an error with your submission.";
+            }
+            return View("CreateEvent", model); 
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Register(int eventId)
         {
             var userId = _userManager.GetUserId(User);

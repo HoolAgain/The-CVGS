@@ -60,6 +60,7 @@
         { "Tekken 8", "/img/Tekken8.jpeg" },
         { "The King of Fighters XV", "/img/TKoF.jpg" },
         { "Destiny 2", "/img/Destiny2.jpeg" },
+        { "defaultImage", "/img/VaporDefault.png" },
     };
 }
 
@@ -69,7 +70,7 @@
 }
 <!--Creates the entire game card-->
 <div class="modal fade" id="gameInfoCard" tabindex="-1" aria-labelledby="gameInfoCardLabel" aria-hidden="true">
-    <div class="modal-dialog" style="max-width: 80%;">
+    <div class="modal-dialog" style="max-width: 85%;">
         <div class="modal-content">
             <div class="modal-header gameInfoDiv">
                 <h5 class="modal-title" id="gameInfoCardLabel">Game Info</h5>
@@ -88,31 +89,97 @@
                     <div id="gamePublisher"></div>
                     <h3>Price</h3>
                     <div id="gamePrice"></div>
+
+                    <h3>Random Review</h3>
+                    <div id="randomReview"></div>
+                    <h3>Average Rating</h3>
+                    <div id="averageRating"></div>
                 </div>
+
+                <!--Carousel for suggested------------------------------------------>
+                <div id="GameCarousel" class="carousel slide flex-shrink-0" data-bs-ride="carousel">
+                    <h3>recommendations</h3>
+                    <div class="carousel-indicators">
+                        @{
+                            //makes indicator buttons
+                            int slideNumber = 0;
+                            foreach (var game in Model.Where(gr => preferredGenre == "All" || gr.Genre == preferredGenre))
+                            {
+                                <button type="button" data-bs-target="#GameCarousel" data-bs-slide-to="@slideNumber" class="@(slideNumber == 0 ? "active" : "")" aria-current="@(slideNumber == 0 ? "true" : "false")" aria-label="Slide @slideNumber"></button>
+                                ;
+                                slideNumber++;
+                            }
+                        }
+                    </div>
+                    <div class="carousel-inner">
+                        @{
+                            // Adds all the items
+                            slideNumber = 0;
+                            foreach (var game in Model.Where(gr => preferredGenre == "All" || gr.Genre == preferredGenre))
+                            {
+                                string imageUrl = Url.Content(gameImages["defaultImage"]);
+
+                                if (!string.IsNullOrEmpty(game.Name) && gameImages.ContainsKey(game.Name))
+                                {
+                                    imageUrl = Url.Content(gameImages[game.Name]);
+                                }
+                                <div class="carousel-item @(slideNumber == 0 ? "active" : "") sliderimg">
+                                    <img src="@imageUrl" class="d-block w-100 sliderimg" alt="@(game.Name)">
+                                </div>
+                                slideNumber++;
+                            }
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#GameCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#GameCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <!----------------------------------------------------------------------->
             </div>
             <div class="modal-footer gameInfoDiv">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <textarea id="gameCommentReview" class="form-control" rows="3" placeholder="Leave a review"></textarea>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="gameRatingReview">Rating (1-5):</label>
-                            <input type="number" id="gameRatingReview" class="form-control" min="1" max="5">
-                        </div>
-                    </div>
+
                     <form asp-controller="" asp-action="">
                         <button type="button" class="btn btn-primary">Add to Cart</button>
                     </form>
-
+                    <br /><br />
 
                     <form id="wishlistForm" asp-controller="Game" asp-action="AddToWishlist" method="post">
                         <input type="hidden" id="gameIdWishlist" name="gameId" value="" />
                         <button id="wishlistButton" type="submit" class="btn btn-primary"></button>
                     </form>
+                    <br /><br />
 
+                    <form id="reviewForm" asp-controller="Game" asp-action="AddReview" method="post">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <textarea id="gameCommentReview" name="ReviewText" class="form-control" rows="4" placeholder="Write a review"></textarea>
+                            </div>
 
+                        </div>
+                        <input type="hidden" id="gameIdReview" name="gameId" value="" />
+                        <button id="reviewButton" type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                    <br /><br />
+
+                    <form id="ratingForm" asp-controller="Game" asp-action="AddRating" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="gameRatingReview">Rating (1-5):</label>
+                                <input type="number" id="gameRatingReview" name="score" class="form-control" min="1" max="5">
+                            </div>
+                        </div>
+                        <input type="hidden" id="gameIdRating" name="gameId" value="" />
+                        <button id="ratingButton" type="submit" class="btn btn-primary">Submit Rating</button>
+                    </form>
+                    <br /><br />
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
 
                 </div>
             </div>

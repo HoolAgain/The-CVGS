@@ -216,7 +216,7 @@ namespace CVGS_PROG3050.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddGameAdmin(Game game)
+        public async Task<IActionResult> AddGame(Game game)
         {
             if (ModelState.IsValid)
             {
@@ -228,6 +228,24 @@ namespace CVGS_PROG3050.Controllers
 
             TempData["GameStatus"] = "Error adding game. Please check the input.";
             return View(game);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddGameAdmin(AdminPanelViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Games.Add(model.Game);
+                await _db.SaveChangesAsync();
+                TempData["GameStatus"] = "Game added successfully!";
+            }
+            else
+            {
+                TempData["GameStatus"] = "Error adding game. Please check the input.";
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 
