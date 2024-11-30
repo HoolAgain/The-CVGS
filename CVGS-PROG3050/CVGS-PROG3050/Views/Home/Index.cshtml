@@ -182,10 +182,15 @@
                     <form asp-controller="Game" asp-action="AdminDeleteGame" method="post" style="display:@(User .IsInRole("Admin") ? "inline" : "none");">
                             <input type="hidden" id="gameIdDelete" name="gameId" value="" />
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this game?');">Delete Game</button>
-                        </form>
-                        <br />
+                    </form>
+                    <br />
+                    <br />
 
-                        <br />
+                    <form asp-controller="Game" asp-action="EditGame" method="post" style="display:@(User .IsInRole("Admin") ? "inline" : "none");">
+                        <input id="editGameid" type="hidden" name="gameId" value="" />
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                    </form>
+                   
                     
 
 

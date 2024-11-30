@@ -113,6 +113,8 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     document.getElementById('gameIdReview').value = gameId;
     document.getElementById('gameIdRating').value = gameId;
     document.getElementById('gameIdDelete').value = gameId;
+    document.getElementById('editGameid').value = gameId;
+
 
     const wishlistForm = document.querySelector('#wishlistForm');
     const wishlistBtn = document.querySelector('#wishlistButton');

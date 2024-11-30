@@ -1,0 +1,53 @@
+﻿@model CVGS_PROG3050.Models.AdminPanelViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<CVGS_PROG3050.Entities.User> UserManager
+@inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
+
+<div id="EditGameAdminPage" class="text-center hidden" style="margin-left:160px; margin-right:160px;">
+    <h3 class="audiowide-regular">Edit Game</h3>
+    @if (TempData["GameStatus"] != null)
+    {
+        <div class="alert alert-info">@TempData["GameStatus"]</div>
+    }
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-controller="Game" asp-action="EditGameAdmin" method="post">
+        <input type="hidden" name="id" value="@ViewBag.GameIdEdit" /> 
+
+        <label>Game Name:</label>
+        <input asp-for="Game.Name" id="gameName" class="form-control" />
+
+        <br />
+
+        <label>Game Genre:</label>
+        <select asp-for="Game.Genre" id="gameGenre" class="form-control">
+            <option value="Adventure" >Adventure</option>
+            <option value="Role Playing">Role Playing</option>
+            <option value="Action">Action</option>
+        </select>
+        <br />
+
+        <label>Release Date:</label>
+        <input asp-for="Game.ReleaseDate" type="date" id="releaseDate" class="form-control" />
+        <br />
+        
+        <label>Game Developer:</label>
+        <input asp-for="Game.Developer" type="text" id="gameDeveloper" class="form-control" />
+        <br />
+        
+        <label>Game Publisher:</label>
+        <input asp-for="Game.Publisher" type="text" id="gamePublisher" class="form-control" />
+        <br />
+        
+        <label>Game Description:</label>
+        <input asp-for="Game.Description" id="gameDescription" class="form-control" />
+        <br />
+        
+        <label>Game Price:</label>
+        <input asp-for="Game.Price" type="text" id="gamePrice" class="form-control" />
+        <br />
+
+        <button type="submit" class="btn btn-primary">Update Game</button>
+    </form>
+</div>

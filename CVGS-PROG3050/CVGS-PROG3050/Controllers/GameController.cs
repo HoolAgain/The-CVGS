@@ -248,6 +248,13 @@ namespace CVGS_PROG3050.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public IActionResult EditGame(int gameId)
+        {
+            ViewBag.GameIdEdit = gameId;
+            return RedirectToAction( "editGame","Game");
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditGameAdmin(int id, AdminPanelViewModel model)
