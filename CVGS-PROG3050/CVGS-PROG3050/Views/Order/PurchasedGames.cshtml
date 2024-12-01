@@ -1,0 +1,29 @@
+﻿@model List<CVGS_PROG3050.Models.PurchasedGameViewModel>
+
+<h1>Purchased Games</h1>
+
+<table class="table" style="color: white">
+    <thead>
+        <tr>
+            <th>Game Name</th>
+            <th>Order Date</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model)
+        {
+            <tr>
+                <td>@game.GameName</td>
+                <td>@game.OrderDate.ToString("MMMM dd, yyyy")</td>
+                <td>
+                    <form asp-controller="Order" asp-action="DownloadGameFile" method="post">
+                        <input type="hidden" name="gameName" value="@game.GameName" />
+                        <button type="submit" class="btn btn-primary">Download</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
