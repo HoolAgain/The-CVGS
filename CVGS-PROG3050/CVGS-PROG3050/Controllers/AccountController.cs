@@ -344,6 +344,13 @@ namespace CVGS_PROG3050.Controllers
             {
                 return RedirectToAction("Login");
             }
+            var allUsers = await _userManager.Users
+                .Where(u => u.Id != userId)
+                .Select(u => new FriendViewModel
+                 {
+                     UserId = u.Id,
+                     Username = u.UserName
+                 }).ToListAsync();
 
             Address mailingAddress = null;
             Address shippingAddress = null;
@@ -427,7 +434,8 @@ namespace CVGS_PROG3050.Controllers
                     ExpirationDate = userPayment?.ExpirationDate,
                     CVVCode = userPayment?.CVVCode,
                 },
-                Friends = friendsList
+                Friends = friendsList,
+                AllUsers = allUsers
             };
             System.Diagnostics.Debug.WriteLine($"Profile Loaded: Payment Info - NameOnCard = {model.Payment.NameOnCard}, CardNumber = {model.Payment.CardNumber}, ExpirationDate = {model.Payment.ExpirationDate}, CVVCode = {model.Payment.CVVCode}");
 
