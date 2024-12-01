@@ -1,4 +1,4 @@
-﻿using CVGS_PROG3050.DataAccess;
+using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +15,13 @@ namespace CVGS_PROG3050.Controllers
 
         private readonly VaporDbContext _db;
         private readonly UserManager<User> _userManager;
+        private readonly ILogger<GameController> _logger;
 
-        public GameController(VaporDbContext context, UserManager<User> userManager)
+        public GameController(VaporDbContext context, UserManager<User> userManager, ILogger<GameController> logger)
         {
             _db = context;
             _userManager = userManager;
+            _logger = logger;
         }
         public async Task<IActionResult> AllGamesView()
         {
@@ -112,8 +114,6 @@ namespace CVGS_PROG3050.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> RemoveFromWishlist(int gameId)
@@ -169,14 +169,13 @@ namespace CVGS_PROG3050.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReview(int gameId, string ReviewText)
         {
-
-
             if (!_db.Games.Any(g => g.GameId == gameId))
             {
                 TempData["Error"] = $"The game with ID {gameId} does not exist."; 
                 return RedirectToAction("Index", "Home");
             }
-                var userId = _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(User);
+            
             var review = new Review
             {
                 UserId = userId,

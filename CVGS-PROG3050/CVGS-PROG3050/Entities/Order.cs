@@ -5,6 +5,7 @@
         public int OrderId { get; set; }
         public string? UserId { get; set; } // Foreign Key to User
         public int GameId { get; set; } // Foreign Key to Game
+        public int PaymentId { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Tax { get; set; }
@@ -15,6 +16,7 @@
 
         public User? User { get; set; }
         public Game? Game { get; set; }
+        public UserPayment? UserPayment { get; set; }
 
     }
 }

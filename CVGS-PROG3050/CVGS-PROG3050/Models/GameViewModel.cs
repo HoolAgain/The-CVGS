@@ -21,6 +21,7 @@ namespace CVGS_PROG3050.Models
 
         public string? AverageRating { get; set; }
         public string? RandomReview { get; set; }
+        public List<ReviewViewModel>? Reviews { get; set; }
 
     }
 }

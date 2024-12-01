@@ -1,4 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Show the games info-----------------------------------------------------------
 //sends all the informatiuon 
-function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist, averageRating, randomReview) {
+function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist, averageRating, randomReview, reviews) {
     document.querySelector('#gameInfoCardLabel').innerText = gameName;
     document.querySelector('#gameDescription').innerHTML = gameInfo;
     document.querySelector('#gameImage').src = gameImageUrl;
@@ -114,6 +114,7 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     document.getElementById('gameIdRating').value = gameId;
     document.getElementById('gameIdDelete').value = gameId;
     document.getElementById('editGameid').value = gameId;
+    document.getElementById('gameIdCart').value = gameId;
 
 
     const wishlistForm = document.querySelector('#wishlistForm');
@@ -129,6 +130,21 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
         wishlistBtn.innerText = "Add To Wishlist";
 
     }
+    const allReviews = document.querySelector('#allReviews');
+    allReviews.innerHTML = "";
+    if (reviews && reviews.length > 0) {
+        reviews.forEach(review => {
+            const reviewElement = document.createElement('div');
+            reviewElement.classList.add('review-item');
+            reviewElement.innerHTML = `<strong>${review.Username}:</strong> ${review.ReviewText}`;
+            allReviews.appendChild(reviewElement);
+        });
+    }
+    else {
+        allReviews.innerHTML = "No reviews available";
+    }
+
+
     var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
     myModal.show();
     console.log("Game Name:", gameName);
