@@ -79,6 +79,8 @@
                 <img id="gameImage" src="" alt="Game Image" class="img-fluid mb-3" />
                 <h3>Description</h3>
                 <div id="gameDescription"></div>
+                <h3>Release Date</h3>
+                <div id="gameReleaseDate"></div>
                 <h3>Genre</h3>
                 <div id="gameGenre"></div>
                 <h3>Developer</h3>
@@ -251,18 +253,18 @@
 
                 <div class="col order-last gameDiv" data-genre="@game.Genre">
                     @{
-                        // Set the default image URL initially
+                        
                         string imageUrl = Url.Content(gameImages["defaultImage"]);
 
-                        // Check if the game name exists in the dictionary
+                       
                         if (!string.IsNullOrEmpty(game.Name) && gameImages.ContainsKey(game.Name))
                         {
-                            // Update the image URL if the game name is found
+                            
                             imageUrl = Url.Content(gameImages[game.Name]);
                         }
                     }
 
-                    <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@imageUrl','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist', '@game.AverageRating', '@game.RandomReview')">
+                    <a href="javascript:void(0);" onclick="showGameInfo('@game.Name','@game.Description','@imageUrl','@game.Genre','@game.Price','@game.Developer','@game.Publisher', '@game.GameId', '@game.InWishlist', '@game.AverageRating', '@game.RandomReview', '@game.ReleaseDate.ToString("MMMM dd, yyyy")')">
                         <img src="@imageUrl" alt="@game.Name" class="gameDivImg" />
                     </a>
 

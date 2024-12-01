@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Moq;
 using SkiaSharp;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -248,16 +249,31 @@ namespace CVGS_PROG3050.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditGame(int gameId)
+        public async Task<IActionResult> EditGame(int gameId)
         {
-            ViewBag.GameIdEdit = gameId;
-            return RedirectToAction( "editGame","Game");
+            var game = await _db.Games.FindAsync(gameId);
+
+            if (game == null)
+
+            {
+                TempData["Error"] = "Game not found.";
+
+                return RedirectToAction("Index", "Home");
+            }
+            var model = new AdminPanelViewModel
+            {
+                Game = game
+            };
+
+            return View("EditGame", model);
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditGameAdmin(int id, AdminPanelViewModel model)
         {
+
+            Console.WriteLine($"Received id: {id}");
             if (ModelState.IsValid)
             {
                 var game = await _db.Games.FindAsync(id);
@@ -265,7 +281,7 @@ namespace CVGS_PROG3050.Controllers
                 if (game == null)
                 {
                     TempData["GameStatus"] = "Game not found.";
-                    return RedirectToAction("Index", "Home");
+                    return View("EditGame", model);
                 }
 
                 game.Name = model.Game.Name;
@@ -278,13 +294,16 @@ namespace CVGS_PROG3050.Controllers
 
                 await _db.SaveChangesAsync();
                 TempData["GameStatus"] = "Game updated!";
+                return View("EditGame", model);
             }
             else
             {
-                TempData["GameStatus"] = "Error updating game.";
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["GameStatus"] = "Error updating game." + string.Join(", ", errors);
+                return View("EditGame", model);
             }
 
-            return RedirectToAction("Index", "Home");
+            
         }
 
         public List<Review> GetAllReviews()

@@ -3,7 +3,7 @@
 @inject UserManager<CVGS_PROG3050.Entities.User> UserManager
 @inject SignInManager<CVGS_PROG3050.Entities.User> SignInManager
 
-<div id="EditGameAdminPage" class="text-center hidden" style="margin-left:160px; margin-right:160px;">
+<div id="EditGameAdminPage" class="text-center" style="margin-left:160px; margin-right:160px;">
     <h3 class="audiowide-regular">Edit Game</h3>
     @if (TempData["GameStatus"] != null)
     {
@@ -13,7 +13,7 @@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <form asp-controller="Game" asp-action="EditGameAdmin" method="post">
-        <input type="hidden" name="id" value="@ViewBag.GameIdEdit" /> 
+        <input asp-for="Game.GameId" type="hidden" name="id" value="@Model.Game.GameId" />
 
         <label>Game Name:</label>
         <input asp-for="Game.Name" id="gameName" class="form-control" />
@@ -50,4 +50,8 @@
 
         <button type="submit" class="btn btn-primary">Update Game</button>
     </form>
+
+    <br />
+
+    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Back to Index</a>
 </div>

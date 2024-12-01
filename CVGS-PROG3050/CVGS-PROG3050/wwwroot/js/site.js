@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Show the games info-----------------------------------------------------------
 //sends all the informatiuon 
-function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist, averageRating, randomReview, reviews) {
+function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, gameDeveloper, gamePublisher, gameId, inWishlist, averageRating, randomReview, gameReleaseDate, reviews) {
     document.querySelector('#gameInfoCardLabel').innerText = gameName;
     document.querySelector('#gameDescription').innerHTML = gameInfo;
     document.querySelector('#gameImage').src = gameImageUrl;
@@ -105,6 +105,7 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     document.querySelector('#gamePrice').innerHTML = "$" + gamePrice;
     document.querySelector('#gameDeveloper').innerHTML = gameDeveloper;
     document.querySelector('#gamePublisher').innerHTML = gamePublisher;
+    document.querySelector('#gameReleaseDate').innerHTML = gameReleaseDate;
 
     document.querySelector('#averageRating').innerHTML = averageRating;
     document.querySelector('#randomReview').innerHTML = randomReview;
