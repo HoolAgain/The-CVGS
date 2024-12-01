@@ -183,16 +183,17 @@ namespace CVGS_PROG3050.DataAccess
 
             // Seeding the Database with Games
             builder.Entity<Game>().HasData(
-                new Game() 
-                { 
-                    GameId = 1, 
-                    Name = "Dead Cells", 
-                    Genre = "Adventure", 
-                    ReleaseDate = new DateTime(2018, 8, 6), 
-                    Developer = "Motion Twin",
-                    Publisher = "Motion Twin",
-                    Description = "Dead Cells is a roguelite, metroidvania inspired, action-platformer. You'll explore a sprawling, ever-changing castle... assuming you’re able to fight your way past its keepers in 2D souls-lite combat. No checkpoints. Kill, die, learn, repeat.",
-                    Price = 29.99m
+                
+                new Game()
+                {
+                    GameId = 1,
+                    Name = "Palworld",
+                    Genre = "Adventure",
+                    ReleaseDate = new DateTime(2024, 1, 19),
+                    Developer = "Pocketpair",
+                    Publisher = "Pocketpair",
+                    Description = "Fight, farm, build and work alongside mysterious creatures called \"Pals\" in this completely new multiplayer, open world survival and crafting game!",
+                    Price = 38.99m
                 },
                 new Game()
                 {
@@ -241,13 +242,13 @@ namespace CVGS_PROG3050.DataAccess
                 new Game()
                 {
                     GameId = 6,
-                    Name = "LEGO: Batman",
+                    Name = "Minecraft",
                     Genre = "Adventure",
-                    ReleaseDate = new DateTime(2008, 9, 28),
-                    Developer = "Traveller's Tale",
-                    Publisher = "Warner Bros. Interactive Entertainment",
-                    Description = "When all the villains in Arkham Asylum team up and break loose, only the dynamic duo is bold enough to take them on to save Gotham City. The fun of LEGO, the drama of Batman and the uniqueness of the combination makes for a comical and exciting adventure in LEGO Batman: The Videogame.",
-                    Price = 19.99m
+                    ReleaseDate = new DateTime(2009, 5, 17),
+                    Developer = "Mojang Studios",
+                    Publisher = "Mojang Studios",
+                    Description = "Minecraft is a game made up of blocks, creatures, and community. You can survive the night or build a work of art – the choice is all yours. But if the thought of exploring a vast new world all on your own feels overwhelming, then fear not! Let’s explore what Minecraft is all about!",
+                    Price = 29.99m
                 },
                 new Game()
                 {
@@ -340,13 +341,13 @@ namespace CVGS_PROG3050.DataAccess
                 new Game()
                 {
                     GameId = 15,
-                    Name = "Stardew Valley",
+                    Name = "StarField",
                     Genre = "Role Playing",
-                    ReleaseDate = new DateTime(2016, 2, 26),
-                    Developer = "ConcernedApe",
-                    Publisher = "ConcernedApe",
-                    Description = "You've inherited your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home?",
-                    Price = 16.99m
+                    ReleaseDate = new DateTime(2023, 9, 5),
+                    Developer = "Bethesda Game Studios",
+                    Publisher = "Bethesda Softworks",
+                    Description = "Starfield is the first new universe in 25 years from Bethesda Game Studios, the award-winning creators of The Elder Scrolls V: Skyrim and Fallout 4.",
+                    Price = 89.99m
                 },
                 new Game()
                 {
