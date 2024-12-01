@@ -1,0 +1,46 @@
+﻿@model List<CVGS_PROG3050.Models.PendingOrders>
+
+@{
+    ViewData["Title"] = "Pending Orders";
+}
+
+<h2>Pending Orders</h2>
+
+@if (Model.Any())
+{
+    <table class="table" style="color: white">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Member UserName</th>
+                <th>Game Name</th>
+                <th>Order Date</th>
+                <th>Grand Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.UserName</td>
+                    <td>@order.GameName</td>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@order.GrandTotal.ToString("C")</td>
+                    <td>
+                        <form asp-action="UpdateOrderStatus" method="post">
+                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                            <button type="submit" class="btn btn-success">Mark as Processed</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No pending orders found.</p>
+}
+

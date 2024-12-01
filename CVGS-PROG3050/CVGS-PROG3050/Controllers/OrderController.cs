@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using CVGS_PROG3050.Entities;
 using System.Text;
 using CVGS_PROG3050.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CVGS_PROG3050.Controllers
 {
@@ -50,6 +51,38 @@ namespace CVGS_PROG3050.Controllers
             var fileBytes = Encoding.UTF8.GetBytes(fileContent);
 
             return File(fileBytes, "text/plain", filename);
+        }
+
+        [HttpGet]
+        [Route("PendingOrders")]
+        public IActionResult PendingOrders()
+        {
+            var pendingOrders = _context.Orders
+                .Where(o => o.Status == "Pending")
+                .Include(o => o.User)
+                .Include(o => o.Game)
+                .Select(o => new PendingOrders
+                {
+                    OrderId = o.OrderId,
+                    UserName = o.User.UserName,
+                    GameName = o.Game.Name,
+                    OrderDate = o.OrderDate,
+                    GrandTotal = o.GrandTotal
+                }).ToList();
+
+            return View(pendingOrders);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateOrderStatus(int orderId)
+        {
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                order.Status = "Processed";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("PendingOrders");
         }
     }
 }
