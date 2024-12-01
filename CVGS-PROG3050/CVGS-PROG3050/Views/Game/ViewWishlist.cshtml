@@ -100,7 +100,7 @@
 
                 <!--Carousel for suggested------------------------------------------>
                 <div id="GameCarousel" class="carousel slide flex-shrink-0" data-bs-ride="carousel">
-                    <h3>recommendations</h3>
+                    <h3>Recommended Games</h3>
                     <div class="carousel-indicators">
                         @{
                             //makes indicator buttons
@@ -146,8 +146,9 @@
             <div class="modal-footer gameInfoDiv">
                 <div class="container">
 
-                    <form asp-controller="" asp-action="">
-                        <button type="button" class="btn btn-primary">Add to Cart</button>
+                    <form id="addToCartForm" asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" id="gameIdCart" name="gameId" value="" />
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
                     </form>
                     <br /><br />
 
@@ -180,6 +181,9 @@
                         <button id="ratingButton" type="submit" class="btn btn-primary">Submit Rating</button>
                     </form>
                     <br /><br />
+                    <h3>All Reviews:</h3>
+                    <div id="allReviews">
+                    </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
 
