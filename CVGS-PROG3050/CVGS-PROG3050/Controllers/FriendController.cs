@@ -23,11 +23,29 @@ namespace CVGS_PROG3050.Controllers
         public async Task<IActionResult> ViewFriends()
         {
             var userId = _userManager.GetUserId(User);
+            var allUsers = await _userManager.Users
+                .Where(u => u.Id != userId) // Exclude current user
+                .Select(u => new FriendViewModel
+                {
+                    UserId = u.Id,
+                    Username = u.UserName
+                })
+                .ToListAsync();
             var friends = await _db.Friends
                 .Where(f => f.UserId == userId || f.FriendUserId == userId)
                 .Select (f => f.UserId == userId ? f.FriendUser : f.User)
+                .Select(u => new FriendViewModel
+                {
+                    UserId = u.Id,
+                    Username = u.UserName
+                })
                 .ToListAsync();
-            return View(friends);
+            var model = new ProfileViewModel
+            {
+                Friends = friends,
+                AllUsers = allUsers
+            };
+            return View("Profile", model);
         }
 
         [HttpPost]
@@ -67,6 +85,29 @@ namespace CVGS_PROG3050.Controllers
 
             return RedirectToAction("Profile", "Account");
 
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ViewAvailableUsers()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var friendsIds = await _db.Friends
+                .Where(f => f.UserId == userId || f.FriendUserId == userId)
+                .Select(f => f.UserId == userId ? f.FriendUserId : f.UserId)
+                .ToListAsync();
+
+            var availableUsers = await _db.Users
+                .Where(u => u.Id != userId && !friendsIds.Contains(u.Id))
+                .Select(u => new FriendViewModel
+                {
+                    UserId = u.Id,
+                    Username = u.UserName
+                })
+                .ToListAsync();
+
+            return View(availableUsers);
         }
 
         [HttpPost]

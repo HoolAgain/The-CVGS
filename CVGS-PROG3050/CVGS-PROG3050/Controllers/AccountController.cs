@@ -332,7 +332,7 @@ namespace CVGS_PROG3050.Controllers
 
         // Logic for profile
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(string activeTab = "Profile")
         {
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.Users
@@ -344,6 +344,13 @@ namespace CVGS_PROG3050.Controllers
             {
                 return RedirectToAction("Login");
             }
+            var allUsers = await _userManager.Users
+                .Where(u => u.Id != userId)
+                .Select(u => new FriendViewModel
+                 {
+                     UserId = u.Id,
+                     Username = u.UserName
+                 }).ToListAsync();
 
             Address mailingAddress = null;
             Address shippingAddress = null;
@@ -427,10 +434,12 @@ namespace CVGS_PROG3050.Controllers
                     ExpirationDate = userPayment?.ExpirationDate,
                     CVVCode = userPayment?.CVVCode,
                 },
-                Friends = friendsList
+                Friends = friendsList,
+                AllUsers = allUsers
             };
             System.Diagnostics.Debug.WriteLine($"Profile Loaded: Payment Info - NameOnCard = {model.Payment.NameOnCard}, CardNumber = {model.Payment.CardNumber}, ExpirationDate = {model.Payment.ExpirationDate}, CVVCode = {model.Payment.CVVCode}");
 
+            ViewData["ActiveTab"] = activeTab;
             return View("profileview", model);
         }
 
@@ -519,7 +528,7 @@ namespace CVGS_PROG3050.Controllers
                 {
                     System.Diagnostics.Debug.WriteLine($"Preferences updated successfully: FavoriteCategory = {user.FavoriteCategory}, FavoritePlatform = {user.FavoritePlatform}, LanguagePreference = {user.LanguagePreference}");
                     TempData["PreferenceStatus"] = "Preferences updated successfully.";
-                    return RedirectToAction("Profile", "Account");
+                    return RedirectToAction("Profile", "Account", new {activeTab = "Preferences"});
                 }
                 else
                 {
@@ -546,7 +555,7 @@ namespace CVGS_PROG3050.Controllers
             model.Preferences.FavoriteCategory = user.FavoriteCategory;
             model.Preferences.FavoritePlatform = user.FavoritePlatform;
             model.Preferences.LanguagePreference = user.LanguagePreference;
-
+            ViewData["ActiveTab"] = "Preferences";
             return View("profileview", model);
         }
 
@@ -677,7 +686,7 @@ namespace CVGS_PROG3050.Controllers
                     if (result.Succeeded)
                     {
                         TempData["AddressStatus"] = "Shipping information saved successfully.";
-                        return RedirectToAction("Profile", "Account");
+                        return RedirectToAction("Profile", "Account", new {activeTab = "ShippingInfo"});
                     }
                     else
                     {
@@ -780,7 +789,7 @@ namespace CVGS_PROG3050.Controllers
                     user = updatedUser;
                 }
 
-                return RedirectToAction("Profile", "Account");
+                return RedirectToAction("Profile", "Account", new {activeTab = "PaymentInfo"});
             }
 
 
@@ -811,7 +820,7 @@ namespace CVGS_PROG3050.Controllers
                 }
             }
 
-
+            ViewData["ActiveTab"] = "PaymentInfo";
             return View("profileview", model);
         }
 

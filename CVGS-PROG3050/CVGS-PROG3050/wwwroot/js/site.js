@@ -83,15 +83,12 @@ document.addEventListener("DOMContentLoaded", function () {
         div5.classList.toggle('hidden', tab != 'FandF');
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        if (activeTab) {
-            const currTab = activeTab.value || 'Profile';
-            showTab(currTab);
-        }
-    });
+    if (activeTab) {
+        const currTab = activeTab.value || 'Profile';
+        showTab(currTab);
+    }
     //-------------------------------------------------------------------------------
 
-    
 });
 
 
@@ -169,7 +166,63 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
 
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const shippingCheckbox = document.getElementById('shipPhysicalCopy');
+    const shippingCostElement = document.getElementById('shipping');
+    const totalPriceElement = document.getElementById('totalPrice');
+    const subtotalElement = document.getElementById('subtotal');
+    const taxElement = document.getElementById('tax');
 
+    if (shippingCheckbox && shippingCostElement && totalPriceElement && subtotalElement && taxElement) {
+        let subtotal = parseFloat(subtotalElement.textContent.replace(/[^0-9.-]+/g, ""));
+        if (isNaN(subtotal)) {
+            subtotal = 0; 
+        }
+        let taxRate = 0.13;
+        let shippingCost = 0.00;
+
+        function calculateTotals() {
+            let tax = subtotal * taxRate;
+            let grandTotal = subtotal + tax + shippingCost;
+            taxElement.innerText = `$${tax.toFixed(2)}`;
+            shippingCostElement.innerText = `$${shippingCost.toFixed(2)}`;
+            totalPriceElement.innerText = `$${grandTotal.toFixed(2)}`;
+        }
+        shippingCheckbox.addEventListener('change', function () {
+            if (shippingCheckbox.checked) {
+                shippingCost = 10.00;
+            } else {
+                shippingCost = 0.00;
+            }
+            calculateTotals();
+        });
+
+        calculateTotals();
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const mailingSameAsShippingCheckbox = document.getElementById("SameAddress");
+    const shippingAddressSection = document.getElementById("shippingAddressSection");
+    const shippingAddressInput = shippingAddressSection.querySelectorAll("input, select, textarea");
+
+    // Function to toggle shipping address section
+    function toggleShippingAddressSection() {
+        if (mailingSameAsShippingCheckbox.checked) {
+            shippingAddressSection.style.display = "none";
+            shippingAddressInputs.forEach(input => {
+                input.disabled = true;
+            });
+        } else {
+            shippingAddressSection.style.display = "block";
+            shippingAddressInputs.forEach(input => {
+                input.disabled = false; 
+            });
+        }
+    }
+    mailingSameAsShippingCheckbox.addEventListener("change", toggleShippingAddressSection);
+    toggleShippingAddressSection();
+});
 
 //Toggle admin pages-------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {

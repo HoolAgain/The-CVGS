@@ -25,7 +25,8 @@ namespace CVGS_PROG3050.Models
         public PreferencesViewModel Preferences { get; set; }
         public AddressViewModel Address { get; set; }
         public PaymentViewModel Payment { get; set; }
-        public List<FriendViewModel>? Friends { get; set; } = new List<FriendViewModel>();
+        public List<FriendViewModel> Friends { get; set; } = new List<FriendViewModel>();
+        public List<FriendViewModel> AllUsers { get; set; } = new List<FriendViewModel>();
 
     }
 }

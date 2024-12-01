@@ -18,7 +18,7 @@
             <button id="toggleProfile" class="btn btn-primary btn-lg audiowide-regular">Profile</button>
         </li>
         <li class="nav-item mx-4">
-            <button id="togglePrefrences" class="btn btn-primary btn-lg audiowide-regular">Prefrences</button>
+            <button id="togglePrefrences" class="btn btn-primary btn-lg audiowide-regular">Preferences</button>
         </li>
         <li class="nav-item mx-4">
             <button id="toggleShippingInfo" class="btn btn-primary btn-lg audiowide-regular">Shipping Info</button>
@@ -187,7 +187,9 @@
         <input asp-for="Address.MailingSameAsShipping" type="checkbox" id="SameAddress" />
         <br />
 
+        
         <div id="shippingAddressSection">
+            <h2>Shipping Address</h2>
             <label asp-for="Address.ShippingCountry" for="ShippingCountry">Country:</label>
             <select id="ShippingCountry" asp-for="Address.ShippingCountry" class="form-control">
                 <option value="Canada">Canada</option>
@@ -274,14 +276,6 @@
     {
         <div class="alert alert-info">@TempData["FriendStatus"]</div>
     }
-    <form asp-controller="Friend" asp-action="AddFriend" method="post">
-        <!--Will allow to adding the friend if the name is correct and in the DB-->
-        <label for="addFreindText">Add Friend</label>
-        <br />
-        <input class="form-control" type="text" id="addFreindText" name="friendUsername" class="text" placeholder="Enter user's username" required />
-        <br />
-        <button type="submit" class="btn btn-primary">Add Friend</button>
-    </form>
 
     <br />
     <h4>Friends List</h4>
@@ -299,6 +293,26 @@
                         <button type="submit" class="btn btn-danger">Remove Friend</button>
                     </form>
                 </li>
+            }
+        </ul>
+    </div>
+    <br />
+
+    <h4>All Available Users</h4>
+    <div class="allUsersDiv">
+        <ul class="list-group">
+            @foreach (var user in Model.AllUsers)
+            {
+                if (!Model.Friends.Any(f => f.UserId == user.UserId))
+                {
+                    <li class="list-group-item">
+                        @user.Username
+                    <form asp-controller="Friend" asp-action="AddFriend" method="post" class="d-inline">
+                        <input type="hidden" name="friendUsername" value="@user.Username" />
+                        <button type="submit" class="btn btn-primary">Add Friend</button>
+                    </form>
+                    </li>
+                }
             }
         </ul>
     </div>

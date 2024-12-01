@@ -32,7 +32,7 @@ else
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.Price.ToString("C")</td> have t
                     <td>
                         <form asp-action="RemoveFromCart" method="post">
                             <input type="hidden" name="gameId" value="@item.GameId" />
@@ -43,6 +43,25 @@ else
             }
         </tbody>
     </table>
+
+    <div class="priceTotals">
+        <div class="form-group">
+            <label for="subtotal">Subtotal:</label>
+            <span id="subtotal" class="font-weight-bold">@Model.Sum(item => item.Price).ToString("C")</span>
+        </div>
+        <div class="form-group">
+            <label for="tax">Tax (13%):</label>
+            <span id="tax" class="font-weight-bold">@((Model.Sum(item => item.Price) * 0.13m)).ToString("C")</span>
+        </div>
+        <div class="form-group">
+            <label for="shipping">Shipping:</label>
+            <span id="shipping" class="font-weight-bold">$0.00</span>
+        </div>
+        <div class="form-group">
+            <label for="totalPrice">Total Price:</label>
+            <span id="totalPrice" class="font-weight-bold">@((Model.Sum(item => item.Price) * 1.13m)).ToString("C")</span>
+        </div>
+    </div>
 
     <form asp-action="Checkout" asp-controller="Cart" method="post">
         <label for="paymentId">Select Credit Card:</label>
@@ -59,8 +78,7 @@ else
             <label class="form-check-label" for="shipPhysicalCopy">Ship it to me (Additional $10 shipping cost)</label>
         </div>
         <br />
-
         <button type="submit" class="btn btn-primary">Checkout</button>
     </form>
-
+    <script src="~/js/site.js"></script>
 }
