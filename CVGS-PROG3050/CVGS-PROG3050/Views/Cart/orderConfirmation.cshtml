@@ -1,0 +1,9 @@
+﻿@model CVGS_PROG3050.Models.OrderViewModel
+<div class="text-center">
+    <h2>Your order has been placed!</h2>
+    <h3Order Id: @Model.OrderId</p>
+    <h3>Order Date: @Model.OrderDate.ToString()</h3>
+    <h3>Total Price: $@Model.TotalPrice</h3>
+    <br />
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Return to Home</a>
+</div>

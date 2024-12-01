@@ -62,7 +62,7 @@ namespace CVGS_PROG3050.Controllers
             }
 
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ViewCart");
         }
 
         [Authorize]
@@ -112,7 +112,7 @@ namespace CVGS_PROG3050.Controllers
 
 
         [Authorize]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Checkout(int paymentId, bool shipPhysicalCopy = false)
         {
             var userId = _userManager.GetUserId(User);
@@ -120,7 +120,7 @@ namespace CVGS_PROG3050.Controllers
                 .Where(w => w.UserId == userId)
                 .Include(w => w.Game)
                 .ToListAsync();
-            var shippingCost = 0;
+            decimal shippingCost = 0;
             if (!cartItems.Any())
             {
                 TempData["CartNotification"] = "Your cart is empty! Please add a game to cart";
@@ -138,17 +138,23 @@ namespace CVGS_PROG3050.Controllers
                 shippingCost = 10;
             }
 
+            decimal subtotal = cartItems.Sum(item => item.Game.Price);
+            decimal tax = subtotal * 0.13m;
+            decimal totalPrice = subtotal + tax + shippingCost;
+
+            Order order = null;
+
             foreach (var item in cartItems)
             {
-                var order = new Order
+                order = new Order
                 {
                     UserId = userId,
                     GameId = item.GameId,
                     PaymentId = paymentId, 
                     OrderDate = DateTime.Now,
-                    Subtotal = item.Game.Price,
-                    Tax = item.Game.Price * 0.13m,
-                    GrandTotal = item.Game.Price * 1.13m,
+                    Subtotal = subtotal,
+                    Tax = tax,
+                    GrandTotal = totalPrice,
                     Status = "Pending",
                     ShipPhysicalCopy = shipPhysicalCopy,
                     ShippingCost = shippingCost
@@ -159,9 +165,27 @@ namespace CVGS_PROG3050.Controllers
 
             await _db.SaveChangesAsync();
             TempData["CartNotification"] = "Thank for your purchase!";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("orderConfirmation", order);
         }
 
+        [Authorize]
+        public IActionResult OrderConfirmation(int orderId)
+        {
+            var order = _db.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                TempData["Error"] = "Order not found";
+                return RedirectToAction("Index", "Home");
+            }
+            var orderViewModel = new OrderViewModel
+            {
+                OrderId = order.OrderId,
+                UserId = order.UserId,
+                OrderDate = order.OrderDate,
+                TotalPrice = order.GrandTotal
+            };
+            return View(orderViewModel);
+        }
         
     }
 }
