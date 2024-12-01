@@ -43,6 +43,9 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddScoped<GameService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<WishlistService>();
+builder.Services.AddScoped<ReviewService>();
 
 var app = builder.Build();
 

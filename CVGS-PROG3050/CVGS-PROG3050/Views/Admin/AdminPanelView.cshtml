@@ -136,6 +136,21 @@
             <p>Obtain a full detailed listing of the Events on Vapor. The reports also indicates how many members have registered for the event.</p>
             <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportEventsToExcel","EventReport")'">Download Event Report (Excel)</button>
         </div>
+        <div class="grid-item">
+            <h4>Orders Report</h4>
+            <p>Obtain a full detailed listing of the Games that have been purchased on Vapor. The report includes the member's username who purchased the game, as well as the name of the Game.</p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportOrdersToExcel","OrderReport")'">Download Orders Report (Excel)</button>
+        </div>
+        <div class="grid-item">
+            <h4>Wishlist Report</h4>
+            <p>Obtain a full detailed listing of the Games that are currently in each members wishlist.</p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportWishlistToExcel","WishlistReport")'">Download Wishlist Report (Excel)</button>
+        </div>
+        <div class="grid-item">
+            <h4>Reviews Report</h4>
+            <p>Obtain a full detailed listing of the Reviews left by Members.</p>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("ExportReviewsToExcel","ReviewReport")'">Download Reviews Report (Excel)</button>
+        </div>
     </div>
 
 </div>
