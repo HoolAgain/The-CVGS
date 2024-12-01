@@ -83,12 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
         div5.classList.toggle('hidden', tab != 'FandF');
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        if (activeTab) {
-            const currTab = activeTab.value || 'Profile';
-            showTab(currTab);
-        }
-    });
+    if (activeTab) {
+        const currTab = activeTab.value || 'Profile';
+        showTab(currTab);
+    }
     //-------------------------------------------------------------------------------
 
 });
@@ -201,6 +199,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
         calculateTotals();
     }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const mailingSameAsShippingCheckbox = document.getElementById("SameAddress");
+    const shippingAddressSection = document.getElementById("shippingAddressSection");
+    const shippingAddressInput = shippingAddressSection.querySelectorAll("input, select, textarea");
+
+    // Function to toggle shipping address section
+    function toggleShippingAddressSection() {
+        if (mailingSameAsShippingCheckbox.checked) {
+            shippingAddressSection.style.display = "none";
+            shippingAddressInputs.forEach(input => {
+                input.disabled = true;
+            });
+        } else {
+            shippingAddressSection.style.display = "block";
+            shippingAddressInputs.forEach(input => {
+                input.disabled = false; 
+            });
+        }
+    }
+    mailingSameAsShippingCheckbox.addEventListener("change", toggleShippingAddressSection);
+    toggleShippingAddressSection();
 });
 
 //Toggle admin pages-------------------------------------------------------------

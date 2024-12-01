@@ -27,20 +27,13 @@ namespace CVGS_PROG3050.Models
 
         public bool MailingSameAsShipping { get; set; }
 
-        [Required(ErrorMessage = "Please select a country")]
         public string? ShippingCountry { get; set; }
-        [Required(ErrorMessage = "Please enter your full name")]
         public string? ShippingFullName { get; set; }
-        [Required(ErrorMessage = "Phone number is required")]
         public string? ShippingPhoneNumber { get; set; }
-        [Required(ErrorMessage = "Street address is required")]
         public string? ShippingStreetAddress { get; set; }
         public string? ShippingAddress2 { get; set; }
-        [Required(ErrorMessage = "City is required")]
         public string? ShippingCity { get; set; }
-        [Required(ErrorMessage = "Province is required")]
         public string? ShippingProvince { get; set; }
-        [Required(ErrorMessage = "Postal code is required")]
         public string? ShippingPostalCode { get; set; }
         public string? ShippingDeliveryInstructions { get; set; }
     }

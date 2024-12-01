@@ -18,7 +18,7 @@
             <button id="toggleProfile" class="btn btn-primary btn-lg audiowide-regular">Profile</button>
         </li>
         <li class="nav-item mx-4">
-            <button id="togglePrefrences" class="btn btn-primary btn-lg audiowide-regular">Prefrences</button>
+            <button id="togglePrefrences" class="btn btn-primary btn-lg audiowide-regular">Preferences</button>
         </li>
         <li class="nav-item mx-4">
             <button id="toggleShippingInfo" class="btn btn-primary btn-lg audiowide-regular">Shipping Info</button>
@@ -187,7 +187,9 @@
         <input asp-for="Address.MailingSameAsShipping" type="checkbox" id="SameAddress" />
         <br />
 
+        
         <div id="shippingAddressSection">
+            <h2>Shipping Address</h2>
             <label asp-for="Address.ShippingCountry" for="ShippingCountry">Country:</label>
             <select id="ShippingCountry" asp-for="Address.ShippingCountry" class="form-control">
                 <option value="Canada">Canada</option>
