@@ -31,8 +31,8 @@ namespace CVGS_PROG3050.Tests
 
             // Seed data
             _context.Games.AddRange(
-                new Game { GameId = 1, Name = "Test1", Genre = "Action" },
-                new Game { GameId = 2, Name = "Test2", Genre = "Role-Playing" }
+                new Game { GameId = 1000, Name = "Test1", Genre = "Action" },
+                new Game { GameId = 2000, Name = "Test2", Genre = "Role-Playing" }
             );
             _context.SaveChanges();
 

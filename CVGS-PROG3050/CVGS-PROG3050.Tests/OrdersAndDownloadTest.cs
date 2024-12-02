@@ -12,13 +12,13 @@ using Moq;
 
 namespace CVGS_PROG3050.Tests
 {
-    public class OrderControllerTests
+    public class OrdersAndDownloadTest
     {
         private readonly VaporDbContext _context;
         private readonly OrderController _controller;
         private readonly Mock<UserManager<User>> _mockUserManager;
 
-        public OrderControllerTests()
+        public OrdersAndDownloadTest()
         {
             // Set up in-memory database
             var options = new DbContextOptionsBuilder<VaporDbContext>()
