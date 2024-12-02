@@ -40,7 +40,7 @@ namespace CVGS_PROG3050.Tests
             _mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("test-user-id");
 
             // Set up controller with in-memory context
-            //_controller = new GameController(_context, _mockUserManager.Object);
+            _controller = new GameController(_context, _mockUserManager.Object, null);
         }
 
         [Fact]

@@ -31,7 +31,7 @@ namespace CVGS_PROG3050.Tests
             _mockUserManager = MockUserManager();
             _mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("test-user-id");
 
-            //_controller = new GameController(_context, _mockUserManager.Object);
+            _controller = new GameController(_context, _mockUserManager.Object, null);
 
             _controller.TempData = new Microsoft.AspNetCore.Mvc.ViewFeatures.TempDataDictionary(
                 new Microsoft.AspNetCore.Http.DefaultHttpContext(),

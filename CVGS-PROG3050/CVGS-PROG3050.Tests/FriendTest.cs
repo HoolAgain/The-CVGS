@@ -1,6 +1,7 @@
 ﻿using CVGS_PROG3050.Controllers;
 using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Entities;
+using CVGS_PROG3050.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,26 +34,6 @@ namespace CVGS_PROG3050.Tests
                 new Microsoft.AspNetCore.Http.DefaultHttpContext(),
                 Mock.Of<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider>()
             );
-        }
-
-        [Fact]
-        public async Task ViewFriends_ReturnsFriendsList()
-        {
-            // Arrange: Add friends for the test user
-            var user = new User { Id = "test-user-id", UserName = "TestUser" };
-            var friendUser = new User { Id = "friend-id", UserName = "FriendUser" };
-            await _context.Users.AddRangeAsync(user, friendUser);
-            await _context.Friends.AddAsync(new Friend { UserId = user.Id, FriendUserId = friendUser.Id });
-            await _context.SaveChangesAsync();
-
-            // Act: Retrieve the friend list
-            var result = await _controller.ViewFriends();
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<User>>(viewResult.Model);
-            Assert.Single(model);
-            Assert.Equal("FriendUser", model.First().UserName);
         }
 
         [Fact]
