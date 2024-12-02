@@ -56,6 +56,20 @@ namespace CVGS_PROG3050.Controllers
             }).ToListAsync();
             return View(games);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGameReviews(int gameId)
+        {
+            var reviews = await _db.Reviews
+                .Where(r => r.GameId == gameId)
+                .Select(r => new
+                {
+                    reviewText = r.ReviewText,
+                    username = r.User.UserName
+                }).ToListAsync();
+
+            return Json(reviews);
+        }
         public IActionResult EventsView()
         {
             return View();

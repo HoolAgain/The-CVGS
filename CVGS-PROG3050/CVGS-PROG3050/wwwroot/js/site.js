@@ -130,20 +130,27 @@ function showGameInfo(gameName, gameInfo, gameImageUrl, gameGenre, gamePrice, ga
     }
     const allReviews = document.querySelector('#allReviews');
     allReviews.innerHTML = "";
-    if (reviews && reviews.length > 0) {
-        reviews.forEach(review => {
-            const reviewElement = document.createElement('div');
-            reviewElement.classList.add('review-item');
-            reviewElement.innerHTML = `<strong>${review.Username}:</strong> ${review.ReviewText}`;
-            allReviews.appendChild(reviewElement);
+    fetch(`/Home/GetGameReviews?gameId=${gameId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                data.forEach(review => {
+                    const reviewElement = document.createElement('li');
+                    reviewElement.classList.add('review-item');
+                    reviewElement.innerHTML = `<strong>${review.username}:</strong> ${review.reviewText}`;
+                    allReviews.appendChild(reviewElement);
+                });
+            } else {
+                allReviews.innerHTML = "No reviews available";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching reviews:", error);
+            allReviews.innerHTML = "Failed to load reviews.";
         });
-    }
-    else {
-        allReviews.innerHTML = "No reviews available";
-    }
 
-
-    var myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
+    // Show the modal
+    const myModal = new bootstrap.Modal(document.getElementById('gameInfoCard'));
     myModal.show();
     console.log("Game Name:", gameName);
 
@@ -264,22 +271,3 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleAddGameAdminPage.classList.remove('hidden');
     });
 });
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
