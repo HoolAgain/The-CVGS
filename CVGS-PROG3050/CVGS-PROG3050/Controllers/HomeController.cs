@@ -8,11 +8,7 @@ using CVGS_PROG3050.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using CVGS_PROG3050.DataAccess;
 using CVGS_PROG3050.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using CVGS_PROG3050.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CVGS_PROG3050.Controllers
@@ -52,7 +48,14 @@ namespace CVGS_PROG3050.Controllers
                 Developer = g.Developer,
                 Publisher = g.Publisher,
                 Price = g.Price,
-                InWishlist = wishlistIds.Contains(g.GameId)
+                InWishlist = wishlistIds.Contains(g.GameId),
+                AverageRating = g.Ratings.Any()
+                ? g.Ratings.Average(r => r.Score).ToString("0.0") : "No Ratings Yet",
+                RandomReview = _db.Reviews
+                .Where(r => r.GameId == g.GameId)
+                .OrderBy(r => Guid.NewGuid())
+                .Select(r => r.ReviewText)
+                .FirstOrDefault()
             }).ToListAsync();
             return View(games);
         }
